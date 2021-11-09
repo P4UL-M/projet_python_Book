@@ -90,5 +90,4 @@ menu.add_cascade(label='File', menu=new_item)
 
 window.config(menu=menu)
 
-
 window.mainloop()
