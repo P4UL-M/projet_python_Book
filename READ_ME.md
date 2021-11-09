@@ -1,2 +1,2 @@
 faire read me
-utiliser pygame menu
+utiliser pygame menu adapté à tkinder
