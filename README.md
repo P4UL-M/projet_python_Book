@@ -111,3 +111,7 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 - create a script to make all our menu and generate all menus possibles
 - create class for book and for users
 - create save and load methods
+
+# In progress
+
+# Finished
