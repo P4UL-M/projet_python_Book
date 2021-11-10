@@ -49,21 +49,21 @@
 
 - The pseudonym
 - The gender
-1. MAN.
-2. WOMAN
-3. NO MATTER WHAT
+    1. MAN.
+    2. WOMAN
+    3. NO MATTER WHAT
 - Age
-1. <= 18 years old
-2. Between 18 and 25 years old
-3. \> 25 years old
+    1. <= 18 years old
+    2. Between 18 and 25 years old
+    3. \> 25 years old
 - The reading style
-1. sci-fi
-2. Biography
-3. Horror
-4. Romance
-5. Fable
-6. History
-7. Comedy
+    1. sci-fi
+    2. Biography
+    3. Horror
+    4. Romance
+    5. Fable
+    6. History
+    7. Comedy
 - The list of books read among those present in the depository
 
 All must be save in files in 2 distinct files : booksread.txt and readers.txt with the two forms :
