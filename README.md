@@ -95,6 +95,7 @@ reader give note to book they read so we can make a matrix of rating between use
 
 With this matrix we can make a "similarity" matix which give a % of similarity between to users :
 - The Cosine Similarity : if we take book_n <=> a_n and b_n which are rating of respectivelly both users then we have :
+
 ![formula Cosine Similarity](https://render.githubusercontent.com/render/math?math=E=\frac{Sum(a_i%20\times%20b_i)}{\sqrt{Sum(a_i)}%20\times%20\sqrt{Sum(b_i)}}) ![formula Cosine Similarity](https://render.githubusercontent.com/render/math?math=\color{white}E=\frac{Sum(a_i%20\times%20b_i)}{\sqrt{Sum(a_i)}%20\times%20\sqrt{Sum(b_i)}})
 
 With that we can find similar user to our user and recommend him book that user like him read and like.
