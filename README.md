@@ -47,7 +47,7 @@
 
 ### User Construction :
 
--The pseudonym
+- The pseudonym
 - The gender
 1. MAN.
 2. WOMAN
