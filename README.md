@@ -19,6 +19,7 @@
 - Implementing the requested features: move forward as best as possible but NOT off topic
 - The quality of the code provided: organization in functions, comments, significant variable names, respect of file names.
 - Ease of use of the user interface
+- CLASS ARE FORBIDEN
 
 ## Objectifs :
 
@@ -109,8 +110,8 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 # ideas
 
 - create a script to make all our menu and generate all menus possibles
-- create class for book and for users
-- create save and load methods
+- create dictionary creation methode for books and for users
+- create save and load methods for books and users, can be store in the disctionnary
 - faire bouton suivant/ précédent
 - fenetre accessible dans menu pour préférence
 - possibilité d'ajoutez des commentaires sur la page des détails d'un livres, assotié au rating
