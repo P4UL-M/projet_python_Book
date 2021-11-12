@@ -3,6 +3,7 @@ import tkinter.ttk as ttk
 import tkinter.scrolledtext as stxt
 import tkinter.messagebox as msg
 import tkinter.filedialog as tkfile
+from math import ceil
 
 window = tk.Tk()
 
@@ -40,8 +41,17 @@ container_frame_id = mycanvas.create_window((0,0),window=container_frame,anchor=
 def config(e):
     mycanvas.configure(scrollregion = mycanvas.bbox('all'))
     mycanvas.itemconfig(container_frame_id, width = e.width)
+def _on_mousewheel(event):
+    if not event.state:
+        mycanvas.yview_scroll(-event.delta, "units")
+def _bound_to_mousewheel(e):
+    mycanvas.bind_all("<MouseWheel>", _on_mousewheel)
+def _unbound_to_mousewheel(e):
+    mycanvas.unbind_all("<MouseWheel>")
 
 mycanvas.bind('<Configure>',config)
+container_frame.bind('<Enter>', _bound_to_mousewheel)
+container_frame.bind('<Leave>', _unbound_to_mousewheel)
 
 wrapper1.pack(fill='both',expand=1,padx=10,pady=10)
 #endregion
