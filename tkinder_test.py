@@ -3,7 +3,6 @@ import tkinter.ttk as ttk
 import tkinter.scrolledtext as stxt
 import tkinter.messagebox as msg
 import tkinter.filedialog as tkfile
-from tools import *
 
 window = tk.Tk()
 

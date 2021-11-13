@@ -3,7 +3,8 @@ import tkinter.ttk as ttk
 import tkinter.scrolledtext as stxt
 import tkinter.messagebox as msg
 import tkinter.filedialog as tkfile
-from math import ceil
+
+from dico_tkinder import get_horizontale_scroll_bar
 
 window = tk.Tk()
 
@@ -61,15 +62,23 @@ container_recommandation = tk.Frame(container_frame)
 container_recommandation.pack(expand=1,fill="x")
 lbl = tk.Label(container_recommandation, text="RECOMMANDATION :",font=("Arial Bold", 25),pady="15",padx="15")
 lbl.pack(side="top", anchor="w")
-_frame = tk.Frame(container_recommandation)
-_frame.pack(side="top",expand=1,fill="x")
+
+#region configscroll bar recommandation
+wrapper2 = tk.Frame(container_recommandation,background="blue")
+
+_frame_scrollable = get_horizontale_scroll_bar(wrapper2)
+_frame = _frame_scrollable["frame"]
+
+wrapper2.pack(side=tk.TOP,fill='x',expand=1)
+#endregion
+
 
 gallery_recommandation = {}
 color = ["red","blue","yellow","green","brown"]
 
-for i in range(5):
+for i in range(100):
     book = f"book{str(i)}"
-    gallery_recommandation[book] = tk.Frame(_frame,height=180,width=100,background=color[i])
+    gallery_recommandation[book] = tk.Frame(_frame,height=180,width=100,background=color[i%5])
     _pad = tk.Frame(_frame,width=25)
     _pad.pack(side="left")
     gallery_recommandation[book].pack(side="left",expand=1,fill="x")
@@ -82,19 +91,27 @@ container_news= tk.Frame(container_frame)
 container_news.pack(expand=1,fill="x")
 lbl = tk.Label(container_news, text="NEWS :",font=("Arial Bold", 25),pady="5",padx="15")
 lbl.pack(side="top", anchor="w")
-_frame = tk.Frame(container_news)
-_frame.pack(side="top",expand=1,fill="x")
+
+#region configscroll bar News
+wrapper3 = tk.Frame(container_news,background="blue")
+
+_frame_scrollable = get_horizontale_scroll_bar(wrapper3)
+_frame2 = _frame_scrollable["frame"]
+
+wrapper3.pack(side=tk.TOP,fill='x',expand=1)
+#endregion
+
 
 gallery_news = {}
 color = ["red","blue","yellow","green","brown"]
 
-for i in range(5):
+for i in range(100):
     book = f"book{str(i)}"
-    gallery_news[book] = tk.Frame(_frame,height=180,width=100,background=color[i])
-    _pad = tk.Frame(_frame,width=25)
+    gallery_news[book] = tk.Frame(_frame2,height=180,width=100,background=color[i%5])
+    _pad = tk.Frame(_frame2,width=25)
     _pad.pack(side="left")
     gallery_news[book].pack(side="left",expand=1,fill="x")
-    _pad = tk.Frame(_frame,width=25)
+    _pad = tk.Frame(_frame2,width=25)
     _pad.pack(side="left")
 #endregion
 
