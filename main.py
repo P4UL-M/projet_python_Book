@@ -4,7 +4,7 @@ import tkinter.scrolledtext as stxt
 import tkinter.messagebox as msg
 import tkinter.filedialog as tkfile
 
-from dico_tkinder import get_horizontale_scroll_bar
+from dico_tkinder import *
 
 window = tk.Tk()
 
@@ -26,39 +26,14 @@ tab_control.pack(expand=1, fill='both')
 #region confingscroll bar main
 wrapper1 = tk.Frame(Part1)
 
-mycanvas = tk.Canvas(wrapper1,background="black")
-tk.Grid.rowconfigure(wrapper1, 0, weight=1)
-tk.Grid.columnconfigure(wrapper1, 0, weight=1)
-mycanvas.grid(column=0,row=0,sticky='news')
-
-yscrollbar = ttk.Scrollbar(wrapper1,orient=tk.VERTICAL,command=mycanvas.yview)
-yscrollbar.grid(column=1,row=0,sticky='ns')
-
-mycanvas.configure(yscrollcommand=yscrollbar.set)
-
-container_frame = tk.Frame(mycanvas)
-container_frame_id = mycanvas.create_window((0,0),window=container_frame,anchor="nw")
-
-def config(e):
-    mycanvas.configure(scrollregion = mycanvas.bbox('all'))
-    mycanvas.itemconfig(container_frame_id, width = e.width)
-def _on_mousewheel(event):
-    if not event.state:
-        mycanvas.yview_scroll(-event.delta, "units")
-def _bound_to_mousewheel(e):
-    mycanvas.bind_all("<MouseWheel>", _on_mousewheel)
-def _unbound_to_mousewheel(e):
-    mycanvas.unbind_all("<MouseWheel>")
-
-mycanvas.bind('<Configure>',config)
-container_frame.bind('<Enter>', _bound_to_mousewheel)
-container_frame.bind('<Leave>', _unbound_to_mousewheel)
+_frame_scrollable_main = get_vertical_scroll_bar(wrapper1)
+_frame_main = _frame_scrollable_main["frame"]
 
 wrapper1.pack(fill='both',expand=1,padx=10,pady=10)
 #endregion
 
 #region RECOMMENDATION
-container_recommandation = tk.Frame(container_frame)
+container_recommandation = tk.Frame(_frame_main)
 container_recommandation.pack(expand=1,fill="x")
 lbl = tk.Label(container_recommandation, text="RECOMMANDATION :",font=("Arial Bold", 25),pady="15",padx="15")
 lbl.pack(side="top", anchor="w")
@@ -66,7 +41,7 @@ lbl.pack(side="top", anchor="w")
 #region configscroll bar recommandation
 wrapper2 = tk.Frame(container_recommandation,background="blue")
 
-_frame_scrollable = get_horizontale_scroll_bar(wrapper2)
+_frame_scrollable = get_horizontale_scroll_bar(wrapper2,_frame_scrollable_main)
 _frame = _frame_scrollable["frame"]
 
 wrapper2.pack(side=tk.TOP,fill='x',expand=1)
@@ -87,7 +62,7 @@ for i in range(100):
 #endregion
 
 #region News
-container_news= tk.Frame(container_frame)
+container_news= tk.Frame(_frame_main)
 container_news.pack(expand=1,fill="x")
 lbl = tk.Label(container_news, text="NEWS :",font=("Arial Bold", 25),pady="5",padx="15")
 lbl.pack(side="top", anchor="w")
@@ -95,7 +70,7 @@ lbl.pack(side="top", anchor="w")
 #region configscroll bar News
 wrapper3 = tk.Frame(container_news,background="blue")
 
-_frame_scrollable = get_horizontale_scroll_bar(wrapper3)
+_frame_scrollable = get_horizontale_scroll_bar(wrapper3,_frame_scrollable_main)
 _frame2 = _frame_scrollable["frame"]
 
 wrapper3.pack(side=tk.TOP,fill='x',expand=1)
@@ -116,7 +91,7 @@ for i in range(100):
 #endregion
 
 #region Friends
-container_friend= tk.Frame(container_frame)
+container_friend= tk.Frame(_frame_main)
 container_friend.pack(expand=1,fill="x")
 lbl = tk.Label(container_friend, text="FRIENDS :",font=("Arial Bold", 25),pady="5",padx="15")
 lbl.pack(side="top", anchor="w")
@@ -137,7 +112,7 @@ for i in range(5):
 #endregion
 
 #region RATE
-container_rate= tk.Frame(container_frame)
+container_rate= tk.Frame(_frame_main)
 container_rate.pack(expand=1,fill="x")
 lbl = tk.Label(container_rate, text="RATE :",font=("Arial Bold", 25),pady="5",padx="15")
 lbl.pack(side="top", anchor="w")
