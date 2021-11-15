@@ -156,15 +156,6 @@ new_item.add_command(label='Toggle Admin mode',command=None)
 new_item.add_command(label='Edit',command=None)
 menu.add_cascade(label='Preference', menu=new_item)
 
-new_item = tk.Menu(menu)
-new_item.add_command(label='Actual',command=None)
-new_item.add_command(label='For you',command=None)
-new_item.add_command(label='Search',command=None)
-new_item.add_command(label='My Account',command=None)
-new_item.add_command(label='Book details',command=None)
-new_item.add_command(label='User details',command=None)
-menu.add_cascade(label='Aide', menu=new_item)
-
 window.config(menu=menu)
 #endregion
 

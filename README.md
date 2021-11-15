@@ -114,10 +114,11 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 - create save and load methods for books and users, can be store in the disctionnary
 - faire bouton suivant/ précédent
 - fenetre accessible dans menu pour préférence
-- possibilité d'ajoutez des commentaires sur la page des détails d'un livres, assotié au rating
-- Liste recommendation, préférer des amis, nouveauté, et livre déjà lu non noté style menu déroulant à la apple music
-- Cliquer sur un livre ouvres les détail dans une nouvelles fenêtre : ceci permet de tout traiter dans un script tier.
+- possibilité d'ajoutez des commentaires sur la page des détails d'un livres, associé au rating
 
 # In progress
+- Tabs "for you"
+    * Liste recommendation, préférer des amis, nouveauté, et livre déjà lu non noté style menu déroulant à la apple music
+    - Cliquer sur un livre ouvres les détail dans une nouvelles fenêtre : ceci permet de tout traiter dans un script tier.
 
 # Finished
