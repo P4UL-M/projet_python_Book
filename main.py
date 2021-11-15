@@ -1,3 +1,4 @@
+from re import T
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.scrolledtext as stxt
@@ -123,6 +124,30 @@ for i in range(10):
 #endregion
 
 #region PART 2
+frame_search_bar = ttk.Frame(Part2,padding=15)
+
+frame_search_bar.pack(fill="x")
+
+#region Search Bar elts
+txt = ttk.Entry(frame_search_bar)
+txt.pack(side="left",fill="x",expand=1)
+
+btn = ttk.Button(frame_search_bar,text="Enter")
+btn.pack(side="right")
+#endregion
+
+test = get_foldable_frame(Part2,window,text="Advanced settings")
+test["frame"].pack(anchor="w")
+
+#region Adv param elt
+qqqq = ttk.Label(test["sub_frame"],text="this is an advanced parameter")
+qqqq.grid(column=0,row=0)
+#endregion
+
+zone = tk.Frame(Part2,background="red")
+zone.pack(fill="both",expand=1)
+
+#txt.focus()
 
 """
 Search bar
@@ -141,7 +166,7 @@ if user is admin add suppress option
 #endregion
 
 #region Menu déroulant
-menu = tk.Menu(Part1)
+menu = tk.Menu(window)
 
 new_item = tk.Menu(menu)
 new_item.add_command(label='Page',command=None)

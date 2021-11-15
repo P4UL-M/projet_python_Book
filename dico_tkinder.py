@@ -121,3 +121,30 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
     _gal["__add_panel__"] = __add_panel__
     
     return _gal
+
+def get_foldable_frame(parent,window, text=""):
+        _frame = {"frame":ttk.Frame(parent,padding=10)}
+
+        _frame["frame"].show = tk.IntVar()
+        _frame["frame"].show.set(0)
+
+        _frame["title_frame"] = ttk.Frame(_frame["frame"])
+        _frame["title_frame"].pack(anchor="nw")
+
+        ttk.Label(_frame["title_frame"], text=text).pack(side="left", fill="x", expand=1,anchor="n")
+
+        def toggle():
+            if bool(_frame["frame"].show.get()):
+                _frame["sub_frame"].pack(fill="x", expand=1)
+                window.update()
+            else:
+                _frame["sub_frame"].forget()
+
+
+        _frame["toggle_button"] = ttk.Checkbutton(_frame["title_frame"], width=2, command=toggle,
+                                            variable=_frame["frame"].show)
+        _frame["toggle_button"].pack(side="left",anchor="n")
+
+        _frame["sub_frame"] = ttk.Frame(_frame["frame"])
+
+        return _frame
