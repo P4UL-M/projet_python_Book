@@ -42,7 +42,7 @@ lbl.pack(side="top", anchor="w")
 #region configscroll bar recommandation
 wrapper_rec = ttk.Frame(container_recommandation)
 
-recommendation_gallery = get_gallery(wrapper_rec,_frame_scrollable_main)
+recommendation_gallery = get_gallery(wrapper_rec,_frame_scrollable_main,window)
 
 wrapper_rec.pack(side=tk.TOP,fill='x',expand=1)
 #endregion
@@ -64,7 +64,7 @@ lbl.pack(side="top", anchor="w")
 #region configscroll bar News
 wrapper_new = ttk.Frame(container_new)
 
-new_gallery = get_gallery(wrapper_new,_frame_scrollable_main)
+new_gallery = get_gallery(wrapper_new,_frame_scrollable_main,window)
 
 wrapper_new.pack(side=tk.TOP,fill='x',expand=1)
 #endregion
@@ -86,7 +86,7 @@ lbl.pack(side="top", anchor="w")
 #region configscroll bar News
 wrapper_friend = ttk.Frame(container_friend)
 
-friend_gallery = get_gallery(wrapper_friend,_frame_scrollable_main)
+friend_gallery = get_gallery(wrapper_friend,_frame_scrollable_main,window)
 
 wrapper_friend.pack(side=tk.TOP,fill='x',expand=1)
 #endregion
@@ -108,7 +108,7 @@ lbl.pack(side="top", anchor="w")
 #region configscroll bar News
 wrapper_rate = tk.Frame(container_rate,background="blue")
 
-rate_gallery = get_gallery(wrapper_rate,_frame_scrollable_main)
+rate_gallery = get_gallery(wrapper_rate,_frame_scrollable_main,window)
 
 wrapper_rate.pack(side=tk.TOP,fill='x',expand=1)
 #endregion
@@ -136,16 +136,25 @@ btn = ttk.Button(frame_search_bar,text="Enter")
 btn.pack(side="right")
 #endregion
 
-test = get_foldable_frame(Part2,window,text="Advanced settings")
-test["frame"].pack(anchor="w")
+adv_param = get_foldable_frame(Part2,window,text="Advanced settings")
+adv_param["frame"].pack(anchor="w")
 
 #region Adv param elt
-qqqq = ttk.Label(test["sub_frame"],text="this is an advanced parameter")
-qqqq.grid(column=0,row=0)
+param1 = ttk.Label(adv_param["sub_frame"],text="this is an advanced parameter")
+param1.grid(column=0,row=0)
 #endregion
 
-zone = tk.Frame(Part2,background="red")
-zone.pack(fill="both",expand=1)
+line = tk.Frame(Part2,background="#E4E4E4",height=10)
+line.pack(fill="x")
+
+wrapper_zone = tk.Frame(Part2,background="red")
+
+zone = get_vertical_scroll_bar(wrapper_zone)
+for i in range(100):
+    ttk.Label(master=zone["frame"],text=f"this is the {i} result",padding=10).grid(column=0,row=i)
+
+
+wrapper_zone.pack(fill="both",expand=1)
 
 #txt.focus()
 

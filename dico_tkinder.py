@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter.constants import MOVETO, SCROLL
 import tkinter.ttk as ttk
 
 def get_horizontale_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
@@ -39,7 +40,7 @@ def get_horizontale_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
 def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
     _dic = {}
 
-    _dic["canvas"] = tk.Canvas(parent,background="black",bd=0, highlightthickness=0)
+    _dic["canvas"] = tk.Canvas(parent,bd=0, highlightthickness=0)
     tk.Grid.rowconfigure(parent, 0, weight=1)
     tk.Grid.columnconfigure(parent, 0, weight=1)
     _dic["canvas"].grid(column=0,row=0,sticky='news')
@@ -55,10 +56,11 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
     def config(e):
         _dic["canvas"].configure(scrollregion = _dic["canvas"].bbox('all'))
         _dic["canvas"].itemconfig(_dic["frame_id"], width = e.width)
-
     def _on_mousewheel(event):
         if not event.state:
-            _dic["canvas"].yview_scroll(-event.delta, "units")
+            offset = -event.delta/120
+            _dic["scroll_pos"] += offset if (_dic["scroll_pos"]+offset > 0 and _dic["scroll_pos"]+offset < 1) else 0
+            _dic["canvas"].yview(MOVETO,_dic["scroll_pos"])
     def _bound_to_mousewheel(e):
         _dic["canvas"].bind_all("<MouseWheel>", _on_mousewheel)
     def _unbound_to_mousewheel(e):
@@ -70,12 +72,14 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
     _dic["_on_mousewheel"] = _on_mousewheel
 
     _dic["canvas"].bind('<Configure>',config)
+    _dic["scroll_pos"] = 0
+    _dic["canvas"].yview(MOVETO,_dic["scroll_pos"])
     _dic["frame"].bind('<Enter>', _bound_to_mousewheel)
     _dic["frame"].bind('<Leave>', _unbound_to_mousewheel)
 
     return _dic
 
-def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
+def get_gallery(parent:tk.Frame,parent_scroll:dict=None,window:tk.Tk=None):
     _gal = {}
 
     _gal["canvas"] = tk.Canvas(parent,bd=0, highlightthickness=0)
@@ -87,13 +91,15 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
     def config(e):
         _gal["canvas"].configure(scrollregion = _gal["canvas"].bbox('all'))
         _gal["canvas"].itemconfig(_gal["frame_id"], height = e.height)
-
     def _on_mousewheel(event):
         if event.state:
-            _gal["canvas"].xview_scroll(-event.delta, "units")
+            offset = -event.delta/120
+            _gal["scroll_pos"] += offset if (_gal["scroll_pos"]+offset > 0 and _gal["scroll_pos"]+offset < 1) else 0
+            _gal["canvas"].xview(MOVETO,_gal["scroll_pos"])
         else:
             if parent_scroll:
                 parent_scroll["_on_mousewheel"](event)
+                window.update()
     def _bound_to_mousewheel(e):
         _gal["canvas"].bind_all("<MouseWheel>", _on_mousewheel)
     def _unbound_to_mousewheel(e):
@@ -105,6 +111,8 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
     _gal["_on_mousewheel"] = _on_mousewheel
 
     _gal["canvas"].bind('<Configure>',config)
+    _gal["scroll_pos"] = 0
+    _gal["canvas"].yview(MOVETO,_gal["scroll_pos"])
     _gal["frame"].bind('<Enter>', _bound_to_mousewheel)
     _gal["frame"].bind('<Leave>', _unbound_to_mousewheel)
 
