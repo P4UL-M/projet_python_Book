@@ -120,5 +120,6 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 - Tabs "for you"
     * Liste recommendation, préférer des amis, nouveauté, et livre déjà lu non noté style menu déroulant à la apple music
     - Cliquer sur un livre ouvres les détail dans une nouvelles fenêtre : ceci permet de tout traiter dans un script tier.
+    - les gallery affiche le titre des livres sur un fond rattaché à une couleur rattaché au genre du livre
 
 # Finished

@@ -25,22 +25,22 @@ tab_control.pack(expand=1, fill='both')
 
 #region PART 1
 #region confingscroll bar main
-wrapper1 = tk.Frame(Part1)
+wrapper1 = ttk.Frame(Part1,padding=15)
 
 _frame_scrollable_main = get_vertical_scroll_bar(wrapper1)
 _frame_main = _frame_scrollable_main["frame"]
 
-wrapper1.pack(fill='both',expand=1,padx=10,pady=10)
+wrapper1.pack(fill='both',expand=1)
 #endregion
 
 #region RECOMMENDATION
-container_recommandation = tk.Frame(_frame_main)
+container_recommandation = ttk.Frame(_frame_main)
 container_recommandation.pack(expand=1,fill="x")
-lbl = tk.Label(container_recommandation, text="RECOMMANDATION :",font=("Arial Bold", 25),pady="15",padx="15")
+lbl = ttk.Label(container_recommandation, text="RECOMMANDATION :",font=("Arial Bold", 25),padding=15)
 lbl.pack(side="top", anchor="w")
 
 #region configscroll bar recommandation
-wrapper_rec = tk.Frame(container_recommandation,background="blue")
+wrapper_rec = ttk.Frame(container_recommandation)
 
 recommendation_gallery = get_gallery(wrapper_rec,_frame_scrollable_main)
 
@@ -56,13 +56,13 @@ for i in range(10):
 #endregion
 
 #region News
-container_new = tk.Frame(_frame_main)
+container_new = ttk.Frame(_frame_main)
 container_new.pack(expand=1,fill="x")
-lbl = tk.Label(container_new, text="RECENTLY ADDED :",font=("Arial Bold", 25),pady="15",padx="15")
+lbl = ttk.Label(container_new, text="RECENTLY ADDED :",font=("Arial Bold", 25),padding=15)
 lbl.pack(side="top", anchor="w")
 
 #region configscroll bar News
-wrapper_new = tk.Frame(container_new,background="blue")
+wrapper_new = ttk.Frame(container_new)
 
 new_gallery = get_gallery(wrapper_new,_frame_scrollable_main)
 
@@ -78,13 +78,13 @@ for i in range(10):
 #endregion
 
 #region Friends
-container_friend = tk.Frame(_frame_main)
+container_friend = ttk.Frame(_frame_main)
 container_friend.pack(expand=1,fill="x")
-lbl = tk.Label(container_friend, text="YOUR FRIEND ALSO LIKE READ :",font=("Arial Bold", 25),pady="15",padx="15")
+lbl = ttk.Label(container_friend, text="YOUR FRIEND ALSO LIKED TO READ :",font=("Arial Bold", 25),padding=15)
 lbl.pack(side="top", anchor="w")
 
 #region configscroll bar News
-wrapper_friend = tk.Frame(container_friend,background="blue")
+wrapper_friend = ttk.Frame(container_friend)
 
 friend_gallery = get_gallery(wrapper_friend,_frame_scrollable_main)
 
@@ -100,9 +100,9 @@ for i in range(10):
 #endregion
 
 #region RATE
-container_rate = tk.Frame(_frame_main)
+container_rate = ttk.Frame(_frame_main)
 container_rate.pack(expand=1,fill="x")
-lbl = tk.Label(container_rate, text="YOU MAYBE WANT TO RATE :",font=("Arial Bold", 25),pady="15",padx="15")
+lbl = ttk.Label(container_rate, text="YOU MAYBE WANT TO RATE :",font=("Arial Bold", 25),padding=15)
 lbl.pack(side="top", anchor="w")
 
 #region configscroll bar News
