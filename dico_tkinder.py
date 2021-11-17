@@ -156,3 +156,12 @@ def get_foldable_frame(parent,window, text=""):
         _frame["sub_frame"] = ttk.Frame(_frame["frame"])
 
         return _frame
+
+def get_result_book(parent,title,global_rating):
+    _res = {}
+
+    _res["frame"] = ttk.Frame(parent,relief='raised',padding=10)
+    _res["title"] = ttk.Label(_res["frame"],text=title)
+    _res["title"].pack()
+    
+    return _res["frame"]

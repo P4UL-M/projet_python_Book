@@ -151,7 +151,7 @@ wrapper_zone = tk.Frame(Part2,background="red")
 
 zone = get_vertical_scroll_bar(wrapper_zone)
 for i in range(100):
-    ttk.Label(master=zone["frame"],text=f"this is the {i} result",padding=10).grid(column=0,row=i)
+    get_result_book(zone["frame"],"test",1).grid(column=0,row=i)
 
 
 wrapper_zone.pack(fill="both",expand=1)
