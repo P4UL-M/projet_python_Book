@@ -115,6 +115,8 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 - faire bouton suivant/ précédent
 - fenetre accessible dans menu pour préférence
 - possibilité d'ajoutez des commentaires sur la page des détails d'un livres, associé au rating
+- ranger les rating dans un fichier texte de la manière user:livre:note et créée un générateur type SQL pour chercher les valeurs
+- edit user dans une fenetre à part pour plus simple zone entré et peut etre ouvert du menu ou de l'app ez
 
 # In progress
 - Tabs "for you"

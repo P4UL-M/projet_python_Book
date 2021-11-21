@@ -17,7 +17,7 @@ def get_horizontale_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
 
     def _on_mousewheel(event):
         if event.state:
-            _dic["canvas"].xview_scroll(-event.delta, "units")
+            _dic["canvas"].xview_scroll(event.delta, "units")
         else:
             if parent_scroll:
                 parent_scroll["_on_mousewheel"](event)
@@ -57,9 +57,13 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
         _dic["canvas"].configure(scrollregion = _dic["canvas"].bbox('all'))
         _dic["canvas"].itemconfig(_dic["frame_id"], width = e.width)
     def _on_mousewheel(event):
+        if "offset" not in _dic.keys():
+            # to get the perfect value of the actual position i update it with the position of the scroll bar but it has a small offset between th two value
+            _dic["offset"] = _dic["scrollbar"].get()[1]
         if not event.state:
             offset = -event.delta/120
-            _dic["scroll_pos"] += offset if (_dic["scroll_pos"]+offset > 0 and _dic["scroll_pos"]+offset < 1) else 0
+            _dic["scroll_pos"] = _dic["scrollbar"].get()[1] - _dic["offset"]
+            _dic["scroll_pos"] += offset
             _dic["canvas"].yview(MOVETO,_dic["scroll_pos"])
     def _bound_to_mousewheel(e):
         _dic["canvas"].bind_all("<MouseWheel>", _on_mousewheel)
@@ -161,7 +165,11 @@ def get_result_book(parent,title,global_rating):
     _res = {}
 
     _res["frame"] = ttk.Frame(parent,relief='raised',padding=10)
-    _res["title"] = ttk.Label(_res["frame"],text=title)
-    _res["title"].pack()
+    _res["title"] = ttk.Label(_res["frame"],text=title,font=("Arial Bold", 18))
+    _res["title"].grid(column=0,row=0)
+    _res["type"] = ttk.Label(_res["frame"],text="book",font=("Arial Italic",))
+    _res["type"].grid(column=0,row=1)
+    _res["rate"] = ttk.Label(_res["frame"],text="rate",font=("Arial Italic",))
+    _res["rate"].grid(column=1,row=1)
     
     return _res["frame"]

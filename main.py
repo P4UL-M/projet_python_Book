@@ -1,11 +1,12 @@
-from re import T
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.scrolledtext as stxt
 import tkinter.messagebox as msg
 import tkinter.filedialog as tkfile
+import sys
 
 from dico_tkinder import *
+from save_bibliotheque import *
 
 window = tk.Tk()
 
@@ -131,6 +132,7 @@ frame_search_bar.pack(fill="x")
 #region Search Bar elts
 txt = ttk.Entry(frame_search_bar)
 txt.pack(side="left",fill="x",expand=1)
+txt.focus()
 
 btn = ttk.Button(frame_search_bar,text="Enter")
 btn.pack(side="right")
@@ -147,16 +149,16 @@ param1.grid(column=0,row=0)
 line = tk.Frame(Part2,background="#E4E4E4",height=10)
 line.pack(fill="x")
 
+#region results
 wrapper_zone = tk.Frame(Part2,background="red")
 
 zone = get_vertical_scroll_bar(wrapper_zone)
 for i in range(100):
-    get_result_book(zone["frame"],"test",1).grid(column=0,row=i)
+    get_result_book(zone["frame"],"test",1).pack(fill="x")
 
 
 wrapper_zone.pack(fill="both",expand=1)
-
-#txt.focus()
+#endregion
 
 """
 Search bar
@@ -172,13 +174,33 @@ if user is admin add suppress option
 
 #region PART 3
 
+def on_focus_profile(event):
+        if event.widget == Part3:
+            get_connection()
+
+Part3.bind("<FocusIn>", on_focus_profile)
+
+"""
+
+Make the connection here, if not connected open a pop up windows to connect, this fonction could be execute every time we want to make a action that need to be connected
+
+- name
+- gender
+- age
+- preferate genre
+-> preferate book
+- last read
+-> book to rate 
+"""
+
+
 #endregion
 
 #region Menu déroulant
 menu = tk.Menu(window)
 
 new_item = tk.Menu(menu)
-new_item.add_command(label='Page',command=None)
+new_item.add_command(label='Page',command=get_connection)
 new_item.add_command(label='Friend',command=None)
 new_item.add_command(label='Edit',command=None)
 new_item.add_command(label='Disconnect',command=None)
@@ -200,6 +222,15 @@ new_item.add_command(label='User details',command=None)
 menu.add_cascade(label='Aide', menu=new_item)
 
 window.config(menu=menu)
+#endregion
+
+#region close all windows open and task
+def on_closing():
+    if msg.askokcancel("Quit", "Do you want to quit?"):
+        window.destroy()
+        sys.exit()
+
+window.protocol("WM_DELETE_WINDOW", on_closing)
 #endregion
 
 # run the app
