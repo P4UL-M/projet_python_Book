@@ -176,7 +176,7 @@ if user is admin add suppress option
 
 def on_focus_profile(event):
         if event.widget == Part3:
-            get_connection()
+            get_connection(Part3)
 
 Part3.bind("<FocusIn>", on_focus_profile)
 

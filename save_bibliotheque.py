@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 
-def get_connection():
+def get_connection(master:tk.Frame):
     win = tk.Tk()
     win.geometry("343x122")
     
@@ -17,6 +17,9 @@ def get_connection():
             print(dir(event))
             win.focus_force()
 
+    def on_closing():
+        master.focus_set()
+    
     center = ttk.Frame(main)
     center.place(relx=0.5, rely=0.5, anchor="center")
     name = ttk.Entry(center)
@@ -25,8 +28,4 @@ def get_connection():
     btn.grid(column=0,row=1,sticky="we")
 
     win.bind("<FocusOut>", on_focus_out)
-
-    def config(event):
-        print(event)
-
-    win.bind("<Configure>", config)
+    win.protocol("WM_DELETE_WINDOW", on_closing)
