@@ -2,8 +2,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 
-def get_connection(master:tk.Frame):
-    win = tk.Tk()
+def get_connection(master:tk.Frame,on_close = None):
+    win = tk.Toplevel(master)
     win.geometry("343x122")
     
     win.title("Connection portal")
@@ -14,11 +14,12 @@ def get_connection(master:tk.Frame):
 
     def on_focus_out(event):
         if event.widget == win:
-            print(dir(event))
             win.focus_force()
 
     def on_closing():
-        master.focus_set()
+        if on_close != None:
+            on_close()
+        win.destroy()
     
     center = ttk.Frame(main)
     center.place(relx=0.5, rely=0.5, anchor="center")
