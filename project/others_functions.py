@@ -1,4 +1,7 @@
 import os
+from pathlib import Path
+
+PATH = Path("data/").resolve()
 
 def ask_input(display_string, type, minimum, maximum):
     string_wrong_input="Wrong input, please try again."
@@ -26,9 +29,9 @@ def get_reading_style_with_number(number):
     elif number=="6": return "History"
     elif number=="7": return "Comedy" 
 
-def verif_is_file(directory, file_name):
-    if not os.path.isfile(f"{file_name}.txt"):
+def verif_is_file(file_name):
+    if not os.path.isfile(PATH / "{file_name}.txt"):
         print("no {file_name}.txt found, a new one has been created")
         # create a new readers.txt file
-        with open(f"{file_name}.txt", "w") as f:
+        with open(PATH / "{file_name}.txt", "w") as f:
             pass
