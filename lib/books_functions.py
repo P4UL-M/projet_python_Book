@@ -1,14 +1,12 @@
-from others_functions import ask_input
-from pathlib import Path
-
-PATH = Path("data/").resolve()
+from lib.others_functions import ask_input
+from ect.globals import PATH
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #                                 books functions                                     #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 def add_book():
-    book_name=input("Enter the book's title you want to add : ")
+    book_name="test"#input("Enter the book's title you want to add : ")
     with open(PATH / "books.txt", "r", encoding="utf-8") as books:
         # the line[:-1] is to remove the \n
         if book_name not in [line[:-1] for line in books.readlines()]:

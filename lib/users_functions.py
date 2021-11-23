@@ -1,4 +1,5 @@
-from others_functions import get_reading_style_with_number, verif_is_file, ask_input
+from lib.others_functions import get_reading_style_with_number, ask_input
+from ect.globals import PATH
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #                                   users functions                                   #
@@ -7,7 +8,7 @@ from others_functions import get_reading_style_with_number, verif_is_file, ask_i
 def add_client():
     name=input("What is your name ? ")
     
-    with open(f"readers.txt", "r", encoding="utf-8") as readers:
+    with open(PATH / "readers.txt", "r", encoding="utf-8") as readers:
         if name not in [line.split(", ")[0] for line in readers.readlines()]:
             gender=ask_input("Enter '1' if you are a male, '2' if you are a female and '3' if you don't want to tell : ", int, 1, 3)
                 
@@ -20,9 +21,9 @@ def add_client():
             string_reading_style="""Enter the number corresponding to your prefered reading style \n1. sci-fi \n2. Biography \n3. Horror \n4. Romance \n5. Fable \n6. History \n7. Comedy\n"""    
             reading_style=ask_input(string_reading_style, int, 1, 7)
             
-            with open(f"readers.txt", "a", encoding="utf-8") as readers_write:
+            with open(PATH / "readers.txt", "a", encoding="utf-8") as readers_write:
                 readers_write.write(f"{name}, {gender}, {new_age}, {reading_style}\n")
-            with open(f"booksread.txt", "a", encoding="utf-8") as readers_write:
+            with open(PATH / "booksread.txt", "a", encoding="utf-8") as readers_write:
                 readers_write.write(f"{name}, \n")
         else:
             print("user already registered")
@@ -31,7 +32,7 @@ def add_client():
 def remove_client():
     name=input("What is the name of the client you want to remove ? ")
     
-    with open(f"readers.txt", "r", encoding="utf-8") as readers, open(f"booksread.txt", "r") as booksread, open(f"notes.txt", "r") as notes:
+    with open(PATH / "readers.txt", "r", encoding="utf-8") as readers, open( PATH / "booksread.txt", "r") as booksread, open(PATH / "notes.txt", "r") as notes:
         all_lines_readers=readers.readlines()
         if name in [line.split(", ")[0] for line in all_lines_readers]:
             final_readers=""
@@ -56,11 +57,11 @@ def remove_client():
                 if number_of_line+1 != number_client:
                     final_booksread+=line
                     
-            with open(f"readers.txt", "w", encoding="utf-8") as readers_write:
+            with open(PATH / "readers.txt", "w", encoding="utf-8") as readers_write:
                 readers_write.write(final_readers)
-            with open(f"notes.txt", "w", encoding="utf-8") as notes_write:
+            with open(PATH / "notes.txt", "w", encoding="utf-8") as notes_write:
                 notes_write.write(final_notes)
-            with open(f"booksread.txt", "w", encoding="utf-8") as booksread_write:
+            with open(PATH / "booksread.txt", "w", encoding="utf-8") as booksread_write:
                 booksread_write.write(final_booksread)
         else:
             print("user not registered")
@@ -69,7 +70,7 @@ def remove_client():
 def View_a_reader():
     name=input("What is your name ? ")
     
-    with open(f"readers.txt", "r", encoding="utf-8") as readers:
+    with open(PATH / "readers.txt", "r", encoding="utf-8") as readers:
         all_lines=readers.readlines()
         if name in [line.split(", ")[0] for line in all_lines]:
             for line in all_lines:
@@ -90,7 +91,7 @@ def View_a_reader():
 def update_client():
     original_name=input("What is the name of the client ? ")
     
-    with open(f"readers.txt", "r", encoding="utf-8") as readers:
+    with open(PATH / "readers.txt", "r", encoding="utf-8") as readers:
         all_lines=readers.readlines()
         liste_names=[line.split(", ")[0] for line in all_lines]
         if original_name in liste_names:
@@ -118,11 +119,11 @@ def update_client():
                     final_readers+= line
                 else:
                     final_readers+=f"{name}, {gender}, {age}, {reading_style}"
-            with open(f"readers.txt", "w", encoding="utf-8") as readers_write:
+            with open(PATH / "readers.txt", "w", encoding="utf-8") as readers_write:
                 readers_write.write(final_readers)
                 
             if name != original_name:
-                with open(f"booksread.txt", "r", encoding="utf-8") as booksread:
+                with open(PATH / "booksread.txt", "r", encoding="utf-8") as booksread:
                     final_booksread=""    
                     all_lines_booksread=booksread.readlines()
                     for line in all_lines_booksread:
@@ -132,7 +133,7 @@ def update_client():
                             # we remove the \n
                             rest_of_line=", ".join(line.split(", ")[1:])[:-1]
                             final_booksread=final_booksread+name + rest_of_line + ", " + "\n"
-                    with open(f"booksread.txt", "w", encoding="utf-8") as booksread_write:
+                    with open(PATH / "booksread.txt", "w", encoding="utf-8") as booksread_write:
                         booksread_write.write(final_booksread)
         else:
             print("user not found")

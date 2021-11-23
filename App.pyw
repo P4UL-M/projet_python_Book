@@ -4,6 +4,7 @@ import tkinter.scrolledtext as stxt
 import tkinter.messagebox as msg
 import tkinter.filedialog as tkfile
 import sys
+from lib.books_functions import add_book
 
 from dico_tkinder import *
 from save_bibliotheque import *
@@ -200,10 +201,10 @@ Make the connection here, if not connected open a pop up windows to connect, thi
 menu = tk.Menu(window)
 
 new_item = tk.Menu(menu)
-page_command = lambda: get_connection(Part3,on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
+page_command = lambda: get_connection(window,on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
 new_item.add_command(label='Page',command=page_command)
 new_item.add_command(label='Friend',command=None)
-new_item.add_command(label='Edit',command=None)
+new_item.add_command(label='Edit',command=add_book)
 new_item.add_command(label='Disconnect',command=None)
 menu.add_cascade(label='Account', menu=new_item)
 
