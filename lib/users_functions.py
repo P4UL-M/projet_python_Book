@@ -1,5 +1,6 @@
 from lib.others_functions import get_reading_style_with_number, ask_input
 from ect.globals import PATH
+from ect.handle_data import *
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #                                   users functions                                   #
@@ -137,3 +138,22 @@ def update_client():
                         booksread_write.write(final_booksread)
         else:
             print("user not found")
+
+
+def get_reader(name):
+    for user in list_readers():
+        if user["name"] == name:
+            return user
+
+def update_reader(name,*args,**kargs):
+    """
+    user args are : gender, age, favorite
+    """
+    user = get_reader(name)
+    if not user:
+        raise Exception("user not found")
+    for key,value in kargs.items():
+        if key in user.keys():
+            user[key] = str(value)
+    new_line = ",".join(user.values()) + "\n"
+    overide_reader(name,new_line)

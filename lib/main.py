@@ -1,5 +1,5 @@
-from users_functions import *
-from books_functions import *
+from lib.users_functions import *
+from lib.books_functions import *
 
 running=True
 

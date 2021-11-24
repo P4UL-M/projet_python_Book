@@ -4,10 +4,11 @@ import tkinter.scrolledtext as stxt
 import tkinter.messagebox as msg
 import tkinter.filedialog as tkfile
 import sys
+
 from lib.books_functions import add_book
 
-from dico_tkinder import *
-from save_bibliotheque import *
+from lib.preset_widget import *
+from lib.preset_fonction_IHM import *
 
 window = tk.Tk()
 
