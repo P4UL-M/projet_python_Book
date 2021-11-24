@@ -145,19 +145,22 @@ def get_reader(name):
         if user["name"] == name:
             return user
 
-def update_reader(name,**kargs):
+def update_reader(old_name,**kargs):
     """
-    user args are : gender, age, favorite
+    user args are : name,gender, age, favorite
     """
     try:
-        user = get_reader(name)
-        if not user:
-            raise Exception("user not found")
+        test = True
+        if "name" in kargs.keys():
+            test = get_reader(kargs["name"])
+        user = get_reader(old_name)
+        if not user and test:
+            raise Exception("user not found or new name already taken")
         for key,value in kargs.items():
             if key in user.keys():
                 user[key] = str(value)
         new_line = ",".join(user.values()) + "\n"
-        overide_reader(name,new_line)
+        overide_reader(old_name,new_line)
     except FileNotFoundError:
         # do some shit to say to the user that the file doen't seems to exist
         print("File not found while trying to update a user")
@@ -172,9 +175,13 @@ def add_reader(name,gender,age,favorite):
     new_line = f"{name},{gender},{age},{favorite}"
     try:
         if not get_reader(name):
-            append_reader(new_line)
+            append_reader("readers.txt",new_line)
+            append_reader("booksread.txt",name)
+            #append_reader("notes.txt","0"*number of book)
         else:
             raise Exception("User already exist or your name was already use")
     except FileNotFoundError:
         # do some shit with tkinder to confirm creation of the file
-        append_reader(new_line)
+        append_reader("readers.txt",new_line)
+        append_reader("booksread.txt",name) # this file doesn't interfere with the order so we can write in it even if it already exist
+        #append_reader("notes.txt","0"*number of book) this file interfere so fuuuuuuuuucccckkkkkk i guess

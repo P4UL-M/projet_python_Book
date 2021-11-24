@@ -1,3 +1,4 @@
 .DS_Store
 *.pyc
 unit_test.py
+champs_bits_test/*

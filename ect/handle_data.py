@@ -30,13 +30,13 @@ def overide_reader(name:str,new_line:str):
     except Exception as e:
         print("Error while trying to write data :",e)
 
-def append_reader(new_line:str):
+def append_reader(file,new_line:str):
     try:
-        with open(PATH / "readers.txt", "r+", encoding="utf-8") as file:
+        with open(PATH / file, "r+", encoding="utf-8") as file:
             if file.readlines():
                 file.write("\n")
             file.write(new_line)
     except FileNotFoundError:
-        open(PATH / "readers.txt","a")
-        append_reader(new_line)
+        open(PATH / file,"a")
+        append_reader(file,new_line)
     
