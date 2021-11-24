@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter.constants import MOVETO, SCROLL
+from tkinter.constants import MOVETO
 import tkinter.ttk as ttk
 
 def get_horizontale_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):

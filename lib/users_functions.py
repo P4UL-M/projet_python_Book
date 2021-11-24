@@ -149,14 +149,18 @@ def update_reader(name,*args,**kargs):
     """
     user args are : gender, age, favorite
     """
-    user = get_reader(name)
-    if not user:
-        raise Exception("user not found")
-    for key,value in kargs.items():
-        if key in user.keys():
-            user[key] = str(value)
-    new_line = ",".join(user.values()) + "\n"
-    overide_reader(name,new_line)
+    try:
+        user = get_reader(name)
+        if not user:
+            raise Exception("user not found")
+        for key,value in kargs.items():
+            if key in user.keys():
+                user[key] = str(value)
+        new_line = ",".join(user.values()) + "\n"
+        overide_reader(name,new_line)
+    except FileNotFoundError:
+        # do some shit to say to the user that the file doen't seems to exist
+        print("File not found while trying to update a user")
 
 def remove_reader(name):
     overide_reader(name,"")
@@ -165,8 +169,12 @@ def add_reader(name,gender,age,favorite):
     """
     you must specify name,gender,age,favorite
     """
-    if not get_reader(name):
-        new_line = f"{name},{gender},{age},{favorite}"
+    new_line = f"{name},{gender},{age},{favorite}"
+    try:
+        if not get_reader(name):
+            append_reader(new_line)
+        else:
+            raise Exception("User already exist or your name was already use")
+    except FileNotFoundError:
+        # do some shit with tkinder to confirm creation of the file
         append_reader(new_line)
-    else:
-        raise Exception("User already exist or your name was already use")

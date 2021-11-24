@@ -1,16 +1,14 @@
+import os
 from ect.globals import PATH
 
 def list_readers():
-    try:
-        with open(PATH / "readers.txt", "r", encoding="utf-8") as file:
+    with open(PATH / "readers.txt", "r", encoding="utf-8") as file:
+        line = file.readline().replace("\n","")
+        while line:
+            user = dict()
+            user["name"], user["gender"], user["age"], user["favorite"] = line.split(",")
+            yield user
             line = file.readline().replace("\n","")
-            while line:
-                user = dict()
-                user["name"], user["gender"], user["age"], user["favorite"] = line.split(",")
-                yield user
-                line = file.readline().replace("\n","")
-    except Exception as e:
-        print("Exeception occured while trying to read data :",e)
 
 def overide_reader(name:str,new_line:str):
     try:
@@ -30,9 +28,15 @@ def overide_reader(name:str,new_line:str):
                     file.write(line)
             file.truncate() # remove all data that wasn't overide
     except Exception as e:
-        print("Exeception occured while trying to write data :",e)
+        print("Error while trying to write data :",e)
 
 def append_reader(new_line:str):
-    with open(PATH / "readers.txt", "a", encoding="utf-8") as file:
-        file.write("\n")
-        file.write(new_line)
+    try:
+        with open(PATH / "readers.txt", "r+", encoding="utf-8") as file:
+            if file.readlines():
+                file.write("\n")
+            file.write(new_line)
+    except FileNotFoundError:
+        open(PATH / "readers.txt","a")
+        append_reader(new_line)
+    
