@@ -19,10 +19,8 @@ def overide_reader(file,name:str,new_line:str):
                 if line.split(",")[0] == name:
                     if index==len(lines):
                         new_line= new_line.replace("\n","")
-                    print("new",new_line)
                     file.write(new_line)
                 else:
-                    print("old",line.replace("\n",""))
                     if index+1==len(lines) and new_line=="": # remove the last \n if we remove the last user
                         line = line.replace("\n","")
                     file.write(line)
