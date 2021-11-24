@@ -1,7 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
-
 def get_connection(master:tk.Frame,on_close = None):
     win = tk.Toplevel(master)
     win.geometry("343x122")

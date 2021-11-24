@@ -4,9 +4,6 @@ import tkinter.messagebox as msg
 import tkinter.filedialog as tkfile
 import sys
 
-from lib.users_functions import get_reader
-from lib.books_functions import remove_books
-
 from lib.preset_widget import *
 from lib.preset_fonction_IHM import *
 
@@ -204,9 +201,8 @@ menu = tk.Menu(window)
 new_item = tk.Menu(menu)
 page_command = lambda: get_connection(window,on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
 new_item.add_command(label='Page',command=page_command)
-test = lambda: print(get_reader("Poool"))
-new_item.add_command(label='Friend',command=test)
-new_item.add_command(label='Edit',command=remove_books)
+new_item.add_command(label='Friend',command=None)
+new_item.add_command(label='Edit',command=None)
 new_item.add_command(label='Disconnect',command=None)
 menu.add_cascade(label='Account', menu=new_item)
 

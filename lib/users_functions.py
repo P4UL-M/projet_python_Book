@@ -145,7 +145,7 @@ def get_reader(name):
         if user["name"] == name:
             return user
 
-def update_reader(name,*args,**kargs):
+def update_reader(name,**kargs):
     """
     user args are : gender, age, favorite
     """
