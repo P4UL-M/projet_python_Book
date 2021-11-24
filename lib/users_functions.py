@@ -161,16 +161,12 @@ def update_reader(name,*args,**kargs):
 def remove_reader(name):
     overide_reader(name,"")
 
-def add_reader(**kargs):
+def add_reader(name,gender,age,favorite):
     """
     you must specify name,gender,age,favorite
     """
-    if not get_reader(kargs["name"]):
-        user = {"name":"-1","gender":"-1","age":"-1","favorite":"-1"}
-        for key,value in kargs.items():
-            if key in user.keys():
-                user[key] = str(value)
-        new_line = ",".join(user.values()) + "\n"
+    if not get_reader(name):
+        new_line = f"{name},{gender},{age},{favorite}"
         append_reader(new_line)
     else:
         raise Exception("User already exist or your name was already use")

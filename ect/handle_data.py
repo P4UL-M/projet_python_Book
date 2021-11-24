@@ -35,4 +35,4 @@ def overide_reader(name:str,new_line:str):
 def append_reader(new_line:str):
     with open(PATH / "readers.txt", "a", encoding="utf-8") as file:
         file.write("\n")
-        file.write(new_line.replace("\n",""))
+        file.write(new_line)
