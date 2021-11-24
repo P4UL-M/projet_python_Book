@@ -10,9 +10,9 @@ def list_readers():
             yield user
             line = file.readline().replace("\n","")
 
-def overide_reader(name:str,new_line:str):
+def overide_reader(file,name:str,new_line:str):
     try:
-        with open(PATH / "readers.txt", "r+", encoding="utf-8") as file:
+        with open(PATH / file, "r+", encoding="utf-8") as file:
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
             file.seek(0)
             for index,line in enumerate(lines,1):

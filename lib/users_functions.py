@@ -160,13 +160,14 @@ def update_reader(old_name,**kargs):
             if key in user.keys():
                 user[key] = str(value)
         new_line = ",".join(user.values()) + "\n"
-        overide_reader(old_name,new_line)
+        overide_reader("readers.txt",old_name,new_line)
     except FileNotFoundError:
         # do some shit to say to the user that the file doen't seems to exist
         print("File not found while trying to update a user")
 
 def remove_reader(name):
-    overide_reader(name,"")
+    overide_reader("readers.txt",name,"")
+    overide_reader("booksread.txt",name,"")
 
 def add_reader(name,gender,age,favorite):
     """
