@@ -67,7 +67,7 @@ def remove_client():
         else:
             print("user not registered")
                         
-
+#region rewrited
 def View_a_reader():
     name=input("What is your name ? ")
     
@@ -138,7 +138,7 @@ def update_client():
                         booksread_write.write(final_booksread)
         else:
             print("user not found")
-
+#endregion
 
 def get_reader(name):
     for user in list_readers():
@@ -157,3 +157,6 @@ def update_reader(name,*args,**kargs):
             user[key] = str(value)
     new_line = ",".join(user.values()) + "\n"
     overide_reader(name,new_line)
+
+def remove_reader(name):
+    overide_reader(name,"")

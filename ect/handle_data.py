@@ -21,9 +21,13 @@ def overide_reader(name:str,new_line:str):
                 if line.split(",")[0] == name:
                     if index==len(lines):
                         new_line= new_line.replace("\n","")
-                    print(new_line)
+                    print("new",new_line)
                     file.write(new_line)
                 else:
+                    print("old",line.replace("\n",""))
+                    if index+1==len(lines) and new_line=="": # remove the last \n if we remove the last user
+                        line = line.replace("\n","")
                     file.write(line)
+            file.truncate() # remove all data that wasn't overide
     except Exception as e:
         print("Exeception occured while trying to write data :",e)
