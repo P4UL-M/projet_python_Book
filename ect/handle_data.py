@@ -31,3 +31,8 @@ def overide_reader(name:str,new_line:str):
             file.truncate() # remove all data that wasn't overide
     except Exception as e:
         print("Exeception occured while trying to write data :",e)
+
+def append_reader(new_line:str):
+    with open(PATH / "readers.txt", "a", encoding="utf-8") as file:
+        file.write("\n")
+        file.write(new_line.replace("\n",""))

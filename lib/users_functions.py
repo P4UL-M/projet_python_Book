@@ -6,6 +6,7 @@ from ect.handle_data import *
 #                                   users functions                                   #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
+#region rewrited
 def add_client():
     name=input("What is your name ? ")
     
@@ -29,7 +30,7 @@ def add_client():
         else:
             print("user already registered")
     return name
-
+      
 def remove_client():
     name=input("What is the name of the client you want to remove ? ")
     
@@ -66,8 +67,7 @@ def remove_client():
                 booksread_write.write(final_booksread)
         else:
             print("user not registered")
-                        
-#region rewrited
+                  
 def View_a_reader():
     name=input("What is your name ? ")
     
@@ -160,3 +160,17 @@ def update_reader(name,*args,**kargs):
 
 def remove_reader(name):
     overide_reader(name,"")
+
+def add_reader(**kargs):
+    """
+    you must specify name,gender,age,favorite
+    """
+    if not get_reader(kargs["name"]):
+        user = {"name":"-1","gender":"-1","age":"-1","favorite":"-1"}
+        for key,value in kargs.items():
+            if key in user.keys():
+                user[key] = str(value)
+        new_line = ",".join(user.values()) + "\n"
+        append_reader(new_line)
+    else:
+        raise Exception("User already exist or your name was already use")
