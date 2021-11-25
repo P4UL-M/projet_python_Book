@@ -145,6 +145,11 @@ def get_reader(name):
         if user["name"] == name:
             return user
 
+def get_readings(name):
+    for user in list_readings():
+        if user["name"] ==name:
+            return user["readings"]
+
 def update_reader(old_name,**kargs):
     """
     user args are : name,gender, age, favorite
@@ -190,5 +195,14 @@ def add_reader(name,gender,age,favorite):
         append_line("booksread.txt",name + ",") # this file doesn't interfere with the order so we can write in it even if it already exist
         append_line("notes.txt","0"*21) # this file interfere so fuuuuuuuuucccckkkkkk i guess
 
-def read_book():
+def read_book(user_name,book_name):
+    temp = list()
+    for book_read_index,book_read_name in get_readings(user_name):
+        if book_read_name == book_name:
+            raise Exception("Book already read")
+        else:
+            temp.append(book_read_index)
+    #inprogress
+
+def unread_book():
     pass

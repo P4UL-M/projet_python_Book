@@ -3,7 +3,7 @@ from ect.globals import PATH
 def list_readers():
     with open(PATH / "readers.txt", "r", encoding="utf-8") as file:
         for i,line in enumerate(file.readlines(),1):
-            line.replace("\n","")
+            line = line.replace("\n","")
             user = dict()
             user["name"], user["gender"], user["age"], user["favorite"] = line.split(",")
             user["index"] = i
@@ -100,3 +100,16 @@ def get_note(user,book):
             if i == user["index"]:
                 data = list(line.replace("\n",""))
                 return data[book["index"]-1]
+
+def list_readings():
+    with open(PATH / "booksread.txt", "r", encoding="utf-8") as file:
+        for i,line in enumerate(file.readlines(),1):
+            line = line.replace("\n","")
+            user = dict()
+            user["name"] = line.split(",")[0]
+            user["readings"] = {elt:"name" for elt in line.split(",")[1:] if elt !=""}
+            for book in list_books():
+                if str(book["index"]) in user["readings"]:
+                    user["readings"][book["index"]] = book["name"]
+            user["index"] = i
+            yield user
