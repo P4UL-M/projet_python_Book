@@ -6,13 +6,9 @@ import sys
 
 from lib.preset_widget import *
 from lib.preset_fonction_IHM import *
+from ect.globals import WINDOW
 
-window = tk.Tk()
-
-window.title("Welcome to our Book app")
-window.geometry('800x600')
-
-tab_control = ttk.Notebook(window)
+tab_control = ttk.Notebook(WINDOW)
 #region onglet menu
 # create the 3 tabs and add it to the tab_control
 Part1 = ttk.Frame(tab_control); tab_control.add(Part1, text='For you')
@@ -42,7 +38,7 @@ lbl.pack(side="top", anchor="w")
 #region configscroll bar recommandation
 wrapper_rec = ttk.Frame(container_recommandation)
 
-recommendation_gallery = get_gallery(wrapper_rec,_frame_scrollable_main,window)
+recommendation_gallery = get_gallery(wrapper_rec,_frame_scrollable_main)
 
 wrapper_rec.pack(side=tk.TOP,fill='x',expand=1)
 #endregion
@@ -64,7 +60,7 @@ lbl.pack(side="top", anchor="w")
 #region configscroll bar News
 wrapper_new = ttk.Frame(container_new)
 
-new_gallery = get_gallery(wrapper_new,_frame_scrollable_main,window)
+new_gallery = get_gallery(wrapper_new,_frame_scrollable_main)
 
 wrapper_new.pack(side=tk.TOP,fill='x',expand=1)
 #endregion
@@ -86,7 +82,7 @@ lbl.pack(side="top", anchor="w")
 #region configscroll bar News
 wrapper_friend = ttk.Frame(container_friend)
 
-friend_gallery = get_gallery(wrapper_friend,_frame_scrollable_main,window)
+friend_gallery = get_gallery(wrapper_friend,_frame_scrollable_main)
 
 wrapper_friend.pack(side=tk.TOP,fill='x',expand=1)
 #endregion
@@ -108,7 +104,7 @@ lbl.pack(side="top", anchor="w")
 #region configscroll bar News
 wrapper_rate = tk.Frame(container_rate,background="blue")
 
-rate_gallery = get_gallery(wrapper_rate,_frame_scrollable_main,window)
+rate_gallery = get_gallery(wrapper_rate,_frame_scrollable_main)
 
 wrapper_rate.pack(side=tk.TOP,fill='x',expand=1)
 #endregion
@@ -137,7 +133,7 @@ btn = ttk.Button(frame_search_bar,text="Enter")
 btn.pack(side="right")
 #endregion
 
-adv_param = get_foldable_frame(Part2,window,text="Advanced settings")
+adv_param = get_foldable_frame(Part2,WINDOW,text="Advanced settings")
 adv_param["frame"].pack(anchor="w")
 
 #region Adv param elt
@@ -196,10 +192,10 @@ Make the connection here, if not connected open a pop up windows to connect, thi
 #endregion
 
 #region Menu déroulant
-menu = tk.Menu(window)
+menu = tk.Menu(WINDOW)
 
 new_item = tk.Menu(menu)
-page_command = lambda: get_connection(window,on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
+page_command = lambda: get_connection(WINDOW,on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
 new_item.add_command(label='Page',command=page_command)
 new_item.add_command(label='Friend',command=None)
 new_item.add_command(label='Edit',command=None)
@@ -221,17 +217,17 @@ new_item.add_command(label='Book details',command=None)
 new_item.add_command(label='User details',command=None)
 menu.add_cascade(label='Aide', menu=new_item)
 
-window.config(menu=menu)
+WINDOW.config(menu=menu)
 #endregion
 
 #region close all windows open and task
 def on_closing():
     if msg.askokcancel("Quit", "Do you want to quit?"):
-        window.destroy()
+        WINDOW.destroy()
         sys.exit()
 
-window.protocol("WM_DELETE_WINDOW", on_closing)
+WINDOW.protocol("WM_DELETE_WINDOW", on_closing)
 #endregion
 
 # run the app
-window.mainloop()
+WINDOW.mainloop()

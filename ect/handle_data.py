@@ -39,4 +39,3 @@ def append_reader(file,new_line:str):
     except FileNotFoundError:
         open(PATH / file,"a")
         append_reader(file,new_line)
-    

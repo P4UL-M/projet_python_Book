@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter.constants import MOVETO
 import tkinter.ttk as ttk
 
+from ect.globals import WINDOW
+
 def get_horizontale_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
     _dic = {}
 
@@ -83,7 +85,7 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
 
     return _dic
 
-def get_gallery(parent:tk.Frame,parent_scroll:dict=None,window:tk.Tk=None):
+def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
     _gal = {}
 
     _gal["canvas"] = tk.Canvas(parent,bd=0, highlightthickness=0)
@@ -103,7 +105,7 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None,window:tk.Tk=None):
         else:
             if parent_scroll:
                 parent_scroll["_on_mousewheel"](event)
-                window.update()
+                WINDOW.update()
     def _bound_to_mousewheel(e):
         _gal["canvas"].bind_all("<MouseWheel>", _on_mousewheel)
     def _unbound_to_mousewheel(e):
