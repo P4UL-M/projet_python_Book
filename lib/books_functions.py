@@ -167,8 +167,28 @@ def get_book(name):
         if book["name"] == name:
             return book
 
-def update_book(name):
-    pass
+def update_book(old_name,**kargs):
+    """
+    user args are : name,gender, age, favorite
+    """
+    try:
+        test = True
+        if "name" in kargs.keys():
+            test = get_book(kargs["name"])
+        book = get_book(old_name)
+        if not book and test:
+            raise Exception("book not found or new name already taken")
+        for key,value in kargs.items():
+            if key in book.keys():
+                book[key] = str(value)
+        book.pop("index")
+        new_line = ",".join(book.values()) + "\n"
+        overide_line("books_extended.txt",old_name,new_line)
+        print(kargs["name"] + "\n")
+        overide_line("books.txt",old_name,kargs["name"] + "\n")
+    except FileNotFoundError:
+        # do some shit to say to the user that the file doen't seems to exist
+        print("File not found while trying to update a user")
 
 def remove_book(name):
     book = get_book(name)
