@@ -169,7 +169,7 @@ def remove_reader(name):
     user = get_reader(name)
     overide_reader("readers.txt",name,"")
     overide_reader("booksread.txt",name,"")
-    overide_reader("booksread.txt",str(user["index"]),"")
+    overide_reader("notes.txt",str(user["index"]),"")
 
 def add_reader(name,gender,age,favorite):
     """

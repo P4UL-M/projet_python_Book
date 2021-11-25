@@ -17,7 +17,7 @@ def overide_reader(file,name:str,new_line:str):
             file.seek(0)
             for index,line in enumerate(lines,1):
                 print(index,line)
-                if line.split(",")[0] == name or index==name:
+                if line.split(",")[0] == name or str(index)==name:
                     if index==len(lines):
                         new_line= new_line.replace("\n","")
                     file.write(new_line)
