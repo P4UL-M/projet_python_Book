@@ -15,7 +15,6 @@ def overide_line(file,name:str,new_line:str):
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
             file.seek(0)
             for index,line in enumerate(lines,1):
-                print(index,line)
                 if line.split(",")[0].replace("\n","") == name or str(index)==name:
                     if index==len(lines):
                         new_line= new_line.replace("\n","")
@@ -25,6 +24,20 @@ def overide_line(file,name:str,new_line:str):
                     if (index+1==len(lines) and new_line=="") or index==len(lines): # remove the last \n if we remove the last user
                         line = line.replace("\n","")
                     file.write(line)
+            file.truncate() # remove all data that wasn't overide
+    except Exception as e:
+        print("Error while trying to write data :",e)
+
+def overide_column(file,index:int,new_value:str):
+    try:
+        with open(PATH / file, "r+", encoding="utf-8") as file:
+            lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
+            file.seek(0)
+            for line in lines:
+                    new_line = list(line)
+                    new_line[int(index)-1] = str(new_value)
+                    new_line = "".join(new_line)
+                    file.write(new_line)
             file.truncate() # remove all data that wasn't overide
     except Exception as e:
         print("Error while trying to write data :",e)

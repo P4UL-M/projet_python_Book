@@ -174,7 +174,7 @@ def remove_book(name):
     book = get_book(name)
     overide_line("books_extended.txt",name,"")
     overide_line("books.txt",name,"")
-    #overide_line("notes.txt",str(book["index"]),"")
+    overide_column("notes.txt",str(book["index"]),"")
     # make overide collumn à la place
 
 
