@@ -1,4 +1,3 @@
-import os
 from ect.globals import PATH
 
 def list_readers():
