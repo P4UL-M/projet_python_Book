@@ -1,10 +1,11 @@
 from lib.others_functions import ask_input
 from ect.globals import PATH
+from ect.handle_data import *
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #                                 books functions                                     #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
+#region REWRITING
 def add_book():
     book_name="test"#input("Enter the book's title you want to add : ")
     with open(PATH / "books.txt", "r", encoding="utf-8") as books:
@@ -159,3 +160,23 @@ def add_book_to_client(name=None, book=None, maximum_number_book=None):
                 
         else:
             print("user not registered")
+#endregion
+
+def get_book(name):
+    for book in list_books():
+        if book["name"] == name:
+            return book
+
+def update_book(name):
+    pass
+
+def remove_book(name):
+    book = get_book(name)
+    overide_line("books_extended.txt",name,"")
+    overide_line("books.txt",name,"")
+    #overide_line("notes.txt",str(book["index"]),"")
+    # make overide collumn à la place
+
+
+def get_super_notes(user,book):
+    return get_note(user,book)

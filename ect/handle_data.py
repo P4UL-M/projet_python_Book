@@ -9,21 +9,20 @@ def list_readers():
             user["index"] = i
             yield user
 
-def overide_reader(file,name:str,new_line:str):
+def overide_line(file,name:str,new_line:str):
     try:
         with open(PATH / file, "r+", encoding="utf-8") as file:
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
             file.seek(0)
             for index,line in enumerate(lines,1):
                 print(index,line)
-                if line.split(",")[0] == name or str(index)==name:
+                if line.split(",")[0].replace("\n","") == name or str(index)==name:
                     if index==len(lines):
                         new_line= new_line.replace("\n","")
                     file.write(new_line)
                     new_line = -1
                 else:
                     if (index+1==len(lines) and new_line=="") or index==len(lines): # remove the last \n if we remove the last user
-                        print("yes sir")
                         line = line.replace("\n","")
                     file.write(line)
             file.truncate() # remove all data that wasn't overide
@@ -39,3 +38,20 @@ def append_reader(file,new_line:str):
     except FileNotFoundError:
         open(PATH / file,"a")
         append_reader(file,new_line)
+
+def list_books():
+    with open(PATH / "books.txt","r", encoding="utf-8") as file, open(PATH / "books_extended.txt","r", encoding="utf-8") as file_extended:
+        a,b = file.readlines(),file_extended.readlines() # put the object directly in the zip don't work but i don't know why
+        for i,line in enumerate(zip(a,b),1):
+            line,line_extended  = line[0].replace("\n",""),line[1].replace("\n","").split(",")[1]
+            book = dict()
+            book["name"], book["style"] = (line,line_extended)
+            book["index"] = i
+            yield book
+
+def get_note(user,book):
+    with open(PATH / "notes.txt","r", encoding="utf-8") as file:
+        for i,line in enumerate(file.readlines(),1):
+            if i == user["index"]:
+                data = list(line.replace("\n",""))
+                return data[book["index"]-1]
