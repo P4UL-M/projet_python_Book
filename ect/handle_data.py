@@ -34,10 +34,27 @@ def overide_column(file,index:int,new_value:str):
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
             file.seek(0)
             for line in lines:
+                new_line = list(line)
+                new_line[int(index)-1] = str(new_value)
+                new_line = "".join(new_line)
+                file.write(new_line)
+            file.truncate() # remove all data that wasn't overide
+    except Exception as e:
+        print("Error while trying to write data :",e)
+
+def overide_value(file,index_book:int,index_user:int,new_value:str):
+    try:
+        with open(PATH / file, "r+", encoding="utf-8") as file:
+            lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
+            file.seek(0)
+            for i,line in enumerate(lines,1):
+                if i==index_user:
                     new_line = list(line)
-                    new_line[int(index)-1] = str(new_value)
+                    new_line[int(index_book)-1] = str(new_value)
                     new_line = "".join(new_line)
                     file.write(new_line)
+                else:
+                    file.write(line)
             file.truncate() # remove all data that wasn't overide
     except Exception as e:
         print("Error while trying to write data :",e)

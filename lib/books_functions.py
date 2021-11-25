@@ -197,6 +197,16 @@ def remove_book(name):
     overide_column("notes.txt",str(book["index"]),"")
     # make overide collumn à la place
 
-
 def get_super_notes(user,book):
     return get_note(user,book)
+
+def note_book(book:dict,user:dict,note):
+    try:
+        if type(book)!=dict or type(user)!=dict or not book or not user:
+            raise Exception("Bad argument, must send book and user")
+        if "name" not in book.keys() or "name" not in user.keys():
+            raise Exception("Bad argument, must send book and user")
+        overide_value("notes.txt",book["index"],user["index"],note)
+    except FileNotFoundError:
+        # do some shit to say to the user that the file doen't seems to exist
+        print("File not found while trying to update a user")
