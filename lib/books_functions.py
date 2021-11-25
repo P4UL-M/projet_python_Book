@@ -167,6 +167,24 @@ def get_book(name):
         if book["name"] == name:
             return book
 
+def add_book(name,style):
+    """
+    you must specify name,gender,age,favorite
+    """
+    new_line = f"{name},{style}"
+    try:
+        if not get_book(name):
+            append_line("books.txt",name)
+            append_line("books_extended.txt",new_line)
+            append_column("notes.txt","0")
+        else:
+            raise Exception("User already exist or your name was already use")
+    except FileNotFoundError:
+        # do some shit with tkinder to confirm creation of the file
+        append_line("readers.txt",new_line)
+        append_line("booksread.txt",name + ",") # this file doesn't interfere with the order so we can write in it even if it already exist
+        append_column("notes.txt","0") # this file interfere so fuuuuuuuuucccckkkkkk i guess
+
 def update_book(old_name,**kargs):
     """
     user args are : name,gender, age, favorite

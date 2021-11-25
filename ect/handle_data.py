@@ -59,7 +59,7 @@ def overide_value(file,index_book:int,index_user:int,new_value:str):
     except Exception as e:
         print("Error while trying to write data :",e)
 
-def append_reader(file,new_line:str):
+def append_line(file,new_line:str):
     try:
         with open(PATH / file, "r+", encoding="utf-8") as file:
             if file.readlines():
@@ -67,7 +67,22 @@ def append_reader(file,new_line:str):
             file.write(new_line)
     except FileNotFoundError:
         open(PATH / file,"a")
-        append_reader(file,new_line)
+        append_line(file,new_line)
+
+def append_column(file,new_value):
+    try:
+        with open(PATH / file, "r+", encoding="utf-8") as file:
+            lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
+            file.seek(0)
+            for line in lines:
+                if "\n" in line:
+                    new_line = line.replace("\n","") + str(new_value) + "\n"
+                else:
+                    new_line = line + str(new_value)
+                file.write(new_line)
+            file.truncate() # remove all data that wasn't overide
+    except Exception as e:
+        print("Error while trying to write data :",e)
 
 def list_books():
     with open(PATH / "books.txt","r", encoding="utf-8") as file, open(PATH / "books_extended.txt","r", encoding="utf-8") as file_extended:

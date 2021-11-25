@@ -179,13 +179,16 @@ def add_reader(name,gender,age,favorite):
     new_line = f"{name},{gender},{age},{favorite}"
     try:
         if not get_reader(name):
-            append_reader("readers.txt",new_line)
-            append_reader("booksread.txt",name)
-            append_reader("notes.txt","0"*21)
+            append_line("readers.txt",new_line)
+            append_line("booksread.txt",name)
+            append_line("notes.txt","0"*21)
         else:
             raise Exception("User already exist or your name was already use")
     except FileNotFoundError:
         # do some shit with tkinder to confirm creation of the file
-        append_reader("readers.txt",new_line)
-        append_reader("booksread.txt",name + ",") # this file doesn't interfere with the order so we can write in it even if it already exist
-        append_reader("notes.txt","0"*21) # this file interfere so fuuuuuuuuucccckkkkkk i guess
+        append_line("readers.txt",new_line)
+        append_line("booksread.txt",name + ",") # this file doesn't interfere with the order so we can write in it even if it already exist
+        append_line("notes.txt","0"*21) # this file interfere so fuuuuuuuuucccckkkkkk i guess
+
+def read_book():
+    pass
