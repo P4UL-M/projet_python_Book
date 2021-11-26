@@ -110,6 +110,6 @@ def list_readings():
             user["readings"] = {elt:"name" for elt in line.split(",")[1:] if elt !=""}
             for book in list_books():
                 if str(book["index"]) in user["readings"]:
-                    user["readings"][book["index"]] = book["name"]
+                    user["readings"][str(book["index"])] = book["name"]
             user["index"] = i
             yield user

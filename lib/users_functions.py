@@ -1,4 +1,5 @@
 from ect.handle_data import *
+from lib.books_functions import get_book
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #                                   users functions                                   #
@@ -11,7 +12,7 @@ def get_reader(name):
 
 def get_readings(name):
     for user in list_readings():
-        if user["name"] ==name:
+        if user["name"]==name:
             return user["readings"]
 
 def update_reader(old_name,**kargs):
@@ -61,12 +62,22 @@ def add_reader(name,gender,age,favorite):
 
 def read_book(user_name,book_name):
     temp = list()
-    for book_read_index,book_read_name in get_readings(user_name):
+    for book_read_index,book_read_name in get_readings(user_name).items():
         if book_read_name == book_name:
             raise Exception("Book already read")
         else:
-            temp.append(book_read_index)
-    #inprogress
+            temp.append(str(book_read_index))
+    else:
+        temp.append(str(get_book(book_name)["index"]))
+        new_line = f"{user_name}," + ",".join(temp) + ",\n"
+        overide_line("booksread.txt",user_name,new_line)
 
-def unread_book():
-    pass
+def unread_book(user_name,book_name):
+    temp = list()
+    for book_read_index,book_read_name in get_readings(user_name).items():
+        if book_read_name != book_name:
+            temp.append(str(book_read_index))
+    else:
+        new_line = f"{user_name}," + ",".join(temp) + ",\n"
+        overide_line("booksread.txt",user_name,new_line)
+
