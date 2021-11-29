@@ -32,6 +32,10 @@ def update_reader(old_name,**kargs):
         user.pop("index")
         new_line = ",".join(user.values()) + "\n"
         overide_line("readers.txt",old_name,new_line)
+        temp = get_readings(old_name)
+        new_line = user["name"] + "," + ",".join(temp) + ("," if len(temp) > 0 else "") + "\n"
+        overide_line("booksread.txt",old_name,new_line)
+
     except FileNotFoundError:
         # do some shit to say to the user that the file doen't seems to exist
         print("File not found while trying to update a user")
