@@ -19,13 +19,13 @@ STYLES = {
     '6':("History","green"),
     '7':("Comedy","pink"),
     '8':("Fantasy","orange"),
-    '9':("Triler","violet")
+    '9':("Thriller","violet")
     }
 
 GENDER = {
-    "1":"Homme",
-    "2":"Femme",
-    "3":"Autre"
+    "1":"Man",
+    "2":"Woman",
+    "3":"No Matter What"
     }
 
 AGES = {
