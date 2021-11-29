@@ -1,5 +1,6 @@
 from os import name
 import tkinter as tk
+from tkinter.constants import HIDDEN
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
 import tkinter.filedialog as tkfile
@@ -118,6 +119,14 @@ for i in range(10):
     rate_gallery["__add_panel__"](book,rate_gallery)
 #endregion
 
+#region actualise on focus
+def actualise(event):
+    if event.widget == Part1:
+       WINDOW.update()
+
+Part1.bind("<FocusIn>", actualise)
+#endregion
+
 #endregion
 
 #region PART 2
@@ -169,15 +178,17 @@ if user is admin add suppress option
 #endregion
 
 #region PART 3
+
+#region on_focus
 def on_focus_profile(event):
     if event.widget == Part3 and not get_user():
         _return = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]]
         user_portal(on_close = _return)
 
 Part3.bind("<FocusIn>", on_focus_profile)
+#endregion
 
 #region info widget
-
 name_widget = ttk.Label(Part3,name="pseudo", text="")
 name_widget.pack()
 gender_widget = ttk.Label(Part3,name="gender", text="")
@@ -189,7 +200,10 @@ favorite_widget.pack()
 pdp_favorite = tk.Frame(Part3,name="pdp",width=50,height=50)
 pdp_favorite.pack()
 
-
+btn_edit = ttk.Button(Part3,text="edit profil",command=edit_user)
+btn_edit.pack()
+btn_disc = ttk.Button(Part3,text="disconnect",command=disconnect)
+btn_disc.pack()
 #endregion
 """
 

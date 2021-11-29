@@ -1,3 +1,4 @@
+from tkinter.constants import W
 from ect.globals import AGES, WINDOW,STYLES,GENDER
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -9,6 +10,11 @@ def user_portal(on_close = None):
     
     win.title("Connection portal")
     win.focus_force()
+    
+    # must overide the normal app because the user can launch other function that will looping for ever
+    # no pretty way to do it by removing all elt of Part3 so we remove all
+    WINDOW.nametowidget('.!notebook').pack_forget()
+    overide = ttk.Frame(WINDOW);overide.pack(fill="both",expand=1)
 
     main = ttk.Frame(win)
     main.pack(fill="both",expand=1)
@@ -39,6 +45,10 @@ def user_portal(on_close = None):
             tab.nametowidget("age")["text"] = AGES[user["age"]]
             tab.nametowidget("favorite")["text"] = STYLES[user["favorite"]][0]
             tab.nametowidget("pdp")["bg"] = STYLES[user["favorite"]][1]
+            
+            WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
+            overide.pack_forget()
+            
             win.destroy()
 
     btn = ttk.Button(center,text="Connect",command=handledata)
@@ -56,7 +66,6 @@ def get_user():
 
     _name:tk.Label = tab.nametowidget('pseudo')
     user = get_reader(_name['text'])
-    print(user,_name['text'])
     if user: #ajouter super condition
         return user
     else:
@@ -74,3 +83,13 @@ def disconnect():
     onglets = WINDOW.nametowidget('.!notebook')
     home = WINDOW.nametowidget('.!notebook').nametowidget('home')
     onglets.select(home); home.focus_set()
+
+def edit_user():
+    win = tk.Toplevel(WINDOW)
+    win.geometry("343x122")
+    
+    win.title("Edit profile")
+    win.focus_force()
+
+    main = ttk.Frame(win)
+    main.pack(fill="both",expand=1)
