@@ -112,16 +112,26 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 - create a script to make all our menu and generate all menus possibles
 - create dictionary creation methode for books and for users
 - create save and load methods for books and users, can be store in the disctionnary
-- faire bouton suivant/ précédent
+- faire bouton suivant/ précédent (à voir)
 - fenetre accessible dans menu pour préférence
-- possibilité d'ajoutez des commentaires sur la page des détails d'un livres, associé au rating
-- ranger les rating dans un fichier texte de la manière user:livre:note et créée un générateur type SQL pour chercher les valeurs
+- possibilité d'ajouter des commentaires sur la page des détails d'un livres, associé au rating (à voir)
+- ranger les rating dans un fichier texte et créée un générateur type SQL pour chercher les valeurs via requete
 - edit user dans une fenetre à part pour plus simple zone entré et peut etre ouvert du menu ou de l'app ez
 
 # In progress
-- Tabs "for you"
+- Tab "for you"
     * Liste recommendation, préférer des amis, nouveauté, et livre déjà lu non noté style menu déroulant à la apple music
     - Cliquer sur un livre ouvres les détail dans une nouvelles fenêtre : ceci permet de tout traiter dans un script tier.
     - les gallery affiche le titre des livres sur un fond rattaché à une couleur rattaché au genre du livre
+-Tab "search"
+    - (in progress) style of the tab
+    - get actual data
+    - search and give result
+- Tab "User"
+    * connection and disconnection
+    - edit profile and delete
+    - button disconnect
+    - Style of the tab
+
 
 # Finished
