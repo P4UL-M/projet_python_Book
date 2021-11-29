@@ -1,10 +1,10 @@
-from os import name
+from ect.globals import AGES, WINDOW,STYLES,GENDER
 import tkinter as tk
 import tkinter.ttk as ttk
 from lib.users_functions import *
 
-def get_connection(master:tk.Frame,on_close = None):
-    win = tk.Toplevel(master)
+def get_connection(on_close = None):
+    win = tk.Toplevel(WINDOW)
     win.geometry("343x122")
     
     win.title("Connection portal")
@@ -30,7 +30,15 @@ def get_connection(master:tk.Frame,on_close = None):
     def handledata(e=None):
         name = name_widget.get()
         if name:
-            print(get_reader(name))
+            user = get_reader(name)
+
+            tab:tk.Frame = WINDOW.nametowidget('.!notebook').nametowidget('profile')
+            test = tk.Label(tab,text=user["name"]).pack()
+            test_2 = tk.Label(tab,text=GENDER[user["gender"]]).pack()
+            test_3 = tk.Label(tab,text=AGES[user["age"]]).pack()
+            test_4 = tk.Label(tab,text=STYLES[user["favorite"]][0],background=STYLES[user["favorite"]][1]).pack()
+
+            win.destroy()
 
     btn = ttk.Button(center,text="Connect",command=handledata)
     btn.grid(column=0,row=1,sticky="we")

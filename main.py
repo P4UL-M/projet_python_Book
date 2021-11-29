@@ -1,3 +1,4 @@
+from os import name
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
@@ -13,7 +14,7 @@ tab_control = ttk.Notebook(WINDOW)
 # create the 3 tabs and add it to the tab_control
 Part1 = ttk.Frame(tab_control); tab_control.add(Part1, text='For you')
 Part2 = ttk.Frame(tab_control); tab_control.add(Part2, text='Search')
-Part3 = ttk.Frame(tab_control); tab_control.add(Part3, text='My Account')
+Part3 = ttk.Frame(tab_control,name='profile'); tab_control.add(Part3, text='My Account')
 
 # organisation of the tabs
 tab_control.pack(expand=1, fill='both')
@@ -171,7 +172,7 @@ if user is admin add suppress option
 def on_focus_profile(event):
     if event.widget == Part3:
         _return = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]]
-        get_connection(Part3,on_close = _return)
+        get_connection(on_close = _return)
 
 Part3.bind("<FocusIn>", on_focus_profile)
 
@@ -195,7 +196,7 @@ Make the connection here, if not connected open a pop up windows to connect, thi
 menu = tk.Menu(WINDOW)
 
 new_item = tk.Menu(menu)
-page_command = lambda: get_connection(WINDOW,on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
+page_command = lambda: get_connection(on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
 new_item.add_command(label='Page',command=page_command)
 new_item.add_command(label='Friend',command=None)
 new_item.add_command(label='Edit',command=None)
