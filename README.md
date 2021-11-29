@@ -132,6 +132,7 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
     - edit profile and delete
     - button disconnect
     - Style of the tab
+    - corriger bug user already exist but recreate
 
 
 # Finished

@@ -1,19 +1,22 @@
 from ect.globals import AGES, WINDOW,STYLES,GENDER
 import tkinter as tk
 import tkinter.ttk as ttk
+import tkinter.messagebox as msg
 from lib.users_functions import *
 
 def set_user(name):
     user = get_reader(name)
-
-    tab:tk.Frame = WINDOW.nametowidget('.!notebook').nametowidget('profile')
-    tab.nametowidget("pseudo")["text"] = user["name"]
-    tab.nametowidget("gender")["text"] = GENDER[user["gender"]]
-    tab.nametowidget("age")["text"] = AGES[user["age"]]
-    tab.nametowidget("favorite")["text"] = STYLES[user["favorite"]][0]
-    tab.nametowidget("pdp")["bg"] = STYLES[user["favorite"]][1]
-    
-    WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
+    if not user:
+        msg.showerror("USER NOT FOUND", "USER NOT FOUND !\n Check that you enter the good pseudo, else try create your account again.")
+    else:
+        tab:tk.Frame = WINDOW.nametowidget('.!notebook').nametowidget('profile')
+        tab.nametowidget("pseudo")["text"] = user["name"]
+        tab.nametowidget("gender")["text"] = GENDER[user["gender"]]
+        tab.nametowidget("age")["text"] = AGES[user["age"]]
+        tab.nametowidget("favorite")["text"] = STYLES[user["favorite"]][0]
+        tab.nametowidget("pdp")["bg"] = STYLES[user["favorite"]][1]
+        
+        WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
 
 def user_portal(on_close = None):
     win = tk.Toplevel(WINDOW)
@@ -30,7 +33,10 @@ def user_portal(on_close = None):
     main.pack(fill="both",expand=1)
 
     def on_focus_out(event):
-        if event.widget == win:
+        if ".editing" in [str(i) for i in WINDOW.winfo_children()]:
+            win.destroy()
+            pass
+        elif event.widget == win:
             win.focus_force()
 
     def on_closing():
@@ -52,6 +58,11 @@ def user_portal(on_close = None):
 
     btn = ttk.Button(center,text="Connect",command=handledata)
     btn.grid(column=0,row=1,sticky="we")
+    
+    def create_user():
+        edit_user(True)
+    btn = ttk.Button(center,text="Create",command=create_user)
+    btn.grid(column=0,row=2,sticky="we")
 
     name_widget.bind("<Return>",handledata)
     name_widget.bind("<")
@@ -83,8 +94,8 @@ def disconnect():
     home = WINDOW.nametowidget('.!notebook').nametowidget('home')
     onglets.select(home); home.focus_set()
 
-def edit_user():
-    win = tk.Toplevel(WINDOW)
+def edit_user(new=False):
+    win = tk.Toplevel(WINDOW,name="editing")
     win.geometry("800x250")
     
     win.title("Edit profile")
@@ -93,7 +104,8 @@ def edit_user():
     main = ttk.Frame(win)
     main.pack(fill="both",expand=1)
     old_name = WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text']
-    user = get_reader(old_name)
+    if not new:
+        user = get_reader(old_name)
 
     #region name widget
     name_widget = ttk.Label(main,name="pseudo", text="Pseudo :",padding=15)
@@ -102,7 +114,8 @@ def edit_user():
     #name entry
     name_entry = ttk.Entry(main)
     name_entry.grid(column=1,row=0)
-    name_entry.insert(-1, user["name"])
+    if not new:
+        name_entry.insert(-1, user["name"])
 
     #endregion
 
@@ -117,7 +130,8 @@ def edit_user():
     rad_gender["2"] = ttk.Radiobutton(main,text='Woman',variable=gender_value, value="2",command=gender_value.get);rad_gender["2"].grid(column=2,row=1)
     rad_gender["3"] = ttk.Radiobutton(main,text='No Matter What',variable=gender_value, value="3",command=gender_value.get);rad_gender["3"].grid(column=3,row=1)
 
-    rad_gender[user["gender"]].invoke()
+    if not new:
+        rad_gender[user["gender"]].invoke()
     #endregion
 
     #region age widget
@@ -130,8 +144,9 @@ def edit_user():
     rad_age["1"] = ttk.Radiobutton(main,text='>18 years old',variable=age_value, value="1",command=age_value.get);rad_age["1"].grid(column=1, row=2)
     rad_age["2"] = ttk.Radiobutton(main,text='Between 18 and 25 years old',variable=age_value, value="2",command=age_value.get);rad_age["2"].grid(column=2,row=2)
     rad_age["3"] = ttk.Radiobutton(main,text='<25 years old',variable=age_value, value="3",command=age_value.get);rad_age["3"].grid(column=3,row=2)
-
-    rad_age[user["age"]].invoke()
+    
+    if not new:
+        rad_age[user["age"]].invoke()
     #endregion
 
     #region favorite widget
@@ -141,7 +156,8 @@ def edit_user():
     #favorite entry
     favorite_combo = ttk.Combobox(main)
     favorite_combo['values']= ("Sci-Fi", "Biography", "Horror", "Romance", "Fable", "History","Comedy","Fantasy","Thriller")
-    favorite_combo.current(int(user["favorite"])-1)
+    if not new:
+        favorite_combo.current(int(user["favorite"])-1)
     favorite_combo.grid(column=1, row=3)
     #endregion
 
@@ -150,9 +166,18 @@ def edit_user():
         new_gender = gender_value.get()
         new_age =age_value.get()
         new_favorite = str(favorite_combo['values'].index(favorite_combo.get()) + 1)
-        update_reader(old_name=old_name,name=new_name,gender=new_gender,age=new_age,favorite=new_favorite)
+        if new:
+            add_reader(new_name,new_gender,new_age,new_favorite)
+        else:
+            update_reader(old_name=old_name,name=new_name,gender=new_gender,age=new_age,favorite=new_favorite)
         set_user(new_name)
         win.destroy()
 
     btn_save = ttk.Button(main,text="  Save  ",command=save_data)
     btn_save.grid(column=1,row=4,columnspan=2)
+
+def delete_user():
+    if msg.askokcancel("Delete", "Do you want to delete your account?"):
+        old_name = WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text']
+        remove_reader(old_name)
+        disconnect()

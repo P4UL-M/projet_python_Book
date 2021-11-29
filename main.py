@@ -204,6 +204,8 @@ btn_edit = ttk.Button(Part3,text="edit profil",command=edit_user)
 btn_edit.pack()
 btn_disc = ttk.Button(Part3,text="disconnect",command=disconnect)
 btn_disc.pack()
+btn_delt = ttk.Button(Part3,text="delete account",command=delete_user)
+btn_delt.pack()
 #endregion
 """
 
