@@ -18,7 +18,7 @@ def set_user(name):
         
         WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
 
-def user_portal(on_close = None):
+def user_portal():
     win = tk.Toplevel(WINDOW)
     win.geometry("343x122")
     
@@ -33,15 +33,20 @@ def user_portal(on_close = None):
     main.pack(fill="both",expand=1)
 
     def on_focus_out(event):
-        if ".editing" in [str(i) for i in WINDOW.winfo_children()]:
+        if ".editing" in [str(i) for i in WINDOW.winfo_children()]: #vérifie que l'on est pas en train d'essayer de créer un utilisateur
             win.destroy()
             pass
-        elif event.widget == win:
+        elif event.widget == win: # si on essaye de ne pas se connecter sans abandonné alors le focus est remis de force (y compris lors de fenetre autre que tkinter mais j'ai pas trouvé de solution pour le moment)
             win.focus_force()
 
     def on_closing():
-        if on_close != None:
-            on_close()
+        WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
+        WINDOW.update()
+
+        notebook = WINDOW.nametowidget('.!notebook')
+        home:tk.Frame = notebook.nametowidget('home')
+        notebook.select(home)
+        home.focus_set()
         win.destroy()
 
     center = ttk.Frame(main)
@@ -95,6 +100,9 @@ def disconnect():
     onglets.select(home); home.focus_set()
 
 def edit_user(new=False):
+    """
+    modifie un lecteur ou en ajoute 1 si le paramètre New est vrai
+    """
     win = tk.Toplevel(WINDOW,name="editing")
     win.geometry("800x250")
     

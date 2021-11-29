@@ -182,8 +182,7 @@ if user is admin add suppress option
 #region on_focus
 def on_focus_profile(event):
     if event.widget == Part3 and not get_user():
-        _return = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]]
-        user_portal(on_close = _return)
+        user_portal()
 
 Part3.bind("<FocusIn>", on_focus_profile)
 #endregion
@@ -227,8 +226,7 @@ Make the connection here, if not connected open a pop up windows to connect, thi
 menu = tk.Menu(WINDOW)
 
 new_item = tk.Menu(menu)
-page_command = lambda: user_portal(on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
-new_item.add_command(label='Page',command=page_command)
+new_item.add_command(label='Page',command=user_portal)
 new_item.add_command(label='Friend',command=None)
 new_item.add_command(label='Edit',command=None)
 new_item.add_command(label='Disconnect',command=disconnect)
