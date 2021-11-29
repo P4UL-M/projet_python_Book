@@ -3,7 +3,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from lib.users_functions import *
 
-def get_connection(on_close = None):
+def user_portal(on_close = None):
     win = tk.Toplevel(WINDOW)
     win.geometry("343x122")
     
@@ -33,11 +33,12 @@ def get_connection(on_close = None):
             user = get_reader(name)
 
             tab:tk.Frame = WINDOW.nametowidget('.!notebook').nametowidget('profile')
-            test = tk.Label(tab,text=user["name"]).pack()
-            test_2 = tk.Label(tab,text=GENDER[user["gender"]]).pack()
-            test_3 = tk.Label(tab,text=AGES[user["age"]]).pack()
-            test_4 = tk.Label(tab,text=STYLES[user["favorite"]][0],background=STYLES[user["favorite"]][1]).pack()
-
+            debug = tab.nametowidget("pseudo")
+            tab.nametowidget("pseudo")["text"] = user["name"]
+            tab.nametowidget("gender")["text"] = GENDER[user["gender"]]
+            tab.nametowidget("age")["text"] = AGES[user["age"]]
+            tab.nametowidget("favorite")["text"] = STYLES[user["favorite"]][0]
+            tab.nametowidget("pdp")["bg"] = STYLES[user["favorite"]][1]
             win.destroy()
 
     btn = ttk.Button(center,text="Connect",command=handledata)
@@ -47,3 +48,29 @@ def get_connection(on_close = None):
     name_widget.bind("<")
     win.bind("<FocusOut>", on_focus_out)
     win.protocol("WM_DELETE_WINDOW", on_closing)
+
+def get_user():
+    tab:tk.Frame = WINDOW.nametowidget('.!notebook').nametowidget('profile')
+
+    user = dict()
+
+    _name:tk.Label = tab.nametowidget('pseudo')
+    user = get_reader(_name['text'])
+    print(user,_name['text'])
+    if user: #ajouter super condition
+        return user
+    else:
+        return False
+
+def disconnect():
+    tab:tk.Frame = WINDOW.nametowidget('.!notebook').nametowidget('profile')
+
+    tab.nametowidget("pseudo")["text"] = ""
+    tab.nametowidget("gender")["text"] = ""
+    tab.nametowidget("age")["text"] = ""
+    tab.nametowidget("favorite")["text"] = ""
+    tab.nametowidget("pdp")["bg"] = "white"
+
+    onglets = WINDOW.nametowidget('.!notebook')
+    home = WINDOW.nametowidget('.!notebook').nametowidget('home')
+    onglets.select(home); home.focus_set()

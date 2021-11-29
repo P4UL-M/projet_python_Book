@@ -12,7 +12,7 @@ from ect.globals import WINDOW
 tab_control = ttk.Notebook(WINDOW)
 #region onglet menu
 # create the 3 tabs and add it to the tab_control
-Part1 = ttk.Frame(tab_control); tab_control.add(Part1, text='For you')
+Part1 = ttk.Frame(tab_control,name="home"); tab_control.add(Part1, text='For you')
 Part2 = ttk.Frame(tab_control); tab_control.add(Part2, text='Search')
 Part3 = ttk.Frame(tab_control,name='profile'); tab_control.add(Part3, text='My Account')
 
@@ -170,12 +170,27 @@ if user is admin add suppress option
 
 #region PART 3
 def on_focus_profile(event):
-    if event.widget == Part3:
+    if event.widget == Part3 and not get_user():
         _return = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]]
-        get_connection(on_close = _return)
+        user_portal(on_close = _return)
 
 Part3.bind("<FocusIn>", on_focus_profile)
 
+#region info widget
+
+name_widget = ttk.Label(Part3,name="pseudo", text="")
+name_widget.pack()
+gender_widget = ttk.Label(Part3,name="gender", text="")
+gender_widget.pack()
+age_widget = ttk.Label(Part3,name="age",text="")
+age_widget.pack()
+favorite_widget = ttk.Label(Part3,name="favorite",text="")
+favorite_widget.pack()
+pdp_favorite = tk.Frame(Part3,name="pdp",width=50,height=50)
+pdp_favorite.pack()
+
+
+#endregion
 """
 
 Make the connection here, if not connected open a pop up windows to connect, this fonction could be execute every time we want to make a action that need to be connected
@@ -196,11 +211,11 @@ Make the connection here, if not connected open a pop up windows to connect, thi
 menu = tk.Menu(WINDOW)
 
 new_item = tk.Menu(menu)
-page_command = lambda: get_connection(on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
+page_command = lambda: user_portal(on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
 new_item.add_command(label='Page',command=page_command)
 new_item.add_command(label='Friend',command=None)
 new_item.add_command(label='Edit',command=None)
-new_item.add_command(label='Disconnect',command=None)
+new_item.add_command(label='Disconnect',command=disconnect)
 menu.add_cascade(label='Account', menu=new_item)
 
 new_item = tk.Menu(menu)

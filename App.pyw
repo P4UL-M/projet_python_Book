@@ -175,7 +175,7 @@ if user is admin add suppress option
 def on_focus_profile(event):
     if event.widget == Part3:
         _return = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]]
-        get_connection(Part3,on_close = _return)
+        user_portal(Part3,on_close = _return)
 
 Part3.bind("<FocusIn>", on_focus_profile)
 
@@ -199,7 +199,7 @@ Make the connection here, if not connected open a pop up windows to connect, thi
 menu = tk.Menu(window)
 
 new_item = tk.Menu(menu)
-page_command = lambda: get_connection(window,on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
+page_command = lambda: user_portal(window,on_close = lambda: [f() for f in [lambda :tab_control.select(Part1),lambda:Part1.focus_set()]])
 new_item.add_command(label='Page',command=page_command)
 new_item.add_command(label='Friend',command=None)
 new_item.add_command(label='Edit',command=None)
