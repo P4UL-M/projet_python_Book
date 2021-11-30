@@ -12,7 +12,7 @@ tab_control = ttk.Notebook(WINDOW)
 #region onglet menu
 # create the 3 tabs and add it to the tab_control
 Part1 = ttk.Frame(tab_control,name="home"); tab_control.add(Part1, text='For you')
-Part2 = ttk.Frame(tab_control); tab_control.add(Part2, text='Search')
+Part2 = ttk.Frame(tab_control,name="search"); tab_control.add(Part2, text='Search')
 Part3 = ttk.Frame(tab_control,name='profile'); tab_control.add(Part3, text='My Account')
 
 # organisation of the tabs
@@ -128,16 +128,23 @@ Part1.bind("<FocusIn>", actualise)
 #endregion
 
 #region PART 2
-frame_search_bar = ttk.Frame(Part2,padding=15)
+frame_search_bar = ttk.Frame(Part2,padding=15,name="params")
 
 frame_search_bar.pack(fill="x")
 
+# init zone result
+wrapper_zone = tk.Frame(Part2,background="red",name="wrapper")
+zone = get_vertical_scroll_bar(wrapper_zone)
+
+func = lambda e=None:generate_result(main_frame=zone)
+
 #region Search Bar elts
-txt = ttk.Entry(frame_search_bar)
+txt = ttk.Entry(frame_search_bar,name="search_bar")
 txt.pack(side="left",fill="x",expand=1)
 txt.focus()
+txt.bind("<Return>",func)
 
-btn = ttk.Button(frame_search_bar,text="Enter")
+btn = ttk.Button(frame_search_bar,text="Enter",command=func)
 btn.pack(side="right")
 #endregion
 
@@ -152,16 +159,8 @@ param1.grid(column=0,row=0)
 line = tk.Frame(Part2,background="#E4E4E4",height=10)
 line.pack(fill="x")
 
-#region results
-wrapper_zone = tk.Frame(Part2,background="red")
-
-zone = get_vertical_scroll_bar(wrapper_zone)
-for i in range(100):
-    get_result_book(zone["frame"],"test",1).pack(fill="x")
-
-
+# show zone now
 wrapper_zone.pack(fill="both",expand=1)
-#endregion
 
 """
 Search bar

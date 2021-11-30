@@ -2,6 +2,7 @@ from ect.globals import AGES, WINDOW,STYLES,GENDER
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
+from lib.preset_widget import *
 from lib.users_functions import *
 
 def set_user(name):
@@ -199,3 +200,18 @@ def delete_user():
         old_name = WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text']
         remove_reader(old_name)
         disconnect()
+
+
+def generate_result(e=None,main_frame=None):
+    if not main_frame:
+        return
+    search_bar = WINDOW.nametowidget('.!notebook').nametowidget('search').nametowidget('params').nametowidget('search_bar')
+    word = search_bar.get()
+
+    main = main_frame["frame"]
+    print(word)
+    for i in range(1):
+        result_widget = get_result_book(main,word,1)
+        result_widget.pack(fill="x")
+        print(result_widget)
+    main_frame["__init__"]()
