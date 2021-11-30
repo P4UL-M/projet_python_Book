@@ -1,6 +1,4 @@
-from os import name
 import tkinter as tk
-from tkinter.constants import HIDDEN
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
 import tkinter.filedialog as tkfile

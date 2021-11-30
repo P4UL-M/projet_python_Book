@@ -65,7 +65,7 @@ def user_portal():
     btn.grid(column=0,row=1,sticky="we")
     
     def create_user():
-        edit_user(True)
+        edit_user(True,name_widget.get())
     btn = ttk.Button(center,text="Create",command=create_user)
     btn.grid(column=0,row=2,sticky="we")
 
@@ -99,7 +99,7 @@ def disconnect():
     home = WINDOW.nametowidget('.!notebook').nametowidget('home')
     onglets.select(home); home.focus_set()
 
-def edit_user(new=False):
+def edit_user(new=False,new_name=""):
     """
     modifie un lecteur ou en ajoute 1 si le paramètre New est vrai
     """
@@ -124,6 +124,8 @@ def edit_user(new=False):
     name_entry.grid(column=1,row=0)
     if not new:
         name_entry.insert(-1, user["name"])
+    else:
+        name_entry.insert(-1, new_name)
 
     #endregion
 
@@ -175,7 +177,15 @@ def edit_user(new=False):
         new_age =age_value.get()
         new_favorite = str(favorite_combo['values'].index(favorite_combo.get()) + 1)
         if new:
-            add_reader(new_name,new_gender,new_age,new_favorite)
+            try:
+                add_reader(new_name,new_gender,new_age,new_favorite)
+            except Exception as e:
+                if 'User already exist or your name was already use' in e.args:
+                    msg.showerror("USER ALREADY EXIST", "USER ALREADY EXIST !\n Please try another pseudo or if it's your account edit it.")
+                    win.focus_set()
+                    return
+                else:
+                    raise e
         else:
             update_reader(old_name=old_name,name=new_name,gender=new_gender,age=new_age,favorite=new_favorite)
         set_user(new_name)
