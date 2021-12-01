@@ -186,10 +186,12 @@ def get_result_book(parent,title,global_rating):
 
     _res["frame"] = ttk.Frame(parent,relief='raised',padding=10)
     _res["title"] = ttk.Label(_res["frame"],text=title,font=("Arial Bold", 18))
-    _res["title"].grid(column=0,row=0)
-    _res["type"] = ttk.Label(_res["frame"],text="book",font=("Arial Italic",))
-    _res["type"].grid(column=0,row=1)
-    _res["rate"] = ttk.Label(_res["frame"],text="rate",font=("Arial Italic",))
-    _res["rate"].grid(column=1,row=1)
+    _res["title"].grid(column=0,row=0,sticky="w")
+    _res["second_line"]= ttk.Frame(_res["frame"])
+    _res["second_line"].grid(column=0,row=1,sticky="w")
+    _res["type"] = ttk.Label(_res["second_line"],text="book",font=("Arial Italic",))
+    _res["type"].grid(column=0,row=0,sticky="w")
+    _res["rate"] = ttk.Label(_res["second_line"],text="rate",font=("Arial Italic",))
+    _res["rate"].grid(column=1,row=0,sticky="w")
     
     return _res["frame"]

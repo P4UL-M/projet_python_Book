@@ -209,9 +209,9 @@ def generate_result(e=None,main_frame=None):
     word = search_bar.get()
 
     main = main_frame["frame"]
-    print(word)
+    
     for i in range(1):
         result_widget = get_result_book(main,word,1)
         result_widget.pack(fill="x")
-        print(result_widget)
+
     main_frame["__init__"]()
