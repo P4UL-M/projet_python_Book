@@ -201,7 +201,6 @@ def delete_user():
         remove_reader(old_name)
         disconnect()
 
-
 def generate_result(e=None,main_frame=None):
     if not main_frame:
         return
@@ -209,9 +208,15 @@ def generate_result(e=None,main_frame=None):
     word = search_bar.get()
 
     main = main_frame["frame"]
+    for child in main.children.values():
+        child.pack_forget()
     
-    for i in range(1):
+    if get_reader(word):
         result_widget = get_result_book(main,word,1)
         result_widget.pack(fill="x")
 
+    if get_book(word):
+        result_widget = get_result_book(main,word,1)
+        result_widget.pack(fill="x")
+    
     main_frame["__init__"]()
