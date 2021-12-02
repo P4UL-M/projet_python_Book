@@ -212,11 +212,11 @@ def generate_result(e=None,main_frame=None):
         child.pack_forget()
     
     if get_reader(word):
-        result_widget = get_result_book(main,word,1)
+        result_widget = get_result_book(main,word,"user")
         result_widget.pack(fill="x")
 
     if get_book(word):
-        result_widget = get_result_book(main,word,1)
+        result_widget = get_result_book(main,word,"book")
         result_widget.pack(fill="x")
     
     main_frame["__init__"]()

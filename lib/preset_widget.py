@@ -1,9 +1,10 @@
-from os import name
 import tkinter as tk
 from tkinter.constants import MOVETO
 import tkinter.ttk as ttk
 
-from ect.globals import WINDOW
+from ect.globals import GENDER, STYLES, WINDOW,AGES
+from lib.books_functions import *
+from lib.users_functions import *
 
 def get_horizontale_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
     _dic = {}
@@ -181,17 +182,98 @@ def get_foldable_frame(parent,window, text=""):
 
         return _frame
 
-def get_result_book(parent,title,global_rating):
-    _res = {}
+def get_result_book(parent,name,type):
+    if type=="book":
+        _res = {}
+        book = get_book(name)
 
-    _res["frame"] = ttk.Frame(parent,relief='raised',padding=10)
-    _res["title"] = ttk.Label(_res["frame"],text=title,font=("Arial Bold", 18))
-    _res["title"].grid(column=0,row=0,sticky="w")
-    _res["second_line"]= ttk.Frame(_res["frame"])
-    _res["second_line"].grid(column=0,row=1,sticky="w")
-    _res["type"] = ttk.Label(_res["second_line"],text="book",font=("Arial Italic",))
-    _res["type"].grid(column=0,row=0,sticky="w")
-    _res["rate"] = ttk.Label(_res["second_line"],text="rate",font=("Arial Italic",))
-    _res["rate"].grid(column=1,row=0,sticky="w")
+        _res["frame"] = ttk.Frame(parent,relief='raised',padding=10)
+        _res["title"] = ttk.Label(_res["frame"],text=name,font=("Arial Bold", 18))
+        _res["title"].grid(column=0,row=0,sticky="w")
+        _res["second_line"]= ttk.Frame(_res["frame"])
+        _res["second_line"].grid(column=0,row=1,sticky="w")
+        _res["type"] = ttk.Label(_res["second_line"],text=type,font=("Arial Italic",))
+        _res["type"].grid(column=0,row=0,sticky="w")
+        user = WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text']
+        if user=="":
+            _res["status"] = ttk.Label(_res["second_line"],text="not connected",font=("Arial Italic",))
+        else:
+            readings = get_readings(WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text'])
+            if name in readings.values():
+                _res["status"] = ttk.Label(_res["second_line"],text="read",font=("Arial Italic",))
+            else:
+                _res["status"] = ttk.Label(_res["second_line"],text="not read",font=("Arial Italic",))
+        _res["status"].grid(column=1,row=0,sticky="w")
+
+        func = lambda e:display_book(name)
+        _res["frame"].bind("<Double-Button-1>", func)
+    elif type=="user":
+        _res = {}
+        user = get_reader(name)
+
+        _res["frame"] = ttk.Frame(parent,relief='raised',padding=10)
+        _res["title"] = ttk.Label(_res["frame"],text=name,font=("Arial Bold", 18))
+        _res["title"].grid(column=0,row=0,sticky="w")
+        _res["second_line"]= ttk.Frame(_res["frame"])
+        _res["second_line"].grid(column=0,row=1,sticky="w")
+        gender = GENDER[user["gender"]]
+        _res["gender"] = ttk.Label(_res["second_line"],text=gender,font=("Arial Italic",))
+        _res["gender"].grid(column=0,row=0,sticky="w")
+        style = STYLES[user["favorite"]][0]
+        _res["style"] = ttk.Label(_res["second_line"],text=style,font=("Arial Italic",))
+        _res["style"].grid(column=1,row=0,sticky="w")
+        
+        func = lambda e:display_user(name)
+        _res["frame"].bind("<Double-Button-1>", func)
     
     return _res["frame"]
+
+def display_user(name):
+    win = tk.Toplevel(WINDOW)
+    win.geometry("343x122")
+    
+    win.title(name)
+    win.focus_force()
+
+    main = ttk.Frame(win)
+    main.pack(fill="both",expand=1)
+
+    user = get_reader(name)
+
+    name_widget = ttk.Label(main,name="pseudo", text=name)
+    name_widget.pack()
+    gender_widget = ttk.Label(main,name="gender", text=GENDER[user["gender"]])
+    gender_widget.pack()
+    age_widget = ttk.Label(main,name="age",text=AGES[user["age"]])
+    age_widget.pack()
+    favorite_widget = ttk.Label(main,name="favorite",text=STYLES[user["favorite"]][0])
+    favorite_widget.pack()
+    pdp_favorite = tk.Frame(main,name="pdp",width=50,height=50,bg=STYLES[user["favorite"]][1])
+    pdp_favorite.pack()
+
+    func = lambda e:win.destroy()
+    win.bind("<FocusOut>",func)
+
+def display_book(name):
+    win = tk.Toplevel(WINDOW)
+    win.geometry("343x122")
+    
+    win.title(name)
+    win.focus_force()
+
+    main = ttk.Frame(win)
+    main.pack(fill="both",expand=1)
+
+    book = get_book(name)
+
+    name_widget = ttk.Label(main,name="pseudo", text=name)
+    name_widget.pack()
+    status_widget = ttk.Label(main,name="status",text="")
+    status_widget.pack()
+    favorite_widget = ttk.Label(main,name="favorite",text=STYLES[book["style"]][0])
+    favorite_widget.pack()
+    pdp_favorite = tk.Frame(main,name="pdp",width=50,height=50,bg=STYLES[book["style"]][1])
+    pdp_favorite.pack()
+
+    func = lambda e:win.destroy()
+    win.bind("<FocusOut>",func)
