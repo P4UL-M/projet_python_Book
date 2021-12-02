@@ -1,5 +1,5 @@
 from ect.globals import PATH
-from lib.new_others_functions import *
+from lib.en_cour.new_others_functions import *
 
 def add_book(book_name, gender):
     if not is_registered("books.txt", book_name):

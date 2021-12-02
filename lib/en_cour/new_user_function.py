@@ -1,5 +1,5 @@
 from ect.globals import PATH
-from lib.new_others_functions import *
+from lib.en_cour.new_others_functions import *
 
 def add_reader(name, gender, age, reading_style):  
     if not is_registered("readers.txt", name):
