@@ -205,21 +205,37 @@ def generate_result(e=None,main_frame=None):
     if not main_frame:
         return
     search_bar = WINDOW.nametowidget('.!notebook').nametowidget('search').nametowidget('params').nametowidget('search_bar')
-    word = search_bar.get()
+    words = search_bar.get().split(" ")
 
     main = main_frame["frame"]
     for child in main.winfo_children():
         child.destroy()
     
+    result_readers = {}
     for reader in readers():
-        if word.upper() in reader["name"].upper():
-            result_widget = get_result_book(main,reader["name"],"user")
-            result_widget.pack(fill="x")
+        for word in words:
+            if word.upper() in reader["name"].upper():
+                if reader["name"] in result_readers.keys():
+                    result_readers[reader["name"]][0] += 1
+                else:
+                    result_readers[reader["name"]] = [1,"user"]
 
+    result_books = {}
     for book in books():
-        if word.upper() in book["name"].upper():
-            result_widget = get_result_book(main,book["name"],"book")
-            result_widget.pack(fill="x")
+        for word in words:
+            if word.upper() in book["name"].upper():
+                if book["name"] in result_books.keys():
+                    result_books[book["name"]][0] += 1
+                else:
+                    result_books[book["name"]] = [1,"book"]
+
+    all_result = {}
+    all_result.update(result_books)
+    all_result.update(result_readers)
+    print(all_result)
+    for key, value in sorted(all_result.items(),key=lambda item: -item[1][0]):
+        result_widget = get_result_book(main,key,value[1])
+        result_widget.pack(fill="x")
     
     if len(main.children)==0:
         ttk.Label(main,text="No result",name="itsme").pack(anchor='nw')
