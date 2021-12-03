@@ -212,12 +212,12 @@ def generate_result(e=None,main_frame=None):
         child.destroy()
     
     for reader in readers():
-        if word in reader["name"]:
+        if word.upper() in reader["name"].upper():
             result_widget = get_result_book(main,reader["name"],"user")
             result_widget.pack(fill="x")
 
     for book in books():
-        if word in book["name"]:
+        if word.upper() in book["name"].upper():
             result_widget = get_result_book(main,book["name"],"book")
             result_widget.pack(fill="x")
     
