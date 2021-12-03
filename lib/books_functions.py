@@ -4,6 +4,9 @@ from ect.handle_data import *
 #                                 books functions                                     #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+def books():
+    return list_books()
+
 def get_book(name):
     for book in list_books():
         if book["name"] == name:
@@ -70,3 +73,11 @@ def note_book(book:dict,user:dict,note):
     except FileNotFoundError:
         # do some shit to say to the user that the file doen't seems to exist
         print("File not found while trying to update a user")
+
+def get_global_rating(name):
+    temp = []
+    for user in list_readers():
+        val = int(get_super_notes(user,get_book(name)))
+        if val != 0:
+            temp.append(val)
+    return None if len(temp)==0 else round(sum(temp)/len(temp),2)

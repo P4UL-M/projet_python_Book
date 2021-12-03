@@ -215,8 +215,6 @@ Make the connection here, if not connected open a pop up windows to connect, thi
 - last read
 -> book to rate 
 """
-
-
 #endregion
 
 #region Menu déroulant

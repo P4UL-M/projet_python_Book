@@ -5,6 +5,9 @@ from lib.books_functions import get_book
 #                                   users functions                                   #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
+def readers():
+    return list_readers()
+
 def get_reader(name):
     for user in list_readers():
         if user["name"] == name:

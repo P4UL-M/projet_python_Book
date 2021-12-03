@@ -208,15 +208,20 @@ def generate_result(e=None,main_frame=None):
     word = search_bar.get()
 
     main = main_frame["frame"]
-    for child in main.children.values():
-        child.pack_forget()
+    for child in main.winfo_children():
+        child.destroy()
     
-    if get_reader(word):
-        result_widget = get_result_book(main,word,"user")
-        result_widget.pack(fill="x")
+    for reader in readers():
+        if word in reader["name"]:
+            result_widget = get_result_book(main,reader["name"],"user")
+            result_widget.pack(fill="x")
 
-    if get_book(word):
-        result_widget = get_result_book(main,word,"book")
-        result_widget.pack(fill="x")
+    for book in books():
+        if word in book["name"]:
+            result_widget = get_result_book(main,book["name"],"book")
+            result_widget.pack(fill="x")
+    
+    if len(main.children)==0:
+        ttk.Label(main,text="No result",name="itsme").pack(anchor='nw')
     
     main_frame["__init__"]()

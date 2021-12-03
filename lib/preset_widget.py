@@ -266,12 +266,38 @@ def display_book(name):
 
     book = get_book(name)
 
+    # name of the book
     name_widget = ttk.Label(main,name="pseudo", text=name)
     name_widget.pack()
-    status_widget = ttk.Label(main,name="status",text="")
-    status_widget.pack()
-    favorite_widget = ttk.Label(main,name="favorite",text=STYLES[book["style"]][0])
-    favorite_widget.pack()
+    # bouton read/unread
+    user_name = WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text']
+    if user_name=="":
+        status_widget = ttk.Label(main,name="status",text="not connected")
+        status_widget.pack()
+    else:
+        readings = get_readings(WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text'])
+        def unread_func():
+                unread_book(user_name,name)
+                status_bouton.configure(text="read")
+                status_bouton.configure(command=read_func)
+        def read_func():
+                read_book(user_name,name)
+                status_bouton.configure(text="unread")
+                status_bouton.configure(command=unread_func)
+        
+        if name in readings.values():
+            status_bouton = ttk.Button(main,text="unread",command=read_func)
+            status_bouton.pack()
+        else:
+            status_bouton = ttk.Button(main,text="read",command=unread_func)
+            status_bouton.pack()
+    # style of the book
+    style_widget = ttk.Label(main,name="style",text=STYLES[book["style"]][0])
+    style_widget.pack()
+    # global rating of the book
+    global_rating_widget = ttk.Label(main,name="global_rating",text=get_global_rating(name) or "not enougth notes")
+    global_rating_widget.pack()
+    # frame color of the book
     pdp_favorite = tk.Frame(main,name="pdp",width=50,height=50,bg=STYLES[book["style"]][1])
     pdp_favorite.pack()
 
