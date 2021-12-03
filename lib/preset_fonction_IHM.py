@@ -234,8 +234,9 @@ def generate_result(e=None,main_frame=None):
     all_result.update(result_readers)
     print(all_result)
     for key, value in sorted(all_result.items(),key=lambda item: -item[1][0]):
-        result_widget = get_result_book(main,key,value[1])
-        result_widget.pack(fill="x")
+        if value[0]>= len(words)//2:
+            result_widget = get_result_book(main,key,value[1])
+            result_widget.pack(fill="x")
     
     if len(main.children)==0:
         ttk.Label(main,text="No result",name="itsme").pack(anchor='nw')
