@@ -132,7 +132,7 @@ frame_search_bar = ttk.Frame(Part2,padding=15,name="params")
 
 frame_search_bar.pack(fill="x")
 
-# init zone result
+# init zone result before param because we need it but it's pack after
 wrapper_zone = tk.Frame(Part2,background="red",name="wrapper")
 zone = get_vertical_scroll_bar(wrapper_zone)
 
@@ -152,8 +152,11 @@ adv_param = get_foldable_frame(Part2,WINDOW,text="Advanced settings")
 adv_param["frame"].pack(anchor="w")
 
 #region Adv param elt
-param1 = ttk.Label(adv_param["sub_frame"],text="this is an advanced parameter")
-param1.grid(column=0,row=0)
+
+rad_adv = dict()
+adv_value = tk.StringVar(Part2,name="adv_var")
+rad_adv["1"] = ttk.Radiobutton(adv_param["sub_frame"],text='Book',variable=adv_value, value="book",command=adv_value.get);rad_adv["1"].grid(column=0, row=0)
+rad_adv["2"] = ttk.Radiobutton(adv_param["sub_frame"],text='User',variable=adv_value, value="user",command=adv_value.get);rad_adv["2"].grid(column=1,row=0)
 #endregion
 
 line = tk.Frame(Part2,background="#E4E4E4",height=10)

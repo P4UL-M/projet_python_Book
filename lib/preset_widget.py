@@ -156,7 +156,7 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
     return _gal
 
 def get_foldable_frame(parent,window, text=""):
-        _frame = {"frame":ttk.Frame(parent,padding=10)}
+        _frame = {"frame":ttk.Frame(parent ,name="foldable",padding=10)}
 
         _frame["frame"].show = tk.IntVar()
         _frame["frame"].show.set(0)
@@ -178,7 +178,7 @@ def get_foldable_frame(parent,window, text=""):
                                             variable=_frame["frame"].show)
         _frame["toggle_button"].pack(side="left",anchor="n")
 
-        _frame["sub_frame"] = ttk.Frame(_frame["frame"])
+        _frame["sub_frame"] = ttk.Frame(_frame["frame"],name="subframe")
 
         return _frame
 

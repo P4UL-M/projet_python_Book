@@ -205,7 +205,11 @@ def generate_result(e=None,main_frame=None):
     if not main_frame:
         return
     search_bar = WINDOW.nametowidget('.!notebook').nametowidget('search').nametowidget('params').nametowidget('search_bar')
+    adv_param:tk.Frame = WINDOW.nametowidget('.!notebook').nametowidget('search').getvar("adv_var")
+    adv_active = WINDOW.nametowidget('.!notebook').nametowidget('search').nametowidget('foldable').show
+    
     words = search_bar.get().split(" ")
+    weight = len(words)//2
 
     main = main_frame["frame"]
     for child in main.winfo_children():
@@ -214,27 +218,28 @@ def generate_result(e=None,main_frame=None):
     result_readers = {}
     for reader in readers():
         for word in words:
-            if word.upper() in reader["name"].upper():
+            if word.upper() in reader["name"].upper() and ((not bool(adv_active.get()) or adv_param=="user")): # from algebra : if then
                 if reader["name"] in result_readers.keys():
                     result_readers[reader["name"]][0] += 1
                 else:
                     result_readers[reader["name"]] = [1,"user"]
+                        
 
     result_books = {}
     for book in books():
         for word in words:
-            if word.upper() in book["name"].upper():
+            if word.upper() in book["name"].upper() and ((not bool(adv_active.get()) or adv_param=="book")): # from algebra : if then
                 if book["name"] in result_books.keys():
                     result_books[book["name"]][0] += 1
                 else:
                     result_books[book["name"]] = [1,"book"]
+                        
 
     all_result = {}
     all_result.update(result_books)
     all_result.update(result_readers)
-    print(all_result)
     for key, value in sorted(all_result.items(),key=lambda item: -item[1][0]):
-        if value[0]>= len(words)//2:
+        if value[0]>= weight:
             result_widget = get_result_book(main,key,value[1])
             result_widget.pack(fill="x")
     
