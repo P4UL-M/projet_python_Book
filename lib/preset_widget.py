@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter.constants import MOVETO
 import tkinter.ttk as ttk
 
-from ect.globals import GENDER, STYLES, WINDOW,AGES
+from ect.globals import GENDER, STYLES, WINDOW,AGES, Recursive_Binding
 from lib.books_functions import *
 from lib.users_functions import *
 
@@ -182,7 +182,7 @@ def get_foldable_frame(parent,window, text=""):
 
         return _frame
 
-def get_result_book(parent,name,type):
+def get_result(parent,name,type):
     if type=="book":
         _res = {}
         book = get_book(name)
@@ -206,7 +206,7 @@ def get_result_book(parent,name,type):
         _res["status"].grid(column=1,row=0,sticky="w")
 
         func = lambda e:display_book(name)
-        _res["frame"].bind("<Double-Button-1>", func)
+        Recursive_Binding(_res["frame"],"<Double-Button-1>",func)
     elif type=="user":
         _res = {}
         user = get_reader(name)
@@ -224,7 +224,7 @@ def get_result_book(parent,name,type):
         _res["style"].grid(column=1,row=0,sticky="w")
         
         func = lambda e:display_user(name)
-        _res["frame"].bind("<Double-Button-1>", func)
+        Recursive_Binding(_res["frame"],"<Double-Button-1>",func)
     
     return _res["frame"]
 

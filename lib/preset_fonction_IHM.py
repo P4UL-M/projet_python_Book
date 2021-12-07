@@ -240,7 +240,7 @@ def generate_result(e=None,main_frame=None):
     all_result.update(result_readers)
     for key, value in sorted(all_result.items(),key=lambda item: -item[1][0]):
         if value[0]>= weight:
-            result_widget = get_result_book(main,key,value[1])
+            result_widget = get_result(main,key,value[1])
             result_widget.pack(fill="x")
     
     if len(main.children)==0:

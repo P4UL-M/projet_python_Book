@@ -33,3 +33,8 @@ AGES = {
     "2":"Entre 18 et 25 ans",
     "3":">25 ans"
 }
+
+def Recursive_Binding(parent,event,func):
+    parent.bind(event,func)
+    for child in parent.winfo_children():
+        Recursive_Binding(child,event,func)
