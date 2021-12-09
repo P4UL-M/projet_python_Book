@@ -145,9 +145,17 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
 
     def __add_panel__(object,self,direction:str="left"):
         self["panels"][object["name"]] = object["frame"]
+        
         _pad = ttk.Frame(self["frame"],width=25)
         _pad.pack(side=direction)
+        
+        self["panels"][object["name"]].grid_propagate(0)
         self["panels"][object["name"]].pack(side=direction,expand=1,fill="x")
+        object["text"].place(relx=0.5, rely=0.5, anchor="center")
+        
+        func = lambda e:display_book(object["name"])
+        Recursive_Binding(object["frame"],"<Double-Button-1>",func)
+        
         _pad = ttk.Frame(self["frame"],width=25)
         _pad.pack(side=direction)
 
@@ -240,16 +248,18 @@ def display_user(name):
 
     user = get_reader(name)
 
+    span = ttk.Label(main,padding=50)
+    span.grid(column=0,row=0,rowspan=1000)
     name_widget = ttk.Label(main,name="pseudo", text=name)
-    name_widget.pack()
+    name_widget.grid(column=1,row=0)
     gender_widget = ttk.Label(main,name="gender", text=GENDER[user["gender"]])
-    gender_widget.pack()
+    gender_widget.grid(column=1,row=1)
     age_widget = ttk.Label(main,name="age",text=AGES[user["age"]])
-    age_widget.pack()
-    favorite_widget = ttk.Label(main,name="favorite",text=STYLES[user["favorite"]][0])
-    favorite_widget.pack()
-    pdp_favorite = tk.Frame(main,name="pdp",width=50,height=50,bg=STYLES[user["favorite"]][1])
-    pdp_favorite.pack()
+    age_widget.grid(column=1,row=2)
+    pdp_favorite = tk.Frame(main,name="pdp",width=100,height=50,bg=STYLES[user["favorite"]][1])
+    pdp_favorite.grid(column=1,row=3)
+    favorite_widget = tk.Label(main,name="favorite",text=STYLES[user["favorite"]][0],background=STYLES[user["favorite"]][1])
+    favorite_widget.grid(column=1,row=3)
 
     func = lambda e:win.destroy()
     win.bind("<FocusOut>",func)
@@ -286,10 +296,10 @@ def display_book(name):
                 status_bouton.configure(command=unread_func)
         
         if name in readings.values():
-            status_bouton = ttk.Button(main,text="unread",command=read_func)
+            status_bouton = ttk.Button(main,text="unread",command=unread_func)
             status_bouton.pack()
         else:
-            status_bouton = ttk.Button(main,text="read",command=unread_func)
+            status_bouton = ttk.Button(main,text="read",command=read_func)
             status_bouton.pack()
     # style of the book
     style_widget = ttk.Label(main,name="style",text=STYLES[book["style"]][0])

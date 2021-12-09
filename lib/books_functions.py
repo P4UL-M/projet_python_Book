@@ -16,7 +16,7 @@ def add_book(name,style):
     """
     you must specify name,gender,age,favorite
     """
-    new_line = f"{name},{style}"
+    new_line = f"{name},,{style}"
     try:
         if not get_book(name):
             append_line("books.txt",name)

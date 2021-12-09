@@ -1,15 +1,15 @@
-Débuter la programmation Java,1
-Don Quichotte de la Manche,2
-Un conte de deux villes,1
-Le Seigneur des Anneaux,3
-Le Petit Prince,2
-Harry Potter à l’école des sorciers,2
-Le rêve dans le Pavillon rouge,3
-Le Lion, la Sorcière blanche et l’Armoire magique,4
-Elle – She : a history of Adventure,2
-Da vinci ce crack,5
-Réfléchissez et devenez riche,5
-Harry Potter et le Prince de Sang mêlé,2
-L’Alchimiste,1
-Harry Potter et la Chambre des Secrets,6
-L’attrape-cœurs, The Catcher in the Rye,7
+Débuter la programmation Java,,1
+Don Quichotte de la Manche,,2
+Un conte de deux villes,,1
+Le Seigneur des Anneaux,,3
+Le Petit Prince,,2
+Harry Potter à l’école des sorciers,,2
+Le rêve dans le Pavillon rouge,,3
+Le Lion, la Sorcière blanche et l’Armoire magique,,4
+Elle – She : a history of Adventure,,2
+Da vinci ce crack,,5
+Réfléchissez et devenez riche,,5
+Harry Potter et le Prince de Sang mêlé,,2
+L’Alchimiste,,1
+Harry Potter et la Chambre des Secrets,,6
+L’attrape-cœurs, The Catcher in the Rye,,7

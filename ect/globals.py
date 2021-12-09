@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-PATH = Path("/".join(sys.argv[0].split("/")[:-1]) or "\\".join(sys.argv[0].split("\\")[:-1])).cwd() / "data"
+PATH = Path("/".join(sys.argv[0].split("/")[:-1]) or "\\".join(sys.argv[0].split("\\")[:-1])).absolute() / "data"
 
 
 import tkinter as tk
@@ -11,15 +11,15 @@ WINDOW.title("Welcome to our Book app")
 WINDOW.geometry('800x600')
 
 STYLES = {
-    '1':("Sci-Fi","blue"),
-    '2':("Biography","grey"),
-    '3':("Horror","black"),
-    '4':("Romance","red"),
-    '5':("Fable","yellow"),
-    '6':("History","green"),
-    '7':("Comedy","pink"),
-    '8':("Fantasy","orange"),
-    '9':("Thriller","violet")
+    '1':("Sci-Fi","blue","orange"),
+    '2':("Biography","grey","black"),
+    '3':("Horror","black","white"),
+    '4':("Romance","red","black"),
+    '5':("Fable","yellow","black"),
+    '6':("History","green","black"),
+    '7':("Comedy","pink","black"),
+    '8':("Fantasy","orange","black"),
+    '9':("Thriller","violet","black")
     }
 
 GENDER = {

@@ -88,7 +88,7 @@ def list_books():
     with open(PATH / "books.txt","r", encoding="utf-8") as file, open(PATH / "books_extended.txt","r", encoding="utf-8") as file_extended:
         a,b = file.readlines(),file_extended.readlines() # put the object directly in the zip don't work but i don't know why
         for i,line in enumerate(zip(a,b),1):
-            line,line_extended  = line[0].replace("\n",""),line[1].replace("\n","").split(",")[1]
+            line,line_extended  = line[0].replace("\n",""),line[1].replace("\n","").split(",,")[1]
             book = dict()
             book["name"], book["style"] = (line,line_extended)
             book["index"] = i

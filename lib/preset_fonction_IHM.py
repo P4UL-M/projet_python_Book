@@ -1,3 +1,4 @@
+from tkinter.font import Font
 from ect.globals import AGES, WINDOW,STYLES,GENDER
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -15,6 +16,7 @@ def set_user(name):
         tab.nametowidget("gender")["text"] = GENDER[user["gender"]]
         tab.nametowidget("age")["text"] = AGES[user["age"]]
         tab.nametowidget("favorite")["text"] = STYLES[user["favorite"]][0]
+        tab.nametowidget("favorite")["bg"] = STYLES[user["favorite"]][1]
         tab.nametowidget("pdp")["bg"] = STYLES[user["favorite"]][1]
         
         WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
@@ -77,14 +79,14 @@ def user_portal():
 
 def get_user():
     tab:tk.Frame = WINDOW.nametowidget('.!notebook').nametowidget('profile')
-
-    user = dict()
-
-    _name:tk.Label = tab.nametowidget('pseudo')
-    user = get_reader(_name['text'])
-    if user: #ajouter super condition
-        return user
-    else:
+    try:
+        _name:tk.Label = tab.nametowidget('pseudo')
+        user = get_reader(_name['text'])
+        if user: #ajouter super condition
+            return user
+        else:
+            return False
+    except KeyError:
         return False
 
 def disconnect():
@@ -218,7 +220,7 @@ def generate_result(e=None,main_frame=None):
     result_readers = {}
     for reader in readers():
         for word in words:
-            if word.upper() in reader["name"].upper() and ((not bool(adv_active.get()) or adv_param=="user")): # from algebra : if then
+            if word.upper() in reader["name"].upper().split(" ") and ((not bool(adv_active.get()) or adv_param=="user")): # from algebra : if then
                 if reader["name"] in result_readers.keys():
                     result_readers[reader["name"]][0] += 1
                 else:
@@ -228,7 +230,7 @@ def generate_result(e=None,main_frame=None):
     result_books = {}
     for book in books():
         for word in words:
-            if word.upper() in book["name"].upper() and ((not bool(adv_active.get()) or adv_param=="book")): # from algebra : if then
+            if word.upper() in book["name"].upper().split(" ") and ((not bool(adv_active.get()) or adv_param=="book")): # from algebra : if then
                 if book["name"] in result_books.keys():
                     result_books[book["name"]][0] += 1
                 else:
