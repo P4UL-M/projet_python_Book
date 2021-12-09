@@ -1,5 +1,4 @@
 import tkinter as tk
-import tkinter.font as tkFont
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
 import tkinter.filedialog as tkfile
@@ -75,7 +74,6 @@ def update_gallery_News():
     for child in new_gallery["frame"].winfo_children():
         child.forget()
 
-    
     enum = zip(range(10),[i for i in books()][::-1])
 
     for i,book in enum:
@@ -91,7 +89,6 @@ def update_gallery_News():
     new_gallery["offset"] = ttk.Frame(new_gallery["canvas"],height=180,border=1)
     new_gallery["offset"].pack(expand=1,fill="both",side="right")
     
-
 update_gallery_News()
 #endregion
 
@@ -170,7 +167,7 @@ def actualise(event):
     if event.widget == Part1:
         WINDOW.update()
         update_gallery_Rate()
-        update_gallery_News
+        update_gallery_News()
 
 Part1.bind("<FocusIn>", actualise)
 #endregion
@@ -274,34 +271,73 @@ Make the connection here, if not connected open a pop up windows to connect, thi
 
 #region PART 4
 
-#end region
+def user_add_book(event):
+    if event.widget == Part4:
+        try:
+            """
+            modifie un lecteur ou en ajoute 1 si le paramètre New est vrai
+            """
+            WINDOW.nametowidget('.!notebook').pack_forget()
+            win = tk.Toplevel(WINDOW,name="book_adding")
+            win.geometry("800x250")
+            
+            win.title("Edit profile")
+            win.focus_force()
 
-#region Menu déroulant
-menu = tk.Menu(WINDOW)
+            main = ttk.Frame(win)
+            main.pack(fill="both",expand=1)
 
-new_item = tk.Menu(menu)
-new_item.add_command(label='Page',command=user_portal)
-new_item.add_command(label='Friend',command=None)
-new_item.add_command(label='Edit',command=None)
-new_item.add_command(label='Disconnect',command=disconnect)
-menu.add_cascade(label='Account', menu=new_item)
+            #region name widget
+            name_widget = ttk.Label(main,name="pseudo", text="Title :",padding=15)
+            name_widget.grid(row=0,column=0,sticky="nw")
 
-new_item = tk.Menu(menu)
-new_item.add_command(label='Reset my data',command=None)
-new_item.add_command(label='Toggle Admin mode',command=None)
-new_item.add_command(label='Edit',command=None)
-menu.add_cascade(label='Preference', menu=new_item)
+            #name entry
+            name_entry = ttk.Entry(main)
+            name_entry.grid(column=1,row=0)
 
-new_item = tk.Menu(menu)
-new_item.add_command(label='Actual',command=None)
-new_item.add_command(label='For you',command=None)
-new_item.add_command(label='Search',command=None)
-new_item.add_command(label='My Account',command=None)
-new_item.add_command(label='Book details',command=None)
-new_item.add_command(label='User details',command=None)
-menu.add_cascade(label='Aide', menu=new_item)
+            #endregion
 
-WINDOW.config(menu=menu)
+            #region favorite widget
+            favorite_widget = ttk.Label(main,name="favorite",text="Style :",padding=15)
+            favorite_widget.grid(row=3,column=0,sticky="nw")
+
+            #favorite entry
+            favorite_combo = ttk.Combobox(main)
+            favorite_combo['values']= ("Sci-Fi", "Biography", "Horror", "Romance", "Fable", "History","Comedy","Fantasy","Thriller")
+            favorite_combo.grid(column=1, row=3)
+            #endregion
+
+            def return_home():
+                WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
+                WINDOW.update()
+
+                onglets = WINDOW.nametowidget('.!notebook')
+                home = WINDOW.nametowidget('.!notebook').nametowidget('home')
+                onglets.select(home); home.focus_set()
+                win.destroy()
+
+            def save_data():
+                new_name = name_entry.get()
+                new_favorite = str(favorite_combo['values'].index(favorite_combo.get()) + 1)
+                try:
+                    add_book(new_name,new_favorite)
+                    return_home()
+                except Exception as e:
+                    if 'Book already exist or your name was already use' in e.args:
+                        msg.showerror("BOOK ALREADY EXIST", "BOOK ALREADY EXIST !\n Please try another title.")
+                        win.focus_set()
+                        return
+                    else:
+                        raise e
+
+            btn_save = ttk.Button(main,text="  Save  ",command=save_data)
+            btn_save.grid(column=1,row=4,columnspan=2)
+            
+            win.protocol("WM_DELETE_WINDOW", return_home)
+        except tk.TclError:
+            WINDOW.nametowidget('book_adding').focus_set()
+
+Part4.bind("<FocusIn>", user_add_book)
 #endregion
 
 #region close all windows open and task

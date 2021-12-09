@@ -23,7 +23,7 @@ def add_book(name,style):
             append_line("books_extended.txt",new_line)
             append_column("notes.txt","0")
         else:
-            raise Exception("User already exist or your name was already use")
+            raise Exception("Book already exist or your name was already use")
     except FileNotFoundError:
         # do some shit with tkinder to confirm creation of the file
         append_line("readers.txt",new_line)

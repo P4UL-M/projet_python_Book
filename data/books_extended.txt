@@ -13,3 +13,10 @@ Harry Potter et le Prince de Sang mêlé,,2
 L’Alchimiste,,1
 Harry Potter et la Chambre des Secrets,,6
 L’attrape-cœurs, The Catcher in the Rye,,7
+test,,2
+The Adventure of Poool,,2
+test2,,2
+Poool,,2
+test4,,4
+Noice,,8
+Un livre,,6
