@@ -45,9 +45,8 @@ def update_book(old_name,**kargs):
             if key in book.keys():
                 book[key] = str(value)
         book.pop("index")
-        new_line = ",".join(book.values()) + "\n"
+        new_line = ",,".join(book.values()) + "\n"
         overide_line("books_extended.txt",old_name,new_line)
-        print(kargs["name"] + "\n")
         overide_line("books.txt",old_name,kargs["name"] + "\n")
     except FileNotFoundError:
         # do some shit to say to the user that the file doen't seems to exist

@@ -92,28 +92,6 @@ def update_gallery_News():
 update_gallery_News()
 #endregion
 
-#region Friends
-container_friend = ttk.Frame(_frame_main)
-container_friend.pack(expand=1,fill="x")
-lbl = ttk.Label(container_friend, text="YOUR FRIEND ALSO LIKED TO READ :",font=("Arial Bold", 25),padding=15)
-lbl.pack(side="top", anchor="w")
-
-#region configscroll bar News
-wrapper_friend = ttk.Frame(container_friend)
-
-friend_gallery = get_gallery(wrapper_friend,_frame_scrollable_main)
-
-wrapper_friend.pack(side=tk.TOP,fill='x',expand=1)
-#endregion
-
-for i in range(10):
-    book = {
-        "name":f"book{str(i)}",
-        "frame":tk.Frame(friend_gallery["frame"],height=180,width=100,background="blue")
-        }
-    #friend_gallery["__add_panel__"](book,friend_gallery)
-#endregion
-
 #region RATE
 container_rate = ttk.Frame(_frame_main)
 container_rate.pack(expand=1,fill="x")
@@ -274,66 +252,7 @@ Make the connection here, if not connected open a pop up windows to connect, thi
 def user_add_book(event):
     if event.widget == Part4:
         try:
-            """
-            modifie un lecteur ou en ajoute 1 si le paramètre New est vrai
-            """
-            WINDOW.nametowidget('.!notebook').pack_forget()
-            win = tk.Toplevel(WINDOW,name="book_adding")
-            win.geometry("800x250")
-            
-            win.title("Edit profile")
-            win.focus_force()
-
-            main = ttk.Frame(win)
-            main.pack(fill="both",expand=1)
-
-            #region name widget
-            name_widget = ttk.Label(main,name="pseudo", text="Title :",padding=15)
-            name_widget.grid(row=0,column=0,sticky="nw")
-
-            #name entry
-            name_entry = ttk.Entry(main)
-            name_entry.grid(column=1,row=0)
-
-            #endregion
-
-            #region favorite widget
-            favorite_widget = ttk.Label(main,name="favorite",text="Style :",padding=15)
-            favorite_widget.grid(row=3,column=0,sticky="nw")
-
-            #favorite entry
-            favorite_combo = ttk.Combobox(main)
-            favorite_combo['values']= ("Sci-Fi", "Biography", "Horror", "Romance", "Fable", "History","Comedy","Fantasy","Thriller")
-            favorite_combo.grid(column=1, row=3)
-            #endregion
-
-            def return_home():
-                WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
-                WINDOW.update()
-
-                onglets = WINDOW.nametowidget('.!notebook')
-                home = WINDOW.nametowidget('.!notebook').nametowidget('home')
-                onglets.select(home); home.focus_set()
-                win.destroy()
-
-            def save_data():
-                new_name = name_entry.get()
-                new_favorite = str(favorite_combo['values'].index(favorite_combo.get()) + 1)
-                try:
-                    add_book(new_name,new_favorite)
-                    return_home()
-                except Exception as e:
-                    if 'Book already exist or your name was already use' in e.args:
-                        msg.showerror("BOOK ALREADY EXIST", "BOOK ALREADY EXIST !\n Please try another title.")
-                        win.focus_set()
-                        return
-                    else:
-                        raise e
-
-            btn_save = ttk.Button(main,text="  Save  ",command=save_data)
-            btn_save.grid(column=1,row=4,columnspan=2)
-            
-            win.protocol("WM_DELETE_WINDOW", return_home)
+            edit_book(True)
         except tk.TclError:
             WINDOW.nametowidget('book_adding').focus_set()
 

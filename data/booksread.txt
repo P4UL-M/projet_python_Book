@@ -1,9 +1,7 @@
 First,
-hhi,
-dfh,
-igr,
 test,
 hello,
-hiii,6,13,
-dihd,1,2,3,4,7,
-Poool,1,4,10,14,21,
+Poool,1,4,10,14,
+Axell
+mag hoss
+Odin

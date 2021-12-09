@@ -1,5 +1,5 @@
 from tkinter.font import Font
-from ect.globals import AGES, WINDOW,STYLES,GENDER
+from ect.globals import AGES, WINDOW,STYLES,GENDER,Recursive_Binding
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
@@ -154,9 +154,9 @@ def edit_user(new=False,new_name=""):
     #age entry
     rad_age = dict()
     age_value = tk.StringVar()
-    rad_age["1"] = ttk.Radiobutton(main,text='>18 years old',variable=age_value, value="1",command=age_value.get);rad_age["1"].grid(column=1, row=2)
+    rad_age["1"] = ttk.Radiobutton(main,text='<18 years old',variable=age_value, value="1",command=age_value.get);rad_age["1"].grid(column=1, row=2)
     rad_age["2"] = ttk.Radiobutton(main,text='Between 18 and 25 years old',variable=age_value, value="2",command=age_value.get);rad_age["2"].grid(column=2,row=2)
-    rad_age["3"] = ttk.Radiobutton(main,text='<25 years old',variable=age_value, value="3",command=age_value.get);rad_age["3"].grid(column=3,row=2)
+    rad_age["3"] = ttk.Radiobutton(main,text='>25 years old',variable=age_value, value="3",command=age_value.get);rad_age["3"].grid(column=3,row=2)
     
     if not new:
         rad_age[user["age"]].invoke()
@@ -203,6 +203,221 @@ def delete_user():
         remove_reader(old_name)
         disconnect()
 
+def edit_book(new=True):
+    """
+    modifie un lecteur ou en ajoute 1 si le paramètre New est vrai
+    """
+    if not new:
+        old_name = WINDOW.nametowidget('display_book').nametowidget('main').nametowidget('pseudo')["text"]
+        try:
+            book = get_book(old_name)
+        except:
+            new=False
+    WINDOW.nametowidget('.!notebook').pack_forget()
+    win = tk.Toplevel(WINDOW,name="book_adding")
+    win.geometry("800x250")
+    
+    win.title("Edit profile")
+    win.focus_force()
+
+    main = ttk.Frame(win)
+    main.pack(fill="both",expand=1)
+
+    #region name widget
+    name_widget = ttk.Label(main,name="pseudo", text="Title :",padding=15)
+    name_widget.grid(row=0,column=0,sticky="nw")
+    
+    #name entry
+    name_entry = ttk.Entry(main)
+    name_entry.grid(column=1,row=0)
+    if not new:
+        name_entry.insert(-1, book["name"])
+
+    #endregion
+
+    #region favorite widget
+    favorite_widget = ttk.Label(main,name="favorite",text="Style :",padding=15)
+    favorite_widget.grid(row=3,column=0,sticky="nw")
+
+    #favorite entry
+    favorite_combo = ttk.Combobox(main)
+    favorite_combo['values']= ("Sci-Fi", "Biography", "Horror", "Romance", "Fable", "History","Comedy","Fantasy","Thriller")
+    if not new:
+        favorite_combo.current(int(book["style"])-1)
+    
+    favorite_combo.grid(column=1, row=3)
+
+
+    #endregion
+
+    def return_home():
+        WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
+        WINDOW.update()
+
+        onglets = WINDOW.nametowidget('.!notebook')
+        home = WINDOW.nametowidget('.!notebook').nametowidget('home')
+        onglets.select(home); home.focus_set()
+        win.destroy()
+
+    def save_data():
+        new_name = name_entry.get()
+        new_favorite = str(favorite_combo['values'].index(favorite_combo.get()) + 1)
+        try:
+            if new:
+                add_book(new_name,new_favorite)
+                return_home()
+            else:
+                update_book(old_name,name=new_name,style=new_favorite)
+                return_home()
+        except Exception as e:
+            if 'Book already exist or your name was already use' in e.args:
+                msg.showerror("BOOK ALREADY EXIST", "BOOK ALREADY EXIST !\n Please try another title.")
+                win.focus_set()
+                return
+            else:
+                raise e
+
+    btn_save = ttk.Button(main,text="  Save  ",command=save_data)
+    btn_save.grid(column=1,row=4,columnspan=2)
+    
+    win.protocol("WM_DELETE_WINDOW", return_home)
+
+def get_result(parent,name,type):
+    if type=="book":
+        _res = {}
+        book = get_book(name)
+
+        _res["frame"] = ttk.Frame(parent,relief='raised',padding=10)
+        _res["title"] = ttk.Label(_res["frame"],text=name,font=("Arial Bold", 18))
+        _res["title"].grid(column=0,row=0,sticky="w")
+        _res["second_line"]= ttk.Frame(_res["frame"])
+        _res["second_line"].grid(column=0,row=1,sticky="w")
+        _res["type"] = ttk.Label(_res["second_line"],text=type,font=("Arial Italic",))
+        _res["type"].grid(column=0,row=0,sticky="w")
+        user = WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text']
+        if user=="":
+            _res["status"] = ttk.Label(_res["second_line"],text="not connected",font=("Arial Italic",))
+        else:
+            readings = get_readings(WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text'])
+            if name in readings.values():
+                _res["status"] = ttk.Label(_res["second_line"],text="read",font=("Arial Italic",))
+            else:
+                _res["status"] = ttk.Label(_res["second_line"],text="not read",font=("Arial Italic",))
+        _res["status"].grid(column=1,row=0,sticky="w")
+
+        func = lambda e:display_book(name)
+        Recursive_Binding(_res["frame"],"<Double-Button-1>",func)
+    elif type=="user":
+        _res = {}
+        user = get_reader(name)
+
+        _res["frame"] = ttk.Frame(parent,relief='raised',padding=10)
+        _res["title"] = ttk.Label(_res["frame"],text=name,font=("Arial Bold", 18))
+        _res["title"].grid(column=0,row=0,sticky="w")
+        _res["second_line"]= ttk.Frame(_res["frame"])
+        _res["second_line"].grid(column=0,row=1,sticky="w")
+        gender = GENDER[user["gender"]]
+        _res["gender"] = ttk.Label(_res["second_line"],text=gender,font=("Arial Italic",))
+        _res["gender"].grid(column=0,row=0,sticky="w")
+        style = STYLES[user["favorite"]][0]
+        _res["style"] = ttk.Label(_res["second_line"],text=style,font=("Arial Italic",))
+        _res["style"].grid(column=1,row=0,sticky="w")
+        
+        func = lambda e:display_user(name)
+        Recursive_Binding(_res["frame"],"<Double-Button-1>",func)
+    
+    return _res["frame"]
+
+def display_user(name):
+    win = tk.Toplevel(WINDOW)
+    win.geometry("343x122")
+    
+    win.title(name)
+    win.focus_force()
+
+    main = ttk.Frame(win)
+    main.pack(fill="both",expand=1)
+
+    user = get_reader(name)
+
+    span = ttk.Label(main,padding=50)
+    span.grid(column=0,row=0,rowspan=1000)
+    name_widget = ttk.Label(main,name="pseudo", text=name)
+    name_widget.grid(column=1,row=0)
+    gender_widget = ttk.Label(main,name="gender", text=GENDER[user["gender"]])
+    gender_widget.grid(column=1,row=1)
+    age_widget = ttk.Label(main,name="age",text=AGES[user["age"]])
+    age_widget.grid(column=1,row=2)
+    pdp_favorite = tk.Frame(main,name="pdp",width=100,height=50,bg=STYLES[user["favorite"]][1])
+    pdp_favorite.grid(column=1,row=3)
+    favorite_widget = tk.Label(main,name="favorite",text=STYLES[user["favorite"]][0],background=STYLES[user["favorite"]][1])
+    favorite_widget.grid(column=1,row=3)
+
+    func = lambda e:win.destroy()
+    win.bind("<FocusOut>",func)
+
+def display_book(name):
+    win = tk.Toplevel(WINDOW,name="display_book")
+    win.geometry("343x122")
+    
+    win.title(name)
+    win.focus_force()
+
+    main = ttk.Frame(win,name="main")
+    main.pack(fill="both",expand=1)
+
+    book = get_book(name)
+
+    # name of the book
+    name_widget = ttk.Label(main,name="pseudo", text=name)
+    name_widget.grid(column=0,row=0)
+    # bouton read/unread
+    user_name = WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text']
+    if user_name=="":
+        status_widget = ttk.Label(main,name="status",text="not connected")
+        status_widget.grid(column=0,row=2)
+    else:
+        readings = get_readings(WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text'])
+        def unread_func():
+                unread_book(user_name,name)
+                status_bouton.configure(text="read")
+                status_bouton.configure(command=read_func)
+        def read_func():
+                read_book(user_name,name)
+                status_bouton.configure(text="unread")
+                status_bouton.configure(command=unread_func)
+        
+        if name in readings.values():
+            status_bouton = ttk.Button(main,text="unread",command=unread_func)
+            status_bouton.grid(column=0,row=2)
+        else:
+            status_bouton = ttk.Button(main,text="read",command=read_func)
+            status_bouton.grid(column=0,row=2)
+    # global rating of the book
+    global_rating_widget = ttk.Label(main,name="global_rating",text=get_global_rating(name) or "not enougth notes")
+    global_rating_widget.grid(column=0,row=1)
+    # frame color of the book
+    pdp_favorite = tk.Frame(main,name="pdp",width=100,height=50,bg=STYLES[book["style"]][1])
+    pdp_favorite.grid(column=1,row=0,rowspan=3)
+    # style of the book
+    style_widget = tk.Label(main,name="style",text=STYLES[book["style"]][0],bg=STYLES[book["style"]][1],fg=STYLES[book["style"]][2])
+    style_widget.grid(column=1,row=0,rowspan=3)
+    #buttons
+
+    def func():
+        remove_book(name)
+        win.destroy()
+    def edit_func():
+        edit_book(False)
+        
+    btn_edit = ttk.Button(main,text="edit",command=edit_func)
+    btn_edit.grid(column=0,row=4)
+    btn_delt = ttk.Button(main,text="delete",command=func)
+    btn_delt.grid(column=1,row=4)
+
+    func = lambda e:win.destroy()
+    win.bind("<FocusOut>",func)
+
 def generate_result(e=None,main_frame=None):
     if not main_frame:
         return
@@ -220,7 +435,7 @@ def generate_result(e=None,main_frame=None):
     result_readers = {}
     for reader in readers():
         for word in words:
-            if word.upper() in reader["name"].upper().split(" ") and ((not bool(adv_active.get()) or adv_param=="user")): # from algebra : if then
+            if word.upper() in reader["name"].upper() and ((not bool(adv_active.get()) or adv_param=="user")): # from algebra : if then
                 if reader["name"] in result_readers.keys():
                     result_readers[reader["name"]][0] += 1
                 else:
@@ -249,3 +464,62 @@ def generate_result(e=None,main_frame=None):
         ttk.Label(main,text="No result",name="itsme").pack(anchor='nw')
     
     main_frame["__init__"]()
+
+def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
+    _gal = {}
+
+    _gal["canvas"] = tk.Canvas(parent,bd=0, highlightthickness=0)
+    _gal["canvas"].pack(expand=1,fill="both")
+
+    _gal["frame"] = ttk.Frame(parent)
+    _gal["frame_id"] = _gal["canvas"].create_window((0,0),window=_gal["frame"],anchor="nw")
+
+    def config(e):
+        _gal["canvas"].configure(scrollregion = _gal["canvas"].bbox('all'))
+        _gal["canvas"].itemconfig(_gal["frame_id"], height = e.height)
+    def _on_mousewheel(event):
+        if event.state:
+            offset = -event.delta/120
+            _gal["scroll_pos"] += offset if (_gal["scroll_pos"]+offset > 0 and _gal["scroll_pos"]+offset < 1) else 0
+            _gal["canvas"].xview(MOVETO,_gal["scroll_pos"])
+        else:
+            if parent_scroll:
+                parent_scroll["_on_mousewheel"](event)
+                WINDOW.update()
+    def _bound_to_mousewheel(e):
+        _gal["canvas"].bind_all("<MouseWheel>", _on_mousewheel)
+    def _unbound_to_mousewheel(e):
+        if parent_scroll:
+            _gal["canvas"].bind_all("<MouseWheel>", parent_scroll["_on_mousewheel"])
+        else:
+            _gal["canvas"].unbind_all("<MouseWheel>")
+    
+    _gal["_on_mousewheel"] = _on_mousewheel
+
+    _gal["canvas"].bind('<Configure>',config)
+    _gal["scroll_pos"] = 0
+    _gal["canvas"].yview(MOVETO,_gal["scroll_pos"])
+    _gal["frame"].bind('<Enter>', _bound_to_mousewheel)
+    _gal["frame"].bind('<Leave>', _unbound_to_mousewheel)
+
+    _gal["panels"] = {}
+
+    def __add_panel__(object,self,direction:str="left"):
+        self["panels"][object["name"]] = object["frame"]
+        
+        _pad = ttk.Frame(self["frame"],width=25)
+        _pad.pack(side=direction)
+        
+        self["panels"][object["name"]].grid_propagate(0)
+        self["panels"][object["name"]].pack(side=direction,expand=1,fill="x")
+        object["text"].place(relx=0.5, rely=0.5, anchor="center")
+        
+        func = lambda e:display_book(object["name"])
+        Recursive_Binding(object["frame"],"<Double-Button-1>",func)
+        
+        _pad = ttk.Frame(self["frame"],width=25)
+        _pad.pack(side=direction)
+
+    _gal["__add_panel__"] = __add_panel__
+    
+    return _gal

@@ -134,5 +134,8 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
     - Style of the tab
     - corriger bug user already exist but recreate
 
+- bug
+    - nom d'utilisateur est un nombre
+
 
 # Finished
