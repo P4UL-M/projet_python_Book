@@ -188,17 +188,6 @@ line.pack(fill="x")
 
 # show zone now
 wrapper_zone.pack(fill="both",expand=1)
-
-"""
-Search bar
-avanced research
-result with a scrollable frame : Book or User, open in new windows
-Book page have title, genre, resumé, global rating, comments
-User page have name, preferite genre, last read, preferite books,friends
-
-if user is admin add suppress option
-"""
-
 #endregion
 
 #region PART 3
@@ -212,8 +201,6 @@ Part3.bind("<FocusIn>", on_focus_profile)
 #endregion
 
 #region info widget
-
-
 name_widget = ttk.Label(Part3,name="pseudo", text="")
 name_widget.grid(column=1,row=0)
 gender_widget = ttk.Label(Part3,name="gender", text="")
@@ -232,18 +219,6 @@ btn_disc.grid(column=1,row=4)
 btn_delt = ttk.Button(Part3,text="delete account",command=delete_user)
 btn_delt.grid(column=2,row=4)
 #endregion
-"""
-
-Make the connection here, if not connected open a pop up windows to connect, this fonction could be execute every time we want to make a action that need to be connected
-
-- name
-- gender
-- age
-- preferate genre
--> preferate book
-- last read
--> book to rate 
-"""
 #endregion
 
 #region PART 4
