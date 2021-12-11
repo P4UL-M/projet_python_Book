@@ -417,6 +417,9 @@ def edit_user(new=False,new_name=""):
         new_favorite = str(favorite_combo['values'].index(favorite_combo.get()) + 1)
         if new:
             try:
+                new_name.replace(",","")
+                if not new_name:
+                    msg.showerror("INVALID NAME", "INVALID NAME !\n Please try another pseudo.")
                 add_reader(new_name,new_gender,new_age,new_favorite)
             except Exception as e:
                 if 'User already exist or your name was already use' in e.args:
