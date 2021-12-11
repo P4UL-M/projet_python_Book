@@ -6,8 +6,7 @@ import sys
 
 from lib.books_functions import books
 from lib.users_functions import get_readings
-from lib.preset_widget import *
-from lib.preset_fonction_IHM import *
+from lib.app_function import *
 from ect.globals import WINDOW
 
 tab_control = ttk.Notebook(WINDOW)
