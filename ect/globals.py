@@ -7,7 +7,7 @@ PATH = Path("/".join(sys.argv[0].split("/")[:-1]) or "\\".join(sys.argv[0].split
 import tkinter as tk
 
 WINDOW = tk.Tk()
-WINDOW.title("Welcome to our Book app")
+WINDOW.title("Welcome to your Book app")
 WINDOW.geometry('800x600')
 
 STYLES = {

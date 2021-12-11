@@ -1,6 +1,8 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
+from PIL import Image
+from PIL.ImageTk import PhotoImage
 
 from ect.globals import AGES, WINDOW,STYLES,GENDER,Recursive_Binding
 from tkinter.constants import MOVETO
@@ -230,23 +232,26 @@ def display_book(name):
     main.pack(fill="both",expand=1)
 
     book = get_book(name)
+    try:
+        user = get_reader(WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text'])
+    except:
+        user = False
 
     # name of the book
     name_widget = ttk.Label(main,name="pseudo", text=name)
     name_widget.grid(column=0,row=0)
     # bouton read/unread
-    user_name = WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text']
-    if user_name=="":
+    if not user:
         status_widget = ttk.Label(main,name="status",text="not connected")
         status_widget.grid(column=0,row=2)
     else:
-        readings = get_readings(WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text'])
+        readings = get_readings(user["name"])
         def unread_func():
-                unread_book(user_name,name)
+                unread_book(user["name"],name)
                 status_bouton.configure(text="read")
                 status_bouton.configure(command=read_func)
         def read_func():
-                read_book(user_name,name)
+                read_book(user["name"],name)
                 status_bouton.configure(text="unread")
                 status_bouton.configure(command=unread_func)
         
@@ -275,9 +280,56 @@ def display_book(name):
         edit_book(False)
         
     btn_edit = ttk.Button(main,text="edit",command=edit_func)
-    btn_edit.grid(column=0,row=4)
+    btn_edit.grid(column=0,row=5)
     btn_delt = ttk.Button(main,text="delete",command=func)
-    btn_delt.grid(column=1,row=4)
+    btn_delt.grid(column=1,row=5)
+
+    #rate
+    frame = ttk.Frame(main)
+    frame.grid(column=0,row=4) 
+    
+    star_grey = Image.open(PATH / "sprite" / "star_grey.gif").convert("RGBA").resize((15,15))
+    star_grey_tk = PhotoImage(image=star_grey)
+
+    star = Image.open(PATH / "sprite" / "star.gif").convert("RGBA").resize((15,15))
+    star_tk = PhotoImage(image=star)
+    
+    stars = [ttk.Label(frame,image=star_grey_tk,name=f"{i+1}") for i in range(5)]
+    
+    def on_click(e=None):
+        if user:
+            img = star_tk
+            alt_img = star_grey_tk
+            number = int(str(e.widget)[-1])
+
+            for lab in stars[:number]:
+                lab.configure(image=img)
+                lab.photo = img
+                note_book(book,user,number)
+            else:
+                for lab in stars[int(str(e.widget)[-1]):]:
+                    lab.configure(image=alt_img)
+                    lab.photo = img
+        else:
+            msg.askokcancel("USER NOT CONNECTED", "YOU ARE NOT CONNECTED \n Please connect yourself in the account pannel before using this function.")
+    def on_click_double(e=None):
+        img = star_grey_tk
+        
+        for lab in stars:
+            lab.configure(image=img)
+            lab.photo = img
+    
+    for i,star in enumerate(stars):
+        Recursive_Binding(star,"<Button-1>",on_click)
+        Recursive_Binding(star,"<Double-Button-1>",on_click_double)
+        if user:
+            if int(get_note(user,book))>i:
+                star.configure(image=star_tk)
+                star.photo = star_tk
+        else:
+            star.photo = star_grey_tk
+
+        star.pack(fill="both", expand=1,side='left',padx=2)
 
     func = lambda e:win.destroy()
     win.bind("<FocusOut>",func)

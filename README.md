@@ -139,3 +139,14 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 
 
 # Finished
+- User
+    - create a user
+    - delete a user
+    - modify a user
+    - connect with a user
+    - disconnect with a user
+- Book
+    - add a book
+    - delete a book
+    - edit a book
+    - read a book
