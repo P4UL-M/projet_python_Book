@@ -119,24 +119,15 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 - edit user dans une fenetre à part pour plus simple zone entré et peut etre ouvert du menu ou de l'app ez
 
 # In progress
-- Tab "for you"
-    * Liste recommendation, préférer des amis, nouveauté, et livre déjà lu non noté style menu déroulant à la apple music
-    - Cliquer sur un livre ouvres les détail dans une nouvelles fenêtre : ceci permet de tout traiter dans un script tier.
-    - les gallery affiche le titre des livres sur un fond rattaché à une couleur rattaché au genre du livre
--Tab "search"
-    - (in progress) style of the tab
-    - get actual data
-    - search and give result
-- Tab "User"
-    * connection and disconnection
-    - edit profile and delete
-    - button disconnect
-    - Style of the tab
-    - corriger bug user already exist but recreate
+- corriger version sur windows
+- ajouter les recommandations
 
 - bug
     - nom d'utilisateur est un nombre
 
+- vérifier et tester pour trouver les dernier bug
+
+- Finir l'UI et retravailler les zones baclées/moches
 
 # Finished
 - User
