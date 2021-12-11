@@ -150,3 +150,4 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
     - delete a book
     - edit a book
     - read a book
+    - rate a book

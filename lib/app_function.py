@@ -248,6 +248,8 @@ def display_book(name):
         readings = get_readings(user["name"])
         def unread_func():
                 unread_book(user["name"],name)
+                note_book(book,user,0)
+                on_click_double()
                 status_bouton.configure(text="read")
                 status_bouton.configure(command=read_func)
         def read_func():
@@ -298,18 +300,22 @@ def display_book(name):
     
     def on_click(e=None):
         if user:
-            img = star_tk
-            alt_img = star_grey_tk
-            number = int(str(e.widget)[-1])
+            if str(book["index"]) in get_readings(user["name"]):
+                img = star_tk
+                alt_img = star_grey_tk
+                number = int(str(e.widget)[-1])
 
-            for lab in stars[:number]:
-                lab.configure(image=img)
-                lab.photo = img
-                note_book(book,user,number)
-            else:
-                for lab in stars[int(str(e.widget)[-1]):]:
-                    lab.configure(image=alt_img)
+                for lab in stars[:number]:
+                    lab.configure(image=img)
                     lab.photo = img
+                    note_book(book,user,number)
+                else:
+                    for lab in stars[int(str(e.widget)[-1]):]:
+                        lab.configure(image=alt_img)
+                        lab.photo = img
+            else:
+                on_click_double()
+                msg.askokcancel("YOU MUST READ THE BOOK TO RATE IT", "YOU MUST READ THE BOOK TO RATE IT \n Please read the book before trying to read it.") 
         else:
             msg.askokcancel("USER NOT CONNECTED", "YOU ARE NOT CONNECTED \n Please connect yourself in the account pannel before using this function.")
     def on_click_double(e=None):
@@ -318,11 +324,14 @@ def display_book(name):
         for lab in stars:
             lab.configure(image=img)
             lab.photo = img
+        
+        if user:
+            note_book(book,user,0)
     
     for i,star in enumerate(stars):
         Recursive_Binding(star,"<Button-1>",on_click)
         Recursive_Binding(star,"<Double-Button-1>",on_click_double)
-        if user:
+        if user and str(book["index"]) in get_readings(user["name"]):
             if int(get_note(user,book))>i:
                 star.configure(image=star_tk)
                 star.photo = star_tk

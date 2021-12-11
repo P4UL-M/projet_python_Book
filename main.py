@@ -1,7 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
-import tkinter.filedialog as tkfile
 import sys
 
 from lib.books_functions import books
@@ -94,7 +93,7 @@ update_gallery_News()
 #region RATE
 container_rate = ttk.Frame(_frame_main)
 container_rate.pack(expand=1,fill="x")
-lbl = ttk.Label(container_rate, text="YOU MAYBE WANT TO RATE :",font=("Arial Bold", 25),padding=15)
+lbl = ttk.Label(container_rate, text="YOU MAYBE WANT TO READ AGAIN :",font=("Arial Bold", 25),padding=15)
 lbl.pack(side="top", anchor="w")
 
 #region configscroll bar Rate

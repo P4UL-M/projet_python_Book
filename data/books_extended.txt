@@ -1,7 +1,7 @@
 Débuter la programmation Java,,1
 Don Quichotte de la Manche,,2
 Un conte de deux villes,,1
-Le Seigneur des Anneaux,,3
+Le Seigneur des Anneaux,,8
 Le Petit Prince,,2
 Harry Potter à l’école des sorciers,,2
 Le rêve dans le Pavillon rouge,,3
