@@ -406,7 +406,7 @@ def edit_user(new=False,new_name=""):
     win = tk.Toplevel(WINDOW,name="editing")
     win.geometry("800x250")
     
-    win.title("Edit profile")
+    win.title("profile edition")
     win.focus_force()
 
     main = ttk.Frame(win)
@@ -511,7 +511,7 @@ def edit_book(new=True):
     win = tk.Toplevel(WINDOW,name="book_adding")
     win.geometry("800x250")
     
-    win.title("Edit profile")
+    win.title("book edition")
     win.focus_force()
 
     main = ttk.Frame(win)
