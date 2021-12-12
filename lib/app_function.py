@@ -4,7 +4,7 @@ import tkinter.messagebox as msg
 from PIL import Image
 from PIL.ImageTk import PhotoImage
 
-from ect.globals import AGES, WINDOW,STYLES,GENDER,Recursive_Binding
+from ect.globals import AGES, WINDOW,STYLES,GENDER,Recursive_Binding,force_update
 from tkinter.constants import MOVETO
 from lib.users_functions import *
 from lib.books_functions import *
@@ -223,9 +223,9 @@ def display_user(name):
 
 def display_book(name):
     win = tk.Toplevel(WINDOW,name="display_book")
-    win.geometry("343x122")
-    
+    win.geometry("303x137")
     win.title(name)
+    
     win.focus_force()
 
     main = ttk.Frame(win,name="main")
@@ -238,8 +238,8 @@ def display_book(name):
         user = False
 
     # name of the book
-    name_widget = ttk.Label(main,name="pseudo", text=name)
-    name_widget.grid(column=0,row=0)
+    name_widget = ttk.Label(main,name="pseudo", text=name,wraplength=150,justify="center")
+    name_widget.grid(column=0,row=0,padx=10)
     # bouton read/unread
     if not user:
         status_widget = ttk.Label(main,name="status",text="not connected")
@@ -268,10 +268,10 @@ def display_book(name):
     global_rating_widget.grid(column=0,row=1)
     # frame color of the book
     pdp_favorite = tk.Frame(main,name="pdp",width=100,height=50,bg=STYLES[book["style"]][1])
-    pdp_favorite.grid(column=1,row=0,rowspan=3)
+    pdp_favorite.grid(column=1,row=0,rowspan=4,sticky="ns")
     # style of the book
     style_widget = tk.Label(main,name="style",text=STYLES[book["style"]][0],bg=STYLES[book["style"]][1],fg=STYLES[book["style"]][2])
-    style_widget.grid(column=1,row=0,rowspan=3)
+    style_widget.grid(column=1,row=0,rowspan=4)
     #buttons
 
     def func():
@@ -282,13 +282,13 @@ def display_book(name):
         edit_book(False)
         
     btn_edit = ttk.Button(main,text="edit",command=edit_func)
-    btn_edit.grid(column=0,row=5)
+    btn_edit.grid(column=0,row=4)
     btn_delt = ttk.Button(main,text="delete",command=func)
-    btn_delt.grid(column=1,row=5)
+    btn_delt.grid(column=1,row=4)
 
     #rate
     frame = ttk.Frame(main)
-    frame.grid(column=0,row=4) 
+    frame.grid(column=0,row=3) 
     
     star_grey = Image.open(PATH / "sprite" / "star_grey.gif").convert("RGBA").resize((15,15))
     star_grey_tk = PhotoImage(image=star_grey)
@@ -507,12 +507,15 @@ def edit_book(new=True):
             book = get_book(old_name)
         except:
             new=False
-    WINDOW.nametowidget('.!notebook').pack_forget()
     win = tk.Toplevel(WINDOW,name="book_adding")
     win.geometry("800x250")
     
     win.title("book edition")
     win.focus_force()
+
+    WINDOW.nametowidget('.!notebook').pack_forget()
+    WINDOW.nametowidget('.!notebook').update()
+    force_update()
 
     main = ttk.Frame(win)
     main.pack(fill="both",expand=1)
@@ -548,9 +551,10 @@ def edit_book(new=True):
         WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
         WINDOW.update()
 
-        onglets = WINDOW.nametowidget('.!notebook')
-        home = WINDOW.nametowidget('.!notebook').nametowidget('home')
-        onglets.select(home); home.focus_set()
+        if new:
+            onglets = WINDOW.nametowidget('.!notebook')
+            home = WINDOW.nametowidget('.!notebook').nametowidget('home')
+            onglets.select(home); home.focus_set()
         win.destroy()
 
     def save_data():

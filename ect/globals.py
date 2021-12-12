@@ -38,3 +38,6 @@ def Recursive_Binding(parent,event,func):
     parent.bind(event,func)
     for child in parent.winfo_children():
         Recursive_Binding(child,event,func)
+
+def force_update():
+    WINDOW.config(height=WINDOW.winfo_height())

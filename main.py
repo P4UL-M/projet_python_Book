@@ -142,6 +142,7 @@ update_gallery_Rate()
 def actualise(event):
     if event.widget == Part1:
         WINDOW.update()
+        force_update()
         update_gallery_Rate()
         update_gallery_News()
 
