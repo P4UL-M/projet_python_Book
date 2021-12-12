@@ -22,7 +22,7 @@ tab_control.pack(expand=1, fill='both')
 
 #region PART 1
 #region confingscroll bar main
-wrapper1 = tk.Frame(Part1,bg="black")
+wrapper1 = ttk.Frame(Part1)
 
 _frame_scrollable_main = get_vertical_scroll_bar(wrapper1)
 _frame_main = _frame_scrollable_main["frame"]
@@ -190,6 +190,15 @@ line.pack(fill="x")
 
 # show zone now
 wrapper_zone.pack(fill="both",expand=1)
+
+#region on_focus
+def on_focus_profile(event):
+    if event.widget == Part2 and zone["frame"].winfo_children():
+        generate_result(main_frame=zone)
+
+Part2.bind("<FocusIn>", on_focus_profile)
+#endregion
+
 #endregion
 
 #region PART 3
