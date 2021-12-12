@@ -16,6 +16,14 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
     _gal["canvas"].pack(expand=1,fill="both")
 
     _gal["frame"] = ttk.Frame(parent)
+    
+    def refresh():
+        _gal["canvas"].pack_forget()
+        _gal["canvas"].pack(expand=1,fill="both")
+        _gal["frame_id"] = _gal["canvas"].create_window((0,0),window=_gal["frame"],anchor="nw")
+        _gal["canvas"].configure(scrollregion = _gal["canvas"].bbox('all'))
+    _gal["refresh"] = lambda:refresh()
+    
     _gal["frame_id"] = _gal["canvas"].create_window((0,0),window=_gal["frame"],anchor="nw")
 
     def config(e):
@@ -86,22 +94,18 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
     _dic["frame_id"] = _dic["canvas"].create_window((0,0),window=_dic["frame"],anchor="nw")
 
     # even if the canvas is empty we have a not white and empty background
-    ttk.Frame(_dic["canvas"]).pack(fill="both",expand=1)
+    ttk.Frame(_dic["canvas"]).pack(fill="both",expand=1,side="bottom")
 
     def config(e):
-        if "offset" in _dic.keys():
-            _dic.pop("offset")
         _dic["coef_scroll"] = _dic["frame"].winfo_width()/parent.winfo_width()*40
         _dic["canvas"].configure(scrollregion = _dic["canvas"].bbox('all'))
         _dic["canvas"].itemconfig(_dic["frame_id"], width = e.width)
     def _on_mousewheel(event):
-        if "offset" not in _dic.keys():
-            # to get the perfect value of the actual position i update it with the position of the scroll bar but it has a small offset between th two value
-            _dic["offset"] = _dic["scrollbar"].get()[1]
         if not event.state%2:
             offset = -event.delta/(_dic["coef_scroll"] * abs(event.delta))
-            _dic["scroll_pos"] = _dic["scrollbar"].get()[1] - _dic["offset"]
+            _dic["scroll_pos"] = _dic["scrollbar"].get()[0] #value can be modify so we get it again
             _dic["scroll_pos"] += offset
+            print("after",_dic["scroll_pos"],offset,_dic["scrollbar"].get())
             _dic["canvas"].yview(MOVETO,_dic["scroll_pos"])
     def _bound_to_mousewheel(e):
         _dic["canvas"].bind_all("<MouseWheel>", _on_mousewheel)
@@ -114,7 +118,7 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
     # store the function to be able to get it back later in case we go from teh child to the parent (rebind the appropriate function)
     _dic["_on_mousewheel"] = _on_mousewheel
 
-    _dic["scroll_pos"] = 0
+    _dic["scroll_pos"] = _dic["scrollbar"].get()[1] - _dic["scrollbar"].get()[0]
     _dic["canvas"].yview(MOVETO,_dic["scroll_pos"])
     _dic["canvas"].configure(scrollregion = _dic["canvas"].bbox('all'))
     _dic["canvas"].bind('<Configure>',config)
@@ -122,14 +126,20 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
     _dic["frame"].bind('<Leave>', _unbound_to_mousewheel)
 
     def __init__():
-        if "offset" in _dic.keys(): # we suppress the offset so it not stay with the old one
-            _dic.pop("offset")
+        _dic["coef_scroll"] = _dic["frame"].winfo_width()/parent.winfo_width()*40
         _dic["canvas"].configure(scrollregion = _dic["canvas"].bbox('all')) #update the region of scroll
-        _dic["scroll_pos"] = 0 # since we update the offset we need to update all other things
-        _dic["canvas"].yview(MOVETO,_dic["scroll_pos"])
+        WINDOW.update()
         
     # store a init function for when we update the results    
     _dic["__init__"] = __init__
+
+    
+    def refresh():
+        _dic["frame_id"] = _dic["canvas"].create_window((0,0),window=_dic["frame"],anchor="nw")
+        _dic["canvas"].configure(scrollregion = _dic["canvas"].bbox('all'))
+        _dic["canvas"].itemconfig(_dic["frame_id"], width = _dic["canvas"].winfo_width())
+        WINDOW.update()
+    _dic["refresh"] = lambda:refresh()
 
     return _dic
 

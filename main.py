@@ -22,7 +22,7 @@ tab_control.pack(expand=1, fill='both')
 
 #region PART 1
 #region confingscroll bar main
-wrapper1 = ttk.Frame(Part1,padding=15)
+wrapper1 = tk.Frame(Part1,bg="black")
 
 _frame_scrollable_main = get_vertical_scroll_bar(wrapper1)
 _frame_main = _frame_scrollable_main["frame"]
@@ -141,10 +141,12 @@ update_gallery_Rate()
 #region actualise on focus
 def actualise(event):
     if event.widget == Part1:
-        WINDOW.update()
-        force_update()
         update_gallery_Rate()
         update_gallery_News()
+        _frame_scrollable_main["refresh"]()
+        recommendation_gallery["refresh"]()
+        new_gallery["refresh"]()
+        rate_gallery["refresh"]()
 
 Part1.bind("<FocusIn>", actualise)
 #endregion
