@@ -119,11 +119,11 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 - edit user dans une fenetre à part pour plus simple zone entré et peut etre ouvert du menu ou de l'app ez
 
 # In progress
-- corriger version sur windows
 - ajouter les recommandations
 
 - bug
     - nom d'utilisateur est un nombre
+    - scroll gallery
 
 - vérifier et tester pour trouver les dernier bug
 
@@ -142,3 +142,6 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
     - edit a book
     - read a book
     - rate a book
+
+
+- corriger version sur windows

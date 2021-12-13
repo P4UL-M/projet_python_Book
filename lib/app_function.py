@@ -103,7 +103,6 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
             offset = -event.delta/(_dic["coef_scroll"] * abs(event.delta))
             _dic["scroll_pos"] = _dic["scrollbar"].get()[0] #value can be modify so we get it again
             _dic["scroll_pos"] += offset
-            print("after",_dic["coef_scroll"])
             _dic["canvas"].yview(MOVETO,_dic["scroll_pos"])
     def _bound_to_mousewheel(e):
         _dic["canvas"].bind_all("<MouseWheel>", _on_mousewheel)
