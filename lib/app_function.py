@@ -18,9 +18,7 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
     _gal["frame"] = ttk.Frame(parent)
     
     def refresh():
-        _gal["canvas"].pack_forget()
-        _gal["canvas"].pack(expand=1,fill="both")
-        _gal["frame_id"] = _gal["canvas"].create_window((0,0),window=_gal["frame"],anchor="nw")
+        WINDOW.update()
         _gal["canvas"].configure(scrollregion = _gal["canvas"].bbox('all'))
     _gal["refresh"] = lambda:refresh()
     
@@ -97,7 +95,7 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
     ttk.Frame(_dic["canvas"]).pack(fill="both",expand=1,side="bottom")
 
     def config(e):
-        _dic["coef_scroll"] = _dic["frame"].winfo_width()/parent.winfo_width()*40
+        _dic["coef_scroll"] = _dic["frame"].winfo_height()**(1/3)/parent.winfo_height()**(1/3)*20
         _dic["canvas"].configure(scrollregion = _dic["canvas"].bbox('all'))
         _dic["canvas"].itemconfig(_dic["frame_id"], width = e.width)
     def _on_mousewheel(event):
@@ -105,7 +103,7 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
             offset = -event.delta/(_dic["coef_scroll"] * abs(event.delta))
             _dic["scroll_pos"] = _dic["scrollbar"].get()[0] #value can be modify so we get it again
             _dic["scroll_pos"] += offset
-            print("after",_dic["scroll_pos"],offset,_dic["scrollbar"].get())
+            print("after",_dic["coef_scroll"])
             _dic["canvas"].yview(MOVETO,_dic["scroll_pos"])
     def _bound_to_mousewheel(e):
         _dic["canvas"].bind_all("<MouseWheel>", _on_mousewheel)
@@ -125,20 +123,12 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
     _dic["frame"].bind('<Enter>', _bound_to_mousewheel)
     _dic["frame"].bind('<Leave>', _unbound_to_mousewheel)
 
-    def __init__():
-        _dic["coef_scroll"] = _dic["frame"].winfo_width()/parent.winfo_width()*40
-        _dic["canvas"].configure(scrollregion = _dic["canvas"].bbox('all')) #update the region of scroll
-        WINDOW.update()
-        
-    # store a init function for when we update the results    
-    _dic["__init__"] = __init__
-
     
     def refresh():
-        _dic["frame_id"] = _dic["canvas"].create_window((0,0),window=_dic["frame"],anchor="nw")
+        WINDOW.update() # doit etre au début pour que les valeur soit bien update avant les recalculs
+        _dic["coef_scroll"] = _dic["frame"].winfo_height()**(1/3)/parent.winfo_height()**(1/3)*20
         _dic["canvas"].configure(scrollregion = _dic["canvas"].bbox('all'))
         _dic["canvas"].itemconfig(_dic["frame_id"], width = _dic["canvas"].winfo_width())
-        WINDOW.update()
     _dic["refresh"] = lambda:refresh()
 
     return _dic
@@ -602,7 +592,7 @@ def generate_result(e=None,main_frame=None):
     if len(main.children)==0:
         ttk.Label(main,text="No result",name="itsme").pack(anchor='nw')
     
-    main_frame["__init__"]()
+    main_frame["refresh"]()
 
 def get_result(parent,name,type):
     if type=="book":
