@@ -1,3 +1,4 @@
+from os import name
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
@@ -438,6 +439,10 @@ def edit_user(new=False,new_name=""):
     #endregion
 
     def save_data():
+        if name_entry.get().isdigit():
+            name_entry.delete(0,"end")
+            msg.showerror("USER NAME CANNOT BE A NUMBER", "USER NAME CANNOT BE A NUMBER !\n Please try another pseudo.")
+            return
         new_name = name_entry.get()
         new_gender = gender_value.get()
         new_age =age_value.get()
