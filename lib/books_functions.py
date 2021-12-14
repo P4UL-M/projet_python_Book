@@ -9,8 +9,14 @@ def books():
 
 def get_book(name):
     for book in list_books():
-        if book["name"] == name:
-            return book
+        if type(name)==str:
+            if book["name"] == name:
+                return book
+        elif type(name)==int:
+            if book["index"] == name:
+                return book
+        else:
+            raise Exception("bad argument for get book")
 
 def add_book(name,style):
     """

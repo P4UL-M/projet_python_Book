@@ -34,6 +34,3 @@ def verify_data():
             raise RuntimeError
     except RuntimeError:
         raise RuntimeError("ERROR IN FILE BOOK OR FILE MISSING")
-
-def restore_data():
-    pass

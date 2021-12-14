@@ -1,5 +1,5 @@
 from ect.handle_data import *
-from lib.books_functions import get_book
+from lib.books_functions import books, get_book, get_super_notes
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #                                   users functions                                   #
@@ -97,3 +97,33 @@ def unread_book(user_name,book_name):
         new_line = f"{user_name}," + ",".join(temp) + ",\n"
         overide_line("booksread.txt",user_name,new_line)
 
+def recommand_books(user):
+    similar_ratio = {}
+    for reader in readers():
+        if reader!= user:
+            a = list()
+            b = list()
+            for book in books():
+                a.append(int(get_super_notes(user,book)))
+                b.append(int(get_super_notes(reader,book)))
+
+            s1 = sum([ai*bi for ai,bi in zip(a,b)])
+            s2 = sum([i**2 for i in a])**(1/2)
+            s3 = sum([i**2 for i in b])**(1/2)
+            if s1!=0 and s2!=0:
+                similar_ratio[reader["name"]] = s1/(s2*s3)
+    
+    list_recommandation = list()
+    similar_ratio = dict(sorted(similar_ratio.items(), key=lambda item: item[1])) # trie par odre de ressemblance
+    for reader_name,ratio in similar_ratio.items():
+        if ratio>0.35: # seulement si le use le ressemble au moins un minimum
+            l = set(get_readings(reader_name)) - set(get_readings(user["name"]))
+            for i in l:
+                list_recommandation.append(get_book(int(i)))
+    else: #si la liste est pas assez complète on ajoute les livres qu'il a pas lu de son style préférer
+        if len(list_recommandation)<10:
+            for book in books():
+                if len(list_recommandation)<10 and book["style"]==user["favorite"] and str(book["index"]) not in get_readings(user["name"]):
+                    list_recommandation.append(book)
+    
+    return list_recommandation
