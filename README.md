@@ -122,7 +122,6 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 - ajouter les recommandations
 
 - bug
-    - nom d'utilisateur est un nombre
     - scroll gallery
 
 - vérifier et tester pour trouver les dernier bug
