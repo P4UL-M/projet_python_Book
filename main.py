@@ -44,13 +44,30 @@ recommendation_gallery = get_gallery(wrapper_rec,_frame_scrollable_main)
 
 wrapper_rec.pack(side=tk.TOP,fill='x',expand=1)
 #endregion
+def update_gallery_Rec():    
+    if "offset" in recommendation_gallery.keys():
+        recommendation_gallery["offset"].forget()
+    
+    for child in recommendation_gallery["frame"].winfo_children():
+        child.forget()
+    user = get_user() 
+    if user:
+        enum = zip(range(10),[get_book(book["name"]) for book in recommand_books(user)])
 
-for i in range(10):
-    book = {
-        "name":f"book{str(i)}",
-        "frame":tk.Frame(recommendation_gallery["frame"],height=180,width=100,background="black")
-        }
-    #recommendation_gallery["__add_panel__"](book,recommendation_gallery)
+        for i,book in enum:
+            frame = tk.Frame(recommendation_gallery["frame"],height=180,width=100,background=STYLES[book["style"]][1])
+            text = tk.Label(frame,text=book["name"],fg=STYLES[book["style"]][2],bg=STYLES[book["style"]][1],wraplength=100)
+            book = {
+                "name":book["name"],
+                "frame":frame,
+                "text":text
+            }
+            recommendation_gallery["__add_panel__"](book,recommendation_gallery)
+    
+    recommendation_gallery["offset"] = ttk.Frame(recommendation_gallery["canvas"],height=180,border=1)
+    recommendation_gallery["offset"].pack(expand=1,fill="both",side="right")
+    
+update_gallery_Rec()
 #endregion
 
 #region News
@@ -144,6 +161,7 @@ def actualise(event):
     if event.widget == Part1:
         update_gallery_Rate()
         update_gallery_News()
+        update_gallery_Rec()
         _frame_scrollable_main["refresh"]()
         recommendation_gallery["refresh"]()
         new_gallery["refresh"]()

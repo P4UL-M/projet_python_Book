@@ -113,3 +113,15 @@ def list_readings():
                     user["readings"][str(book["index"])] = book["name"]
             user["index"] = i
             yield user
+
+def delete_reading(file,book:dict):
+    try:
+        with open(PATH / file, "r+", encoding="utf-8") as file:
+            lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
+            file.seek(0)
+            for line in lines:
+                new_line = line.replace("," + str(book["index"]) + ",",",")
+                file.write(new_line)
+            file.truncate() # remove all data that wasn't overide
+    except Exception as e:
+        print("Error while trying to write data :",e)

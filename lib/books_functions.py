@@ -63,6 +63,7 @@ def remove_book(name):
     overide_line("books_extended.txt",name,"")
     overide_line("books.txt",name,"")
     overide_column("notes.txt",str(book["index"]),"")
+    delete_reading("booksread.txt",book["index"])
     # make overide collumn à la place
 
 def get_super_notes(user,book):
