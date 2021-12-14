@@ -1,7 +1,41 @@
+from os import read
 from ect.handle_data import *
+from lib.books_functions import books
+from lib.users_functions import readers, remove_reader
 
 def verify_data():
-    pass
+    try:
+        l = readers()
+        def remove_corruption(index=None):
+            try:
+                i = index or 0
+                while next(l):
+                    i+=1
+                else:
+                    return True
+            except:
+                remove_reader(i)
+                remove_corruption(i)
+        if not remove_corruption():
+            raise Exception("ERROR IN FILE USER")
+    except:
+        raise Exception("FATAL ERROR FILE MISSING")
+    try:
+        l = books()
+        def remove_corruption(index=None):
+            try:
+                i = index or 0
+                while next(l):
+                    i+=1
+                else:
+                    return True
+            except:
+                remove_reader(i)
+                remove_corruption(i)
+        if not remove_corruption():
+            raise Exception("ERROR IN FILE BOOK")
+    except:
+        raise Exception("FATAL ERROR FILE MISSING")
 
 def restore_data():
     pass

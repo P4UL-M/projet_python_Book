@@ -5,6 +5,7 @@ import sys
 
 from lib.books_functions import books
 from lib.users_functions import get_readings
+from lib.others_functions import verify_data
 from lib.app_function import *
 from ect.globals import WINDOW
 
@@ -254,4 +255,5 @@ WINDOW.protocol("WM_DELETE_WINDOW", on_closing)
 #endregion
 
 # run the app
+verify_data()
 WINDOW.mainloop()
