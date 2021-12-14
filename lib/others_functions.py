@@ -8,19 +8,17 @@ def verify_data():
         l = readers()
         def remove_corruption(index=None):
             try:
-                i = index or 0
+                i = index or 1
                 while next(l):
                     i+=1
             except StopIteration:
                 return True
             except Exception as e:
-                print(e)
-                remove_reader(i)
-                remove_corruption(i)
+                return False
         if not remove_corruption():
-            print("ERROR IN FILE USER")
-    except:
-        raise Exception("FATAL ERROR FILE MISSING")
+            raise RuntimeError
+    except RuntimeError:
+        raise RuntimeError("ERROR IN FILE BOOK OR FILE MISSING")
     try:
         l = books()
         def remove_corruption(index=None):
@@ -31,12 +29,11 @@ def verify_data():
             except StopIteration:
                 return True
             except:
-                remove_reader(i)
-                remove_corruption(i)
+                return False
         if not remove_corruption():
-            print("ERROR IN FILE BOOK")
-    except:
-        raise Exception("FATAL ERROR FILE MISSING")
+            raise RuntimeError
+    except RuntimeError:
+        raise RuntimeError("ERROR IN FILE BOOK OR FILE MISSING")
 
 def restore_data():
     pass
