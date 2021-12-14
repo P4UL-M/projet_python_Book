@@ -10,8 +10,14 @@ def readers():
 
 def get_reader(name):
     for user in list_readers():
-        if user["name"] == name:
-            return user
+        if type(name)==str:
+            if user["name"] == name:
+                return user
+        elif type(name)==int:
+            if user["index"] == name:
+                return user
+        else:
+            raise Exception("bad argument for get reader")
 
 def get_readings(name):
     for user in list_readings():
@@ -45,9 +51,12 @@ def update_reader(old_name,**kargs):
 
 def remove_reader(name):
     user = get_reader(name)
-    overide_line("readers.txt",name,"")
-    overide_line("booksread.txt",name,"")
-    overide_line("notes.txt",str(user["index"]),"")
+    if user:
+        overide_line("readers.txt",name,"")
+        overide_line("booksread.txt",name,"")
+        overide_line("notes.txt",user["index"],"")
+    else:
+        print("user not found")
 
 def add_reader(name,gender,age,favorite):
     """

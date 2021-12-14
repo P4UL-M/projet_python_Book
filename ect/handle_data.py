@@ -15,13 +15,13 @@ def overide_line(file,name:str,new_line:str):
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
             file.seek(0)
             for index,line in enumerate(lines,1):
-                if line.split(",")[0].replace("\n","") == name or str(index)==name:
+                if line.split(",")[0].replace("\n","") == name or index==name:
                     if index==len(lines):
                         new_line= new_line.replace("\n","")
                     file.write(new_line)
                     new_line = -1
                 else:
-                    if (index+1==len(lines) and new_line=="") or index==len(lines): # remove the last \n if we remove the last user
+                    if (index+1==len(lines) and new_line==-1) or index==len(lines): # remove the last \n if we remove the last user
                         line = line.replace("\n","")
                     file.write(line)
             file.truncate() # remove all data that wasn't overide

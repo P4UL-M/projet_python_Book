@@ -11,13 +11,14 @@ def verify_data():
                 i = index or 0
                 while next(l):
                     i+=1
-                else:
-                    return True
-            except:
+            except StopIteration:
+                return True
+            except Exception as e:
+                print(e)
                 remove_reader(i)
                 remove_corruption(i)
         if not remove_corruption():
-            raise Exception("ERROR IN FILE USER")
+            print("ERROR IN FILE USER")
     except:
         raise Exception("FATAL ERROR FILE MISSING")
     try:
@@ -27,13 +28,13 @@ def verify_data():
                 i = index or 0
                 while next(l):
                     i+=1
-                else:
-                    return True
+            except StopIteration:
+                return True
             except:
                 remove_reader(i)
                 remove_corruption(i)
         if not remove_corruption():
-            raise Exception("ERROR IN FILE BOOK")
+            print("ERROR IN FILE BOOK")
     except:
         raise Exception("FATAL ERROR FILE MISSING")
 
