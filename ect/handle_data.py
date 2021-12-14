@@ -17,12 +17,16 @@ def overide_line(file,name:str,new_line:str):
             for index,line in enumerate(lines,1):
                 if line.split(",")[0].replace("\n","") == name or index==name:
                     if index==len(lines):
-                        new_line= new_line.replace("\n","")
+                            new_line= new_line.replace("\n","")
                     file.write(new_line)
                     new_line = -1
-                else:
-                    if (index+1==len(lines) and new_line==-1) or index==len(lines): # remove the last \n if we remove the last user
-                        line = line.replace("\n","")
+                elif (index+1==len(lines) and new_line==-1) or index==len(lines): #test dernière ligne et déjà changer
+                    line = line.replace("\n","")
+                    file.write(line)
+                elif index+1==len(lines) and new_line=="" and (lines[index].split(",")[0].replace("\n","") == name or index+1==name): #test potentielle future dernière ligne
+                    line = line.replace("\n","")
+                    file.write(line)
+                else: # si rien de tout
                     file.write(line)
             file.truncate() # remove all data that wasn't overide
     except Exception as e:
