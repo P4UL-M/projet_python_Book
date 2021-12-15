@@ -1,4 +1,3 @@
-from os import name
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
@@ -10,15 +9,33 @@ from tkinter.constants import MOVETO
 from lib.users_functions import *
 from lib.books_functions import *
 
+"""
+this file contain all the pre-build complex widget used in the project or all the fonction that link all data functions and the app itself
+"""
+
+
 def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
+    """
+    this function return a dictionary with a pre-build gallery widget for the home page
+    
+    the dictionary contain :
+        - the main frame scrollable
+        - the scroll function if we want to bind it from a child
+        - the refesh function for windows
+        - the list of pannels in the gallery
+        - the function to add a panel to the gallery
+    """
     _gal = {}
 
-    _gal["canvas"] = tk.Canvas(parent,bd=0, highlightthickness=0)
+    _gal["canvas"] = tk.Canvas(parent,bd=0, highlightthickness=0) #only canva can be scroll in tkinter
     _gal["canvas"].pack(expand=1,fill="both")
 
     _gal["frame"] = ttk.Frame(parent)
     
     def refresh():
+        """
+        function update the page and the region of scroll at each update
+        """
         WINDOW.update()
         _gal["canvas"].configure(scrollregion = _gal["canvas"].bbox('all'))
     _gal["refresh"] = lambda:refresh()
@@ -26,11 +43,17 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
     _gal["frame_id"] = _gal["canvas"].create_window((0,0),window=_gal["frame"],anchor="nw")
 
     def config(e):
+        """
+        this function update the window each time the main window is updated, we need to recalcul the coef for the scroll and update the region of scroll and the height of the window which bug a little else
+        """
         _gal["coef_scroll"] = _gal["frame"].winfo_width()/parent.winfo_width()*40
         _gal["canvas"].configure(scrollregion = _gal["canvas"].bbox('all'))
         _gal["canvas"].itemconfig(_gal["frame_id"], height = e.height)
     def _on_mousewheel(event):
-        if event.state%2:
+        """
+        this function update the view on scroll, if there is a parent scroll we update it in case we aren't updating our
+        """
+        if event.state%2: #this check if we are scrolling on vertical or horizontal axis
             offset = -event.delta/(_gal["coef_scroll"] * abs(event.delta))
             _gal["scroll_pos"] += offset if (_gal["scroll_pos"]+offset > 0 and _gal["scroll_pos"]+offset < 1) else 0
             _gal["canvas"].xview(MOVETO,_gal["scroll_pos"])
@@ -39,8 +62,14 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
                 parent_scroll["_on_mousewheel"](event)
                 WINDOW.update()
     def _bound_to_mousewheel(e):
+        """
+        this function add the scroll function to the event when we are in the frame/gallery
+        """
         _gal["canvas"].bind_all("<MouseWheel>", _on_mousewheel)
     def _unbound_to_mousewheel(e):
+        """
+        this function unadd the scroll function to the event when we are in the frame/gallery and if a parent have a function of scroll we add its
+        """
         if parent_scroll:
             _gal["canvas"].bind_all("<MouseWheel>", parent_scroll["_on_mousewheel"])
         else:
@@ -57,6 +86,9 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
     _gal["panels"] = {}
 
     def __add_panel__(object,self,direction:str="left"):
+        """
+        this function add a panel to the gallery and stock it to be easily access again
+        """
         self["panels"][object["name"]] = object["frame"]
         
         _pad = ttk.Frame(self["frame"],width=25)
@@ -77,6 +109,16 @@ def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
     return _gal
 
 def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
+    """
+    this function return a dictionary with a pre-build scrollable frame widget for the home page and the search tab
+    
+    the dictionary contain :
+        - the main frame scrollable
+        - the scroll function if we want to bind it from a child
+        - the refesh function for Windows
+
+    all the listed function work the same as the gallery's ones
+    """
     _dic = {}
 
     _dic["canvas"] = tk.Canvas(parent,bd=0, highlightthickness=0)
@@ -368,7 +410,7 @@ def user_portal():
 
 def edit_user(new=False,new_name=""):
     """
-    modifie un lecteur ou en ajoute 1 si le paramètre New est vrai
+    modifie un lecteur ou en ajoute un si le paramètre New est vrai
     """
     win = tk.Toplevel(WINDOW,name="editing")
     win.geometry("800x250")
@@ -470,7 +512,7 @@ def edit_user(new=False,new_name=""):
 
 def edit_book(new=True):
     """
-    modifie un lecteur ou en ajoute 1 si le paramètre New est vrai
+    modifie un lecteur ou en ajoute un si le paramètre New est vrai
     """
     if not new:
         old_name = WINDOW.nametowidget('display_book').nametowidget('main').nametowidget('pseudo')["text"]
