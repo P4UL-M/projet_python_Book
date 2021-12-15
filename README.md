@@ -1,5 +1,23 @@
 # PROJECT PYTHON FIRST SEMESTER
 
+# How to Use
+
+- execute the main file or the App.pyw
+  
+- the App is divised in 4 tab :
+  - first the home page where you can see the recommandation of the user connected,the last books added, the last books read by the user
+  - second the search tab to search a user or a book
+  - third to connect as/create a user, or see its infos, edit it or delete it
+  - fourth to add a book
+
+- to see a book you just have to double click on it in the main page or the search tab
+  - you can see all the info : title, global rating,style
+  - read it
+  - rate it
+  - edit it
+  - delete it
+  - (you can also see the info of a user this way but to edit or delete it you need to connect with it)
+
 ## Instructions :
 
 ### Key Dates :
@@ -109,38 +127,7 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 
 # ideas
 
-- create a script to make all our menu and generate all menus possibles
-- create dictionary creation methode for books and for users
-- create save and load methods for books and users, can be store in the disctionnary
-- faire bouton suivant/ précédent (à voir)
-- fenetre accessible dans menu pour préférence
-- possibilité d'ajouter des commentaires sur la page des détails d'un livres, associé au rating (à voir)
-- ranger les rating dans un fichier texte et créée un générateur type SQL pour chercher les valeurs via requete
-- edit user dans une fenetre à part pour plus simple zone entré et peut etre ouvert du menu ou de l'app ez
-
 # In progress
-- ajouter les recommandations
-
-- bug
-    - scroll gallery
-
-- vérifier et tester pour trouver les dernier bug
-
 - Finir l'UI et retravailler les zones baclées/moches
 
 # Finished
-- User
-    - create a user
-    - delete a user
-    - modify a user
-    - connect with a user
-    - disconnect with a user
-- Book
-    - add a book
-    - delete a book
-    - edit a book
-    - read a book
-    - rate a book
-
-
-- corriger version sur windows
