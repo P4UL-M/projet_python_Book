@@ -66,8 +66,8 @@ def remove_book(name):
     delete_reading("booksread.txt",book)
     # make overide collumn à la place
 
-def get_super_notes(user,book):
-    return get_note(user,book)
+def get_note(user,book):
+    return get_note_in_file(user,book)
 
 def note_book(book:dict,user:dict,note):
     try:
@@ -83,7 +83,7 @@ def note_book(book:dict,user:dict,note):
 def get_global_rating(name):
     temp = []
     for user in list_readers():
-        val = int(get_super_notes(user,get_book(name)))
+        val = int(get_note(user,get_book(name)))
         if val != 0:
             temp.append(val)
     return None if len(temp)==0 else round(sum(temp)/len(temp),2)

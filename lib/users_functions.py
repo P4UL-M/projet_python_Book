@@ -1,5 +1,5 @@
 from ect.handle_data import *
-from lib.books_functions import books, get_book, get_super_notes
+from lib.books_functions import books, get_book, get_global_rating, get_note
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #                                   users functions                                   #
@@ -102,8 +102,8 @@ def recommand_books(user):
             a = list()
             b = list()
             for book in books():
-                a.append(int(get_super_notes(user,book)))
-                b.append(int(get_super_notes(reader,book)))
+                a.append(int(get_note(user,book)))
+                b.append(int(get_note(reader,book)))
 
             s1 = sum([ai*bi for ai,bi in zip(a,b)])
             s2 = sum([i**2 for i in a])**(1/2)
@@ -112,16 +112,25 @@ def recommand_books(user):
                 similar_ratio[reader["name"]] = s1/(s2*s3)
     
     list_recommandation = list()
-    similar_ratio = dict(sorted(similar_ratio.items(), key=lambda item: item[1])) # trie par odre de ressemblance
+    similar_ratio = dict(sorted(similar_ratio.items(), key=lambda item: -item[1])) # trie par odre de ressemblance décroissant
     for reader_name,ratio in similar_ratio.items():
-        if ratio>0.35: # seulement si le use le ressemble au moins un minimum
+        if ratio>0.35: # seulement si le use le ressemble au moins un minimum, 0.35 pour qu'il y est un minimum d'utilisateur ressemblant, comme il sont trier par ordre décroissant ceux à 0.40 par exemple ne seront affiché seulement si il n'y a vraiment aucun utilisateur plus ressemblant, en dessous de 0.35 la similarité est trop éloignée
             l = set(get_readings(reader_name)) - set(get_readings(user["name"]))
             for i in l:
-                list_recommandation.append(get_book(int(i)))
-    else: #si la liste est pas assez complète on ajoute les livres qu'il a pas lu de son style préférer
+                if int(get_note(get_reader(reader_name),get_book(int(i))))>2: # si l'utilisateur qui nous ressemble n'a pas aimer le livre alors on est probable de pas l'aimer il ne faut donc pas l'afficher
+                    list_recommandation.append(get_book(int(i)))
+    else: #si la liste est pas assez complète on ajoute les livres qu'il a pas lu de son style préférer et en fonction des notes globale
+        tmp = {}
         if len(list_recommandation)<10:
             for book in books():
-                if len(list_recommandation)<10 and book["style"]==user["favorite"] and str(book["index"]) not in get_readings(user["name"]):
-                    list_recommandation.append(book)
-    
+                if len(list_recommandation)<10 and str(book["index"]) not in get_readings(user["name"]):
+                    # 2 is the lesser average of a book note so we add 2 if there is no global rating and 2 if the user like the style of the book, like this a if we like fantasy a fantasy book of 3.1 is better than a normal book of 5 and an unnoted book will be either a 4 or a 2 if it has the good or not style.
+                    tmp[book["name"]] = [(get_global_rating(book["name"]) or 2) + (2 if book["style"]==user["favorite"] else 0),book]
+
+        tmp = dict(sorted(tmp.items(), key=lambda item: -item[1][0]))
+        for elt in tmp.values():
+            if len(list_recommandation)<10 and elt[1] not in list_recommandation:
+                list_recommandation.append(elt[1])
+            else:
+                print([[i,e[0]]for i,e in tmp.items()])
     return list_recommandation

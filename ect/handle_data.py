@@ -98,7 +98,7 @@ def list_books():
             book["index"] = i
             yield book
 
-def get_note(user,book):
+def get_note_in_file(user,book):
     with open(PATH / "notes.txt","r", encoding="utf-8") as file:
         for i,line in enumerate(file.readlines(),1):
             if i == user["index"]:
