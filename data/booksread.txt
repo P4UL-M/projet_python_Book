@@ -6,4 +6,5 @@ Axell,
 mag hoss,
 Odin,16,12,14,9,
 MySuperAccount,13,1,18,
-test2Reader2912
+test2,
+Reader2912,

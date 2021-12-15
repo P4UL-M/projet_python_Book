@@ -66,7 +66,7 @@ def add_reader(name,gender,age,favorite):
     try:
         if not get_reader(name):
             append_line("readers.txt",new_line)
-            append_line("booksread.txt",name)
+            append_line("booksread.txt",name + ",")
             nb = len([i for i in books()])
             append_line("notes.txt","0"*nb)
         else:
