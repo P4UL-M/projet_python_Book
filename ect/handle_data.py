@@ -14,13 +14,14 @@ def overide_line(file,name:str,new_line:str):
         with open(PATH / file, "r+", encoding="utf-8") as file:
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
             file.seek(0)
+            delete_op = ""==new_line
             for index,line in enumerate(lines,1):
                 if line.split(",")[0].replace("\n","") == name or index==name:
                     if index==len(lines):
                             new_line= new_line.replace("\n","")
                     file.write(new_line)
                     new_line = -1
-                elif (index+1==len(lines) and new_line==-1) or index==len(lines): #test dernière ligne et déjà changer
+                elif (index+1==len(lines) and new_line==-1 and delete_op) or index==len(lines): #test dernière ligne et déjà changer si opération de suppression
                     line = line.replace("\n","")
                     file.write(line)
                 elif index+1==len(lines) and new_line=="" and (lines[index].split(",")[0].replace("\n","") == name or index+1==name): #test potentielle future dernière ligne
