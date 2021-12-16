@@ -9,18 +9,15 @@ def list_readers():
             user["index"] = i
             yield user
 
-def overide_value(file,index_book:int,index_user:int,new_value:str):
+def overide_line(file,name:str,new_line:str):
     try:
         with open(PATH / file, "r+", encoding="utf-8") as file:
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
             file.seek(0)
-            for i,line in enumerate(lines,1):
-                if i==index_user:
-                    new_line = line.replace("\n","").split(" ")
-                    new_line[int(index_book)-1] = str(new_value)
-                    new_line = " ".join(new_line) + "\n"
+            for index,line in enumerate(lines,1):
+                if line.split(",")[0].replace("\n","") == name or index==name:
                     file.write(new_line)
-                else:
+                else: # si rien de tout
                     file.write(line)
             file.truncate() # remove all data that wasn't overide
     except Exception as e:
@@ -91,6 +88,7 @@ def get_note_in_file(user,book):
         for i,line in enumerate(file.readlines(),1):
             if i == user["index"]:
                 data = line.replace("\n","").split(" ")
+                print(book["index"]-1)
                 return data[book["index"]-1]
 
 def list_readings():
