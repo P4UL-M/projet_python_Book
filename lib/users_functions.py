@@ -1,3 +1,4 @@
+from os import read
 from ect.handle_data import *
 from lib.books_functions import books, get_book, get_global_rating, get_note
 
@@ -95,21 +96,31 @@ def unread_book(user_name,book_name):
         new_line = f"{user_name}," + ",".join(temp) + ",\n"
         overide_line("booksread.txt",user_name,new_line)
 
-def recommand_books(user):
-    similar_ratio = {}
+def generate_matrix():
+    l_readers = [i for i in readers()]
+    matrix = [[0 for i in l_readers] for i in l_readers]
     for reader in readers():
-        if reader!= user:
+        for target in readers():
             a = list()
             b = list()
             for book in books():
-                a.append(int(get_note(user,book)))
-                b.append(int(get_note(reader,book)))
+                a.append(int(get_note(reader,book)))
+                b.append(int(get_note(target,book)))
 
             s1 = sum([ai*bi for ai,bi in zip(a,b)])
             s2 = sum([i**2 for i in a])**(1/2)
             s3 = sum([i**2 for i in b])**(1/2)
-            if s1!=0 and s2!=0:
-                similar_ratio[reader["name"]] = s1/(s2*s3)
+            matrix[reader["index"]-1][target["index"]-1] = s1/(s2*s3) if s1!=0 and s2!=0 else 0
+    return matrix
+
+def recommand_books(user):
+    similar_ratio = {}
+    
+    for i,ratio in enumerate(generate_matrix()[user["index"]-1]):
+        if ratio>0 and get_reader(i+1)!=user:
+            similar_ratio[get_reader(i+1)["name"]] = ratio
+
+    print(similar_ratio)
     
     list_recommandation = list()
     similar_ratio = dict(sorted(similar_ratio.items(), key=lambda item: -item[1])) # trie par odre de ressemblance décroissant
