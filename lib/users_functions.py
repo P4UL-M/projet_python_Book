@@ -63,13 +63,13 @@ def add_reader(name,gender,age,favorite):
     """
     you must specify name,gender,age,favorite
     """
-    new_line = f"{name},{gender},{age},{favorite}"
+    new_line = f"{name},{gender},{age},{favorite}\n"
     try:
         if not get_reader(name):
             append_line("readers.txt",new_line)
-            append_line("booksread.txt",name + ",")
+            append_line("booksread.txt",name + ",\n")
             nb = len([i for i in books()])
-            append_line("notes.txt","0"*nb)
+            append_line("notes.txt","0"*nb + "\n")
         else:
             raise Exception("User already exist or your name was already use")
     except FileNotFoundError:
@@ -119,8 +119,6 @@ def recommand_books(user):
     for i,ratio in enumerate(generate_matrix()[user["index"]-1]):
         if ratio>0 and get_reader(i+1)!=user:
             similar_ratio[get_reader(i+1)["name"]] = ratio
-
-    print(similar_ratio)
     
     list_recommandation = list()
     similar_ratio = dict(sorted(similar_ratio.items(), key=lambda item: -item[1])) # trie par odre de ressemblance décroissant
