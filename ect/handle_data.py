@@ -18,9 +18,10 @@ def overide_line(file,name:str,new_line:str):
                 if line.split(",")[0].replace("\n","") == name or index==name:
                     if index==len(lines):
                             new_line= new_line.replace("\n","")
+                    if ""==new_line:
+                        new_line = -1
                     file.write(new_line)
-                    new_line = -1
-                elif (index+1==len(lines) and new_line==-1) or index==len(lines): #test dernière ligne et déjà changer
+                elif (index+1==len(lines) and new_line==-1) or index==len(lines): #test dernière ligne et/ou déjà changer par suppression
                     line = line.replace("\n","")
                     file.write(line)
                 elif index+1==len(lines) and new_line=="" and (lines[index].split(",")[0].replace("\n","") == name or index+1==name): #test potentielle future dernière ligne
