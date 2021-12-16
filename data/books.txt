@@ -16,3 +16,7 @@ Eragon
 La Guerre de la Faille : Pug l'Apprenti
 Da Vinci ce Double-Crack (Tome 2)
 How to make a GUI app with Tkinter
+La stratégie Ender
+La stratégie de l'ombre
+Le Guide du Routar Intergalactique
+Le Bourgeois Gentilhomme

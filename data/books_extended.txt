@@ -16,3 +16,7 @@ Eragon,,8
 La Guerre de la Faille : Pug l'Apprenti,,8
 Da Vinci ce Double-Crack (Tome 2),,2
 How to make a GUI app with Tkinter,,2
+La stratégie Ender,,1
+La stratégie de l'ombre,,1
+Le Guide du Routar Intergalactique,,1
+Le Bourgeois Gentilhomme,,7
