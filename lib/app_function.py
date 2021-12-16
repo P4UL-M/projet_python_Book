@@ -1,3 +1,4 @@
+from os import name
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
@@ -12,8 +13,6 @@ from lib.books_functions import *
 """
 this file contain all the pre-build complex widget used in the project or all the fonction that link all data functions and the app itself
 """
-
-
 def get_gallery(parent:tk.Frame,parent_scroll:dict=None):
     """
     this function return a dictionary with a pre-build gallery widget for the home page
@@ -176,33 +175,39 @@ def get_vertical_scroll_bar(parent:ttk.Frame,parent_scroll:dict=None):
     return _dic
 
 def get_foldable_frame(parent,window, text=""):
-        _frame = {"frame":ttk.Frame(parent ,name="foldable",padding=10)}
+    """
+    this function return a foldable frame in a dictionary
+    """
+    _frame = {"frame":ttk.Frame(parent ,name="foldable",padding=10)}
 
-        _frame["frame"].show = tk.IntVar()
-        _frame["frame"].show.set(0)
+    _frame["frame"].show = tk.IntVar()
+    _frame["frame"].show.set(0)
 
-        _frame["title_frame"] = ttk.Frame(_frame["frame"])
-        _frame["title_frame"].pack(anchor="nw")
+    _frame["title_frame"] = ttk.Frame(_frame["frame"])
+    _frame["title_frame"].pack(anchor="nw")
 
-        ttk.Label(_frame["title_frame"], text=text).pack(side="left", fill="x", expand=1,anchor="n")
+    ttk.Label(_frame["title_frame"], text=text).pack(side="left", fill="x", expand=1,anchor="n")
 
-        def toggle():
-            if bool(_frame["frame"].show.get()):
-                _frame["sub_frame"].pack(fill="x", expand=1)
-                window.update()
-            else:
-                _frame["sub_frame"].forget()
+    def toggle():
+        if bool(_frame["frame"].show.get()):
+            _frame["sub_frame"].pack(fill="x", expand=1)
+            window.update()
+        else:
+            _frame["sub_frame"].forget()
 
 
-        _frame["toggle_button"] = ttk.Checkbutton(_frame["title_frame"], width=2, command=toggle,
-                                            variable=_frame["frame"].show)
-        _frame["toggle_button"].pack(side="left",anchor="n")
+    _frame["toggle_button"] = ttk.Checkbutton(_frame["title_frame"], width=2, command=toggle,
+                                        variable=_frame["frame"].show)# we bind the command of the button to the update of the frame
+    _frame["toggle_button"].pack(side="left",anchor="n")
 
-        _frame["sub_frame"] = ttk.Frame(_frame["frame"],name="subframe")
+    _frame["sub_frame"] = ttk.Frame(_frame["frame"],name="subframe") #this is the foldable frame
 
-        return _frame
+    return _frame
 
 def display_user(name):
+    """
+    this function create a pop-up window wich show us the info of a user
+    """
     win = tk.Toplevel(WINDOW)
     win.geometry("343x122")
     
@@ -228,9 +233,12 @@ def display_user(name):
     favorite_widget.grid(column=1,row=3)
 
     func = lambda e:win.destroy()
-    win.bind("<FocusOut>",func)
+    win.bind("<FocusOut>",func) # to avoid multiple windows we close it on the loss of focus
 
 def display_book(name):
+    """
+    this function is a pop up window which show the info on the book and allow different action if the user is connected
+    """
     win = tk.Toplevel(WINDOW,name="display_book")
     win.geometry("303x137")
     win.title(name)
@@ -282,11 +290,13 @@ def display_book(name):
     style_widget = tk.Label(main,name="style",text=STYLES[book["style"]][0],bg=STYLES[book["style"]][1],fg=STYLES[book["style"]][2])
     style_widget.grid(column=1,row=0,rowspan=4)
     #buttons
-
+    
+    #delete
     def func():
         if msg.askokcancel("Delete", "Do you want to delete the book ?"):
             remove_book(name)
             win.destroy()
+    #edit
     def edit_func():
         edit_book(False)
         
@@ -295,7 +305,7 @@ def display_book(name):
     btn_delt = ttk.Button(main,text="delete",command=func)
     btn_delt.grid(column=1,row=4)
 
-    #rate
+    # this is the frame witch contain the star that allow us to note a book
     frame = ttk.Frame(main)
     frame.grid(column=0,row=3) 
     
@@ -308,18 +318,21 @@ def display_book(name):
     stars = [ttk.Label(frame,image=star_grey_tk,name=f"{i+1}") for i in range(5)]
     
     def on_click(e=None):
-        if user:
-            if str(book["index"]) in get_readings(user["name"]):
+        """
+        this function update the note if connected and update the GUI
+        """
+        if user: # we check if the user is connected (was when we opened the window but since it close on the loss of focus this don't create bug)
+            if str(book["index"]) in get_readings(user["name"]): # we check if the user read it
                 img = star_tk
                 alt_img = star_grey_tk
                 number = int(str(e.widget)[-1])
 
-                for lab in stars[:number]:
+                for lab in stars[:number]: #this pass all star before our note (included) in yellow
                     lab.configure(image=img)
                     lab.photo = img
                     note_book(book,user,number)
-                else:
-                    for lab in stars[int(str(e.widget)[-1]):]:
+                else: # and all the other in grey
+                    for lab in stars[number:]:
                         lab.configure(image=alt_img)
                         lab.photo = img
             else:
@@ -328,6 +341,9 @@ def display_book(name):
         else:
             msg.askokcancel("USER NOT CONNECTED", "YOU ARE NOT CONNECTED \n Please connect yourself in the account pannel before using this function.")
     def on_click_double(e=None):
+        """
+        this function remove all star and unnote a book
+        """
         img = star_grey_tk
         
         for lab in stars:
@@ -338,9 +354,9 @@ def display_book(name):
             note_book(book,user,0)
     
     for i,star in enumerate(stars):
-        Recursive_Binding(star,"<Button-1>",on_click)
+        Recursive_Binding(star,"<Button-1>",on_click) #this is a function we create to bind all child of a widget so if we click on them (like on the text and not the button directly) the action will be effectued
         Recursive_Binding(star,"<Double-Button-1>",on_click_double)
-        if user and str(book["index"]) in get_readings(user["name"]):
+        if user and str(book["index"]) in get_readings(user["name"]): #this configure the star at the start
             if int(get_note(user,book))>i:
                 star.configure(image=star_tk)
                 star.photo = star_tk
@@ -349,10 +365,13 @@ def display_book(name):
 
         star.pack(fill="both", expand=1,side='left',padx=2)
 
-    func = lambda e:win.destroy()
+    func = lambda e:win.destroy() #this destroy the window if we lose focus
     win.bind("<FocusOut>",func)
 
 def user_portal():
+    """
+    this is a pop up window which allow the user to connect himself in the app
+    """
     win = tk.Toplevel(WINDOW)
     win.geometry("343x122")
     
@@ -367,13 +386,16 @@ def user_portal():
     main.pack(fill="both",expand=1)
 
     def on_focus_out(event):
-        if ".editing" in [str(i) for i in WINDOW.winfo_children()]: #vérifie que l'on est pas en train d'essayer de créer un utilisateur
+        if ".editing" in [str(i) for i in WINDOW.winfo_children()]: # check if we are not trying to create a new user
             win.destroy()
             pass
-        elif event.widget == win: # si on essaye de ne pas se connecter sans abandonné alors le focus est remis de force (y compris lors de fenetre autre que tkinter mais j'ai pas trouvé de solution pour le moment)
+        elif event.widget == win: # if we want to on the app without connect or cancel, the focus is set again
             win.focus_force()
 
     def on_closing():
+        """
+        this function permit the user to abandon the connection by closing the window
+        """
         WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
         WINDOW.update()
 
@@ -390,6 +412,9 @@ def user_portal():
     name_widget.focus()
 
     def handledata(e=None):
+        """
+        this function connect the user to the app
+        """
         name = name_widget.get()
         if name:
             set_user(name)
@@ -399,18 +424,21 @@ def user_portal():
     btn.grid(column=0,row=1,sticky="we")
     
     def create_user():
-        edit_user(True,name_widget.get())
+        """
+        this function call the function to create a new user, since we lose focus this window is closed automatically
+        """
+        name = name_widget.get() if not get_reader(name_widget.get()) else ""
+        edit_user(True,name)
     btn = ttk.Button(center,text="Create",command=create_user)
     btn.grid(column=0,row=2,sticky="we")
 
     name_widget.bind("<Return>",handledata)
-    name_widget.bind("<")
     win.bind("<FocusOut>", on_focus_out)
     win.protocol("WM_DELETE_WINDOW", on_closing)
 
 def edit_user(new=False,new_name=""):
     """
-    modifie un lecteur ou en ajoute un si le paramètre New est vrai
+    this is a pop up window to create or update a user
     """
     win = tk.Toplevel(WINDOW,name="editing")
     win.geometry("800x250")
@@ -481,6 +509,9 @@ def edit_user(new=False,new_name=""):
     #endregion
 
     def save_data():
+        """
+        this function try to save the data or raise warning if we can't
+        """
         if name_entry.get().isdigit():
             name_entry.delete(0,"end")
             msg.showerror("USER NAME CANNOT BE A NUMBER", "USER NAME CANNOT BE A NUMBER !\n Please try another pseudo.")
@@ -512,7 +543,7 @@ def edit_user(new=False,new_name=""):
 
 def edit_book(new=True):
     """
-    modifie un lecteur ou en ajoute un si le paramètre New est vrai
+    this function create a pop up window to allow us to update or create a book
     """
     if not new:
         old_name = WINDOW.nametowidget('display_book').nametowidget('main').nametowidget('pseudo')["text"]
@@ -526,6 +557,7 @@ def edit_book(new=True):
     win.title("book edition")
     win.focus_force()
 
+    # overide of the main app
     WINDOW.nametowidget('.!notebook').pack_forget()
     WINDOW.nametowidget('.!notebook').update()
     force_update()
@@ -561,6 +593,9 @@ def edit_book(new=True):
     #endregion
 
     def return_home():
+        """
+        this function allow us to abandon the creation of a book by closing the window
+        """
         WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
         WINDOW.update()
 
@@ -571,6 +606,9 @@ def edit_book(new=True):
         win.destroy()
 
     def save_data():
+        """
+        this function try to save the data or raise warning if we can't
+        """
         new_name = name_entry.get()
         new_favorite = str(favorite_combo['values'].index(favorite_combo.get()) + 1)
         try:
@@ -594,6 +632,10 @@ def edit_book(new=True):
     win.protocol("WM_DELETE_WINDOW", return_home)
 
 def generate_result(e=None,main_frame=None):
+    """
+    this automatically add result of the search bar to the main_frame in argument
+    the fonction work by weigth, the more it look like what we want the more higher it will be in the result's frame
+    """
     if not main_frame:
         return
     search_bar = WINDOW.nametowidget('.!notebook').nametowidget('search').nametowidget('params').nametowidget('search_bar')
@@ -641,6 +683,9 @@ def generate_result(e=None,main_frame=None):
     main_frame["refresh"]()
 
 def get_result(parent,name,type):
+    """
+    this return a frame which represent a result, we can double click it for more information
+    """
     if type=="book":
         _res = {}
         book = get_book(name)
@@ -687,6 +732,9 @@ def get_result(parent,name,type):
     return _res["frame"]
 
 def set_user(name):
+    """
+    this function set the GUI with the value of the user we are connecting with
+    """
     user = get_reader(name)
     if not user:
         msg.showerror("USER NOT FOUND", "USER NOT FOUND !\n Check that you enter the good pseudo, else try create your account again.")
@@ -702,6 +750,9 @@ def set_user(name):
         WINDOW.nametowidget('.!notebook').pack(fill="both",expand=1)
 
 def get_user():
+    """
+    this return the user with which we are connected by getting the name in the GUI, if no user or error we return false
+    """
     tab:tk.Frame = WINDOW.nametowidget('.!notebook').nametowidget('profile')
     try:
         _name:tk.Label = tab.nametowidget('pseudo')
@@ -714,6 +765,9 @@ def get_user():
         return False
 
 def disconnect():
+    """
+    this disconnect the user from the app by removing the information in the GUI
+    """
     tab:tk.Frame = WINDOW.nametowidget('.!notebook').nametowidget('profile')
 
     tab.nametowidget("pseudo")["text"] = ""
@@ -727,6 +781,9 @@ def disconnect():
     onglets.select(home); home.focus_set()
 
 def delete_user():
+    """
+    this function delete the user with which we are connected
+    """
     if msg.askokcancel("Delete", "Do you want to delete your account?"):
         old_name = WINDOW.nametowidget('.!notebook').nametowidget('profile').nametowidget('pseudo')['text']
         remove_reader(old_name)

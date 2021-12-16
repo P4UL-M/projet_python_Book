@@ -9,10 +9,10 @@ from lib.books_functions import books, get_book, get_global_rating, get_note
 def readers():
     return list_readers()
 
-def get_reader(name):
+def get_reader(name:str):
     for user in list_readers():
         if type(name)==str:
-            if user["name"] == name:
+            if user["name"].upper() == name.upper():
                 return user
         elif type(name)==int:
             if user["index"] == name:

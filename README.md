@@ -134,7 +134,7 @@ We can also add to our calcul a bonus if it's the favorite categories of our use
 
 # How to test
 
-To test directly the function of the project without the app here is the file i used while coding, you can add it to the root of the project :
+To test directly the functions of the project without the app here is the file i used while coding, you can add it to the root of the project and uncomment the function you want to test :
 
 ________________________________________________
 unit_test.py
@@ -143,25 +143,25 @@ from lib.users_functions import *
 from lib.books_functions import *
 from ect.handle_data import overide_line
 
-#print(get_reader("Poool"))
-#update_reader("Poool",name="hello",gender=4,age=5,favorite=19)
-#remove_reader("f")
-#add_reader(name="NotJack",gender='1',age='1',favorite='1')
+#print(get_reader("user_name"))
+#update_reader("user_name",name="user_name",gender=index_gender,age=index_age,favorite=index_favorite)
+#remove_reader("user_name")
+#add_reader(name="user_name",gender='1',age='1',favorite='1')
 
-#book = get_book("Don Quichotte de la Manche")
-#user = get_reader("hhi")
+#book = get_book("book_name")
+#user = get_reader("user_name")
 #print(get_note(user,book))
 
-#remove_book("Don Quichotte de la Manche")
-#update_book(old_name="Don Quichotte de la Manche",name="ABC",style="4")
-#add_book("test",14)
-#note_book(get_book("Don Quichotte de la Manche"),get_reader("Poool"),5)
-#read_book("hiii","Le Petit Prince")
-#unread_book("hiii","Le Petit Prince")
-#read_book("Reader2912","Le Seigneur des Anneaux")
-#print(get_global_rating("Don Quichotte de la Manche"))
-#print(recommand_books(get_reader("Poool")))
-#add_reader("Reader291",3,2,8)
+#remove_book("book_name")
+#update_book(old_name="book_name",name="book_name",style="style_index")
+#add_book("book_name","style_index")
+#note_book(get_book("book_name"),get_reader("user_name"),5)
+#read_book("user_name","book_name")
+#unread_book("user_name","book_name")
+#read_book("user_name","book_name")
+#print(get_global_rating("book_name"))
+#print(recommand_books(get_reader("user_name")))
+#add_reader("user_name",3,2,8)
 ________________________________________________
 end of the file
 ________________________________________________
