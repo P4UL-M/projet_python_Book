@@ -88,7 +88,6 @@ def get_note_in_file(user,book):
         for i,line in enumerate(file.readlines(),1):
             if i == user["index"]:
                 data = line.replace("\n","").split(" ")
-                print(book["index"]-1)
                 return data[book["index"]-1]
 
 def list_readings():

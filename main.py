@@ -12,7 +12,7 @@ from ect.globals import WINDOW
 """
 This is the main script of our project
 there is all the roots of the GUI in tkinter here
-we made region with vs-code for folding code to not loose ouself so you can fold the code if you also use vs-code
+we made region with vs-code for folding code to not loose ourself
 """
 
 tab_control = ttk.Notebook(WINDOW)
