@@ -84,7 +84,7 @@ def read_book(user_name,book_name):
             temp.append(str(book_read_index))
     else:
         temp.append(str(get_book(book_name)["index"]))
-        new_line = f"{user_name}," + ",".join(temp) + ",\n"
+        new_line = f"{user_name}," + ",".join(temp) + "\n"
         overide_line("booksread.txt",user_name,new_line)
 
 def unread_book(user_name,book_name):
