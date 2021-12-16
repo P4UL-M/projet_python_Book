@@ -16,17 +16,7 @@ def overide_line(file,name:str,new_line:str):
             file.seek(0)
             for index,line in enumerate(lines,1):
                 if line.split(",")[0].replace("\n","") == name or index==name:
-                    if index==len(lines):
-                            new_line= new_line.replace("\n","")
-                    if ""==new_line:
-                        new_line = -1
                     file.write(new_line)
-                elif (index+1==len(lines) and new_line==-1) or index==len(lines): #test dernière ligne et/ou déjà changer par suppression
-                    line = line.replace("\n","")
-                    file.write(line)
-                elif index+1==len(lines) and new_line=="" and (lines[index].split(",")[0].replace("\n","") == name or index+1==name): #test potentielle future dernière ligne
-                    line = line.replace("\n","")
-                    file.write(line)
                 else: # si rien de tout
                     file.write(line)
             file.truncate() # remove all data that wasn't overide
@@ -66,13 +56,10 @@ def overide_value(file,index_book:int,index_user:int,new_value:str):
 
 def append_line(file,new_line:str):
     try:
-        with open(PATH / file, "r+", encoding="utf-8") as file:
-            if file.readlines():
-                file.write("\n")
+        with open(PATH / file, "a", encoding="utf-8") as file:
             file.write(new_line)
     except FileNotFoundError:
-        open(PATH / file,"a")
-        append_line(file,new_line)
+        print("error while appending value")
 
 def append_column(file,new_value):
     try:
@@ -80,10 +67,7 @@ def append_column(file,new_value):
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
             file.seek(0)
             for line in lines:
-                if "\n" in line:
-                    new_line = line.replace("\n","") + str(new_value) + "\n"
-                else:
-                    new_line = line + str(new_value)
+                new_line = line.replace("\n","") + str(new_value) + "\n"
                 file.write(new_line)
             file.truncate() # remove all data that wasn't overide
     except Exception as e:

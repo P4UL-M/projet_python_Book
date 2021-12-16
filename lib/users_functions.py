@@ -93,7 +93,7 @@ def unread_book(user_name,book_name):
         if book_read_name != book_name:
             temp.append(str(book_read_index))
     else:
-        new_line = f"{user_name}," + ",".join(temp) + ",\n"
+        new_line = f"{user_name}," + ",".join(temp) + "\n"
         overide_line("booksread.txt",user_name,new_line)
 
 def generate_matrix():
