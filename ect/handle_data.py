@@ -29,9 +29,9 @@ def overide_column(file,index:int,new_value:str):
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
             file.seek(0)
             for line in lines:
-                new_line = list(line)
+                new_line = line.replace("\n","").split(" ")
                 new_line[int(index)-1] = str(new_value)
-                new_line = "".join(new_line)
+                new_line = " ".join(new_line) + "\n"
                 file.write(new_line)
             file.truncate() # remove all data that wasn't overide
     except Exception as e:
@@ -44,9 +44,9 @@ def overide_value(file,index_book:int,index_user:int,new_value:str):
             file.seek(0)
             for i,line in enumerate(lines,1):
                 if i==index_user:
-                    new_line = list(line)
+                    new_line = line.replace("\n","").split(" ")
                     new_line[int(index_book)-1] = str(new_value)
-                    new_line = "".join(new_line)
+                    new_line = " ".join(new_line) + "\n"
                     file.write(new_line)
                 else:
                     file.write(line)
@@ -87,7 +87,8 @@ def get_note_in_file(user,book):
     with open(PATH / "notes.txt","r", encoding="utf-8") as file:
         for i,line in enumerate(file.readlines(),1):
             if i == user["index"]:
-                data = list(line.replace("\n",""))
+                data = line.replace("\n","").split(" ")
+                print(book["index"]-1)
                 return data[book["index"]-1]
 
 def list_readings():

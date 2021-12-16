@@ -22,7 +22,7 @@ def get_reader(name:str):
 
 def get_readings(name):
     for user in list_readings():
-        if user["name"]==name:
+        if user["name"].upper()==name.upper():
             return user["readings"]
 
 def update_reader(old_name,**kargs):
