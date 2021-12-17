@@ -71,7 +71,6 @@ def append_column(file,new_value):
             file.seek(0)
             for line in lines:
                 new_line = " ".join(line.replace("\n","").split(" ") + [str(new_value)]) + "\n"
-                print(new_line)
                 file.write(new_line)
             file.truncate() # remove all data that wasn't overide
     except Exception as e:
