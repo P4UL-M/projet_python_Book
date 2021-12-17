@@ -7,9 +7,15 @@ from lib.books_functions import books, get_book, get_global_rating, get_note
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 def readers():
+    """
+    this function return a generator with all user store in a dictionary
+    """
     return list_readers()
 
 def get_reader(name:str):
+    """
+    this function return the dictionary of a user by its name
+    """
     for user in list_readers():
         if type(name)==str:
             if user["name"].upper() == name.upper():
@@ -21,12 +27,16 @@ def get_reader(name:str):
             raise Exception("bad argument for get reader")
 
 def get_readings(name):
+    """
+    this function return the readings of a user store in dictionaries
+    """
     for user in list_readings():
         if user["name"].upper()==name.upper():
             return user["readings"]
 
 def update_reader(old_name,**kargs):
     """
+    this function allow to update a parameter of a user
     user args are : name,gender, age, favorite
     """
     try:
@@ -51,6 +61,9 @@ def update_reader(old_name,**kargs):
         print("File not found while trying to update a user")
 
 def remove_reader(name):
+    """
+    this function remove a user by his name
+    """
     user = get_reader(name)
     if user:
         overide_line("readers.txt",name,"")
@@ -61,6 +74,7 @@ def remove_reader(name):
 
 def add_reader(name,gender,age,favorite):
     """
+    this function allow to update a param of a reader
     you must specify name,gender,age,favorite
     """
     new_line = f"{name},{gender},{age},{favorite}\n"
@@ -76,6 +90,9 @@ def add_reader(name,gender,age,favorite):
         raise Exception("FATAL ERROR WHILE TYING TO ADD A READER PLEAZE CHECK YOUR SAVE FILE")
 
 def read_book(user_name,book_name):
+    """
+    this function allow to read a book by the user name and the book name
+    """
     temp = list()
     for book_read_index,book_read_name in get_readings(user_name).items():
         if book_read_name == book_name:
@@ -88,6 +105,9 @@ def read_book(user_name,book_name):
         overide_line("booksread.txt",user_name,new_line)
 
 def unread_book(user_name,book_name):
+    """
+    this function allow to un-read a book by the user name and the book name
+    """
     temp = list()
     for book_read_index,book_read_name in get_readings(user_name).items():
         if book_read_name != book_name:
@@ -97,6 +117,9 @@ def unread_book(user_name,book_name):
         overide_line("booksread.txt",user_name,new_line)
 
 def generate_matrix():
+    """
+    this function return the matrix of the ratio of similarity between two user
+    """
     l_readers = [i for i in readers()]
     matrix = [[0 for i in l_readers] for i in l_readers]
     for reader in readers():
@@ -114,6 +137,9 @@ def generate_matrix():
     return matrix
 
 def recommand_books(user):
+    """
+    this function return book recommanded for a user
+    """
     similar_ratio = {}
     
     for i,ratio in enumerate(generate_matrix()[user["index"]-1]):
@@ -132,12 +158,12 @@ def recommand_books(user):
         tmp = {}
         if len(list_recommandation)<10:
             for book in books():
-                if len(list_recommandation)<10 and str(book["index"]) not in get_readings(user["name"]):
+                if len(list_recommandation)<10 and str(book["index"]) not in get_readings(user["name"]) and book not in list_recommandation:
                     # 2 is the lesser average of a book note so we add 2 if there is no global rating and 2 if the user like the style of the book, like this a if we like fantasy a fantasy book of 3.1 is better than a normal book of 5 and an unnoted book will be either a 4 or a 2 if it has the good or not style.
-                    tmp[book["name"]] = [(get_global_rating(book["name"]) or 2) + (2.5 if book["style"]==user["favorite"] else 0),book]
-
-        tmp = dict(sorted(tmp.items(), key=lambda item: -item[1][0]))
-        for elt in tmp.values():
-            if len(list_recommandation)<10 and elt[1] not in list_recommandation:
-                list_recommandation.append(elt[1])
+                    weight = (get_global_rating(book["name"]) or 2) + (2.5 if book["style"]==user["favorite"] else 0)
+                    tmp[weight] = book
+        tmp = dict(sorted(tmp.items(), key=lambda item: -item[0])) # we sort them by their weight
+        for book in tmp.values(): # and add them to the end of the recommandation list if there are not in it already
+            if len(list_recommandation)<10 and book not in list_recommandation:
+                list_recommandation.append(book)
     return list_recommandation

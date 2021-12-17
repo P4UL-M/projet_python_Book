@@ -1,6 +1,13 @@
 from ect.globals import PATH
 
+"""
+this file like the function of the app with the data saved
+"""
+
 def list_readers():
+    """
+    this function return a dictionary of every user in the file
+    """
     with open(PATH / "readers.txt", "r", encoding="utf-8") as file:
         for i,line in enumerate(file.readlines(),1):
             line = line.replace("\n","")
@@ -10,6 +17,9 @@ def list_readers():
             yield user
 
 def overide_line(file,name:str,new_line:str):
+    """
+    this function overide a line in a file with a new file by the name of the first element or its index
+    """
     try:
         with open(PATH / file, "r+", encoding="utf-8") as file:
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
@@ -24,6 +34,9 @@ def overide_line(file,name:str,new_line:str):
         print("Error while trying to write data :",e)
 
 def overide_column(file,index:int,new_value:str):
+    """
+    this overide a column in a matrix by a new value
+    """
     try:
         with open(PATH / file, "r+", encoding="utf-8") as file:
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
@@ -41,6 +54,9 @@ def overide_column(file,index:int,new_value:str):
         print("Error while trying to write data :",e)
 
 def overide_value(file,index_book:int,index_user:int,new_value:str):
+    """
+    this function overide a single value in a matrix
+    """
     try:
         with open(PATH / file, "r+", encoding="utf-8") as file:
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
@@ -58,6 +74,9 @@ def overide_value(file,index_book:int,index_user:int,new_value:str):
         print("Error while trying to write data :",e)
 
 def append_line(file,new_line:str):
+    """
+    this function add a new line at the end of a file
+    """
     try:
         with open(PATH / file, "a", encoding="utf-8") as file:
             file.write(new_line)
@@ -65,6 +84,9 @@ def append_line(file,new_line:str):
         print("error while appending value")
 
 def append_column(file,new_value):
+    """
+    this function add a column to the end of a file, matrix
+    """
     try:
         with open(PATH / file, "r+", encoding="utf-8") as file:
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
@@ -77,6 +99,9 @@ def append_column(file,new_value):
         print("Error while trying to write data :",e)
 
 def list_books():
+    """
+    this function return dictionary for each books saved
+    """
     with open(PATH / "books.txt","r", encoding="utf-8") as file, open(PATH / "books_extended.txt","r", encoding="utf-8") as file_extended:
         a,b = file.readlines(),file_extended.readlines() # put the object directly in the zip don't work but i don't know why
         for i,line in enumerate(zip(a,b),1):
@@ -86,7 +111,10 @@ def list_books():
             book["index"] = i
             yield book
 
-def get_note_in_file(user,book):
+def get_value(user,book):
+    """
+    this function return the value of a case in a matrix
+    """
     with open(PATH / "notes.txt","r", encoding="utf-8") as file:
         for i,line in enumerate(file.readlines(),1):
             if i == user["index"]:
@@ -94,6 +122,9 @@ def get_note_in_file(user,book):
                 return data[book["index"]-1]
 
 def list_readings():
+    """
+    this return all readings of all user
+    """
     with open(PATH / "booksread.txt", "r", encoding="utf-8") as file:
         for i,line in enumerate(file.readlines(),1):
             line = line.replace("\n","")
@@ -107,6 +138,9 @@ def list_readings():
             yield user
 
 def delete_reading(file,book:dict):
+    """
+    this function search and delete all index of a book in a file
+    """
     try:
         with open(PATH / file, "r+", encoding="utf-8") as file:
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries

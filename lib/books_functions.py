@@ -67,7 +67,7 @@ def remove_book(name):
     # make overide collumn à la place
 
 def get_note(user,book):
-    return get_note_in_file(user,book)
+    return get_value(user,book)
 
 def note_book(book:dict,user:dict,note):
     try:
