@@ -1,4 +1,3 @@
-from os import read
 from ect.handle_data import *
 from lib.books_functions import books, get_book, get_global_rating, get_note
 
@@ -161,9 +160,9 @@ def recommand_books(user):
                 if len(list_recommandation)<10 and str(book["index"]) not in get_readings(user["name"]) and book not in list_recommandation:
                     # 2 is the lesser average of a book note so we add 2 if there is no global rating and 2 if the user like the style of the book, like this a if we like fantasy a fantasy book of 3.1 is better than a normal book of 5 and an unnoted book will be either a 4 or a 2 if it has the good or not style.
                     weight = (get_global_rating(book["name"]) or 2) + (2.5 if book["style"]==user["favorite"] else 0)
-                    tmp[weight] = book
-        tmp = dict(sorted(tmp.items(), key=lambda item: -item[0])) # we sort them by their weight
-        for book in tmp.values(): # and add them to the end of the recommandation list if there are not in it already
-            if len(list_recommandation)<10 and book not in list_recommandation:
-                list_recommandation.append(book)
+                    tmp[book["name"]] = weight
+        tmp = dict(sorted(tmp.items(), key=lambda item: -item[1])) # we sort them by their weight
+        for book_name in tmp.keys(): # and add them to the end of the recommandation list if there are not in it already
+            if len(list_recommandation)<10 and get_book(book_name) not in list_recommandation:
+                list_recommandation.append(get_book(book_name))
     return list_recommandation
