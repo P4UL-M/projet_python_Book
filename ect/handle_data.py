@@ -30,7 +30,10 @@ def overide_column(file,index:int,new_value:str):
             file.seek(0)
             for line in lines:
                 new_line = line.replace("\n","").split(" ")
-                new_line[int(index)-1] = str(new_value)
+                if new_value != None:
+                    new_line[int(index)-1] = str(new_value)
+                else:
+                    del new_line[int(index)-1]
                 new_line = " ".join(new_line) + "\n"
                 file.write(new_line)
             file.truncate() # remove all data that wasn't overide
@@ -67,7 +70,8 @@ def append_column(file,new_value):
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
             file.seek(0)
             for line in lines:
-                new_line = line.replace("\n","") + str(new_value) + "\n"
+                new_line = " ".join(line.replace("\n","").split(" ") + [str(new_value)]) + "\n"
+                print(new_line)
                 file.write(new_line)
             file.truncate() # remove all data that wasn't overide
     except Exception as e:

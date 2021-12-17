@@ -27,7 +27,7 @@ def add_book(name,style):
         if not get_book(name):
             append_line("books.txt",name + "\n")
             append_line("books_extended.txt",new_line)
-            append_column("notes.txt","0")
+            append_column("notes.txt",0)
         else:
             raise Exception("Book already exist or your name was already use")
     except FileNotFoundError:
@@ -62,7 +62,7 @@ def remove_book(name):
     book = get_book(name)
     overide_line("books_extended.txt",name,"")
     overide_line("books.txt",name,"")
-    overide_column("notes.txt",str(book["index"]),"")
+    overide_column("notes.txt",str(book["index"]),None)
     delete_reading("booksread.txt",book)
     # make overide collumn à la place
 
