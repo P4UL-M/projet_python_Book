@@ -39,11 +39,11 @@ def update_reader(old_name,**kargs):
     user args are : name,gender, age, favorite
     """
     try:
-        test = True
+        test = False
         if "name" in kargs.keys():
-            test = get_reader(kargs["name"])
+            test = get_reader(kargs["name"]) and kargs["name"]!=old_name
         user = get_reader(old_name)
-        if not user and test:
+        if not user or test:
             raise UserWarning
         for key,value in kargs.items():
             if key in user.keys():

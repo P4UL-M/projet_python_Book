@@ -520,20 +520,20 @@ def edit_user(new=False,new_name=""):
         new_gender = gender_value.get()
         new_age =age_value.get()
         new_favorite = str(favorite_combo['values'].index(favorite_combo.get()) + 1)
-        if new:
-            try:
-                new_name.replace(",","")
-                if not new_name:
-                    msg.showerror("INVALID NAME", "INVALID NAME !\n Please try another pseudo.")
-                add_reader(new_name,new_gender,new_age,new_favorite)
-            except UserWarning:
+        try:
+            if new:
+                    new_name.replace(",","")
+                    if not new_name:
+                        msg.showerror("INVALID NAME", "INVALID NAME !\n Please try another pseudo.")
+                    add_reader(new_name,new_gender,new_age,new_favorite)
+            else:
+                update_reader(old_name=old_name,name=new_name,gender=new_gender,age=new_age,favorite=new_favorite)
+                set_user(new_name)
+                win.destroy()
+        except UserWarning:
                 msg.showerror("USER ALREADY EXIST", "USER ALREADY EXIST !\n Please try another pseudo or if it's your account edit it.")
                 win.focus_set()
                 return
-        else:
-            update_reader(old_name=old_name,name=new_name,gender=new_gender,age=new_age,favorite=new_favorite)
-        set_user(new_name)
-        win.destroy()
 
     btn_save = ttk.Button(main,text="  Save  ",command=save_data)
     btn_save.grid(column=1,row=4,columnspan=2)
