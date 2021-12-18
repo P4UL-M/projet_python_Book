@@ -1,5 +1,14 @@
 # PROJECT PYTHON FIRST SEMESTER
 by Paul MAIRESSE and Louis LE MEILLEUR
+
+## REQUIREMENT
+*all requirement are normally already installed on newer version of python*
+- python 3.8 or higher (order in dictionary)
+- PAL (image in tkinter)    ``python -m pip install PAL``
+- Tkinter                   ``python -m pip install tkinter``
+- PATH                      ``python -m pip install PATH``
+- sys                       ``default installed in python``
+
 ## How to Use :
 
 - execute the main file or the App.pyw

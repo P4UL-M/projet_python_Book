@@ -1,0 +1,9 @@
+Gilbert,1,2,1
+William,3,3,7
+AlienRoXoR17,2,1,3
+anonyme,3,3,2
+Lecteur_assidu,1,1,3
+haripoteur,3,2,5
+Lili,2,2,2
+ArchiBald_fx,1,3,4
+IdidntREADanybooks,1,1,1
