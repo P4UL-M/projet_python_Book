@@ -5,10 +5,9 @@
 - execute the main file or the App.pyw
   
 - the App is divised in 4 tab :
-  - first the home page where you can see the recommandation of the user connected,the last books added, the last
-  - books read by the user
+  - first the home page where you can see the recommandation of the user connected,the last books added, the last books read
   - second the search tab to search a user or a book
-  - third to connect as/create a user, or see its infos, edit it or delete it
+  - third to connect as/create a user, or see its information, edit it or delete it
   - fourth to add a book
 
 - to see a book you just have to double click on it in the main page or the search tab
@@ -17,7 +16,7 @@
   - rate it
   - edit it
   - delete it
-  - (you can also see the info of a user this way but to edit or delete it you need to connect with it)
+  - (you can also see the info of a user this way but to edit or delete it you need to connect with it in the third tab)
 
 - to see a user you just have to double click on it in the main page or the search tab
   - you can see all the info : name, gender, age, favorite style
@@ -31,6 +30,9 @@
   - if books are not in the same order in the two file, the app migth crash
   - if users are not in the same order in the two file, the app migth also crash
   - error of format in the file migth crash the app or make it corrumpt data and crash
+
+
+Note : For X reasons Tkinter may don't update correctly (principaly on Windows), This normally won't happen but if it's the case to correct this you can resize the window of 2 more pixels until the application is fully updated (what force_update do).
 
 
 ## formats of files :
@@ -86,4 +88,4 @@ _____________________
 
 github : https://github.com/P4UL-M/projet_python_Book
 
-this README use markdown
+this README use markdown, please consider use a appropriate application to read it properly.

@@ -133,7 +133,7 @@ def generate_matrix():
             s1 = sum([ai*bi for ai,bi in zip(a,b)])
             s2 = sum([i**2 for i in a])**(1/2)
             s3 = sum([i**2 for i in b])**(1/2)
-            matrix[reader["index"]-1][target["index"]-1] = s1/(s2*s3) if s1!=0 and s2!=0 else 0
+            matrix[reader["index"]-1][target["index"]-1] = s1/(s2*s3) if s3!=0 and s2!=0 else 0
     return matrix
 
 def recommand_books(user):

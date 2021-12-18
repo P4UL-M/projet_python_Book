@@ -1,6 +1,20 @@
 import sys
 from pathlib import Path
+"""
+This file contain constant we need in every other file, to avoid circular import we use a global file (python global variables aren't global to every file)
+"""
 
+#this library allow to user / operator in path and work for every following case of every OS :
+# 
+# In Mac/Linux :
+#  % python /user/document/projet_python_book/main.py
+# ~/projet_python_book % python main.py
+# 
+# in Windows :
+# % python \user\document\projet_python_book\main.py
+# ~\projet_python_book % python main.py
+# 
+# run with the App.pyw
 PATH = Path("/".join(sys.argv[0].split("/")[:-1]) or "\\".join(sys.argv[0].split("\\")[:-1])).absolute() / "data"
 
 
@@ -35,9 +49,15 @@ AGES = {
 }
 
 def Recursive_Binding(parent,event,func):
+    """
+    this function bind every child of a parent recursively with an event and a fonction
+    """
     parent.bind(event,func)
     for child in parent.winfo_children():
         Recursive_Binding(child,event,func)
 
 def force_update():
+    """
+    this function resize the window to the same size so each config function is call and it force the update of the window
+    """
     WINDOW.config(height=WINDOW.winfo_height())
