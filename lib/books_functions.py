@@ -41,18 +41,19 @@ def update_book(old_name,**kargs):
     user args are : name,gender, age, favorite
     """
     try:
-        test = True
+        test = False
         if "name" in kargs.keys():
-            test = get_book(kargs["name"])
+            test = not get_book(kargs["name"]) and kargs["name"]!=old_name
         book = get_book(old_name)
-        if not book and test:
+        if not book or test:
             raise Exception("book not found or new name already taken")
         for key,value in kargs.items():
             if key in book.keys():
                 book[key] = str(value)
+        index = book["index"]
         book.pop("index")
         new_line = ",,".join(book.values()) + "\n"
-        overide_line("books_extended.txt",old_name,new_line)
+        overide_line("books_extended.txt",index,new_line)
         overide_line("books.txt",old_name,kargs["name"] + "\n")
     except FileNotFoundError:
         # do some shit to say to the user that the file doen't seems to exist

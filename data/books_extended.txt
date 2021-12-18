@@ -4,8 +4,8 @@ Un conte de deux villes,,6
 Le Seigneur des Anneaux,,8
 Le Petit Prince,,2
 Harry Potter à l’école des sorciers,,8
-Le rêve dans le Pavillon rouge,,3
-Le Lion, la Sorcière blanche et l’Armoire magique,,4
+Le rêve dans le Pavillon rouge,,6
+Le Lion, la Sorcière blanche et l’Armoire magique,,8
 Elle – She : a history of Adventure,,4
 Da vinci ce crack,,2
 Réfléchissez et devenez riche,,7
@@ -20,3 +20,4 @@ La stratégie Ender,,1
 La stratégie de l'ombre,,1
 Le Guide du Routar Intergalactique,,1
 Le Bourgeois Gentilhomme,,7
+The Witcher - The Lady of the Lake,,8
