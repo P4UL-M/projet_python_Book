@@ -46,14 +46,14 @@ def update_book(old_name,**kargs):
             test = get_book(kargs["name"]) and kargs["name"]!=old_name
         book = get_book(old_name)
         if not book or test:
-            raise UserWarning
+            raise UserWarning #this is an exception we choose to say to the app if the book title is already used (cannot create custum exeption without class)
         for key,value in kargs.items():
             if key in book.keys():
                 book[key] = str(value)
         index = book["index"]
         book.pop("index")
         new_line = ",,".join(book.values()) + "\n"
-        overide_line("books_extended.txt",index,new_line)
+        overide_line("books_extended.txt",index,new_line) # cannot use name because of "," detector which is there a ",,", more easy to use index than correct all
         overide_line("books.txt",old_name,kargs["name"] + "\n")
     except FileNotFoundError:
         # do some shit to say to the user that the file doen't seems to exist
