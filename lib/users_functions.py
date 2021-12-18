@@ -44,7 +44,7 @@ def update_reader(old_name,**kargs):
             test = get_reader(kargs["name"])
         user = get_reader(old_name)
         if not user and test:
-            raise Exception("user not found or new name already taken")
+            raise UserWarning
         for key,value in kargs.items():
             if key in user.keys():
                 user[key] = str(value)
@@ -84,7 +84,7 @@ def add_reader(name,gender,age,favorite):
             nb = len([i for i in books()])
             append_line("notes.txt","0"*nb + "\n")
         else:
-            raise Exception("User already exist or your name was already use")
+            raise UserWarning
     except FileNotFoundError:
         raise Exception("FATAL ERROR WHILE TYING TO ADD A READER PLEAZE CHECK YOUR SAVE FILE")
 

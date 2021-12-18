@@ -29,7 +29,7 @@ def add_book(name,style):
             append_line("books_extended.txt",new_line)
             append_column("notes.txt",0)
         else:
-            raise Exception("Book already exist or your name was already use")
+            raise UserWarning
     except FileNotFoundError:
         # do some shit with tkinder to confirm creation of the file
         append_line("readers.txt",new_line)
@@ -43,10 +43,10 @@ def update_book(old_name,**kargs):
     try:
         test = False
         if "name" in kargs.keys():
-            test = not get_book(kargs["name"]) and kargs["name"]!=old_name
+            test = get_book(kargs["name"]) and kargs["name"]!=old_name
         book = get_book(old_name)
         if not book or test:
-            raise Exception("book not found or new name already taken")
+            raise UserWarning
         for key,value in kargs.items():
             if key in book.keys():
                 book[key] = str(value)

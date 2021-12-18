@@ -41,3 +41,5 @@ def Recursive_Binding(parent,event,func):
 
 def force_update():
     WINDOW.config(height=WINDOW.winfo_height())
+
+

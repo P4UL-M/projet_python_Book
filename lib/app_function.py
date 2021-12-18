@@ -526,13 +526,10 @@ def edit_user(new=False,new_name=""):
                 if not new_name:
                     msg.showerror("INVALID NAME", "INVALID NAME !\n Please try another pseudo.")
                 add_reader(new_name,new_gender,new_age,new_favorite)
-            except Exception as e:
-                if 'User already exist or your name was already use' in e.args:
-                    msg.showerror("USER ALREADY EXIST", "USER ALREADY EXIST !\n Please try another pseudo or if it's your account edit it.")
-                    win.focus_set()
-                    return
-                else:
-                    raise e
+            except UserWarning:
+                msg.showerror("USER ALREADY EXIST", "USER ALREADY EXIST !\n Please try another pseudo or if it's your account edit it.")
+                win.focus_set()
+                return
         else:
             update_reader(old_name=old_name,name=new_name,gender=new_gender,age=new_age,favorite=new_favorite)
         set_user(new_name)
@@ -588,8 +585,6 @@ def edit_book(new=True):
         favorite_combo.current(int(book["style"])-1)
     
     favorite_combo.grid(column=1, row=3)
-
-
     #endregion
 
     def return_home():
@@ -618,13 +613,10 @@ def edit_book(new=True):
             else:
                 update_book(old_name,name=new_name,style=new_favorite)
                 return_home()
-        except Exception as e:
-            if 'Book already exist or your name was already use' in e.args:
-                msg.showerror("BOOK ALREADY EXIST", "BOOK ALREADY EXIST !\n Please try another title.")
-                win.focus_set()
-                return
-            else:
-                raise e
+        except UserWarning as e:
+            msg.showerror("BOOK ALREADY EXIST", "BOOK ALREADY EXIST !\n Please try another title.")
+            win.focus_set()
+            return
 
     btn_save = ttk.Button(main,text="  Save  ",command=save_data)
     btn_save.grid(column=1,row=4,columnspan=2)
