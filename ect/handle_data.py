@@ -146,7 +146,13 @@ def delete_reading(file,book:dict):
             lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
             file.seek(0)
             for line in lines:
-                new_line = line.replace("," + str(book["index"]) + ",",",").replace("," + str(book["index"]),"")
+                l = line.replace("\n","").split(",")
+                for elt in l[1:]:
+                    if elt==str(book["index"]):
+                        del l
+                    else:
+                        l -= 1
+                new_line = ",".join(l) + "\n"
                 file.write(new_line)
             file.truncate() # remove all data that wasn't overide
     except Exception as e:

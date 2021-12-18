@@ -54,9 +54,7 @@ def update_reader(old_name,**kargs):
         temp = get_readings(old_name)
         new_line = user["name"] + "," + ",".join(temp) + ("," if len(temp) > 0 else "") + "\n"
         overide_line("booksread.txt",old_name,new_line)
-
     except FileNotFoundError:
-        # do some shit to say to the user that the file doen't seems to exist
         print("File not found while trying to update a user")
 
 def remove_reader(name):
@@ -73,7 +71,7 @@ def remove_reader(name):
 
 def add_reader(name,gender,age,favorite):
     """
-    this function allow to update a param of a reader
+    this function allow add a reader
     you must specify name,gender,age,favorite
     """
     new_line = f"{name},{gender},{age},{favorite}\n"

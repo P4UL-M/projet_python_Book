@@ -5,9 +5,15 @@ from ect.handle_data import *
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 def books():
+    """
+    this function return a generator with all book store in a dictionary
+    """
     return list_books()
 
 def get_book(name):
+    """
+    this function return the dictionary of a book by its name or index
+    """
     for book in list_books():
         if type(name)==str:
             if book["name"] == name:
@@ -20,7 +26,8 @@ def get_book(name):
 
 def add_book(name,style):
     """
-    you must specify name,gender,age,favorite
+    this function allow add a book
+    you must specify name,style
     """
     new_line = f"{name},,{style}\n"
     try:
@@ -31,14 +38,12 @@ def add_book(name,style):
         else:
             raise UserWarning
     except FileNotFoundError:
-        # do some shit with tkinder to confirm creation of the file
-        append_line("readers.txt",new_line)
-        append_line("booksread.txt",name + ",") # this file doesn't interfere with the order so we can write in it even if it already exist
-        append_column("notes.txt","0") # this file interfere so fuuuuuuuuucccckkkkkk i guess
+        raise Exception("FATAL ERROR WHILE TYING TO ADD A READER PLEAZE CHECK YOUR SAVE FILE")
 
 def update_book(old_name,**kargs):
     """
-    user args are : name,gender, age, favorite
+    this function allow to update a parameter of a book
+    user args are : name,style
     """
     try:
         test = False
@@ -56,21 +61,31 @@ def update_book(old_name,**kargs):
         overide_line("books_extended.txt",index,new_line) # cannot use name because of "," detector which is there a ",,", more easy to use index than correct all
         overide_line("books.txt",old_name,kargs["name"] + "\n")
     except FileNotFoundError:
-        # do some shit to say to the user that the file doen't seems to exist
         print("File not found while trying to update a user")
 
 def remove_book(name):
+    """
+    this function remove a user by his name
+    """
     book = get_book(name)
-    overide_line("books_extended.txt",name,"")
-    overide_line("books.txt",name,"")
-    overide_column("notes.txt",str(book["index"]),None)
-    delete_reading("booksread.txt",book)
-    # make overide collumn à la place
+    if book:
+        overide_line("books_extended.txt",name,"")
+        overide_line("books.txt",name,"")
+        overide_column("notes.txt",str(book["index"]),None)
+        delete_reading("booksread.txt",book)
+    else:
+        print("book not found")
 
 def get_note(user,book):
+    """
+    this function give the note for a user and a book
+    """
     return get_value(user,book)
 
 def note_book(book:dict,user:dict,note):
+    """
+    this function note a book for a user and a book
+    """
     try:
         if type(book)!=dict or type(user)!=dict or not book or not user:
             raise Exception("Bad argument, must send book and user")
@@ -82,6 +97,9 @@ def note_book(book:dict,user:dict,note):
         print("File not found while trying to update a user")
 
 def get_global_rating(name):
+    """
+    this give the average rating of a book by its name
+    """
     temp = []
     for user in list_readers():
         val = int(get_note(user,get_book(name)))
