@@ -1,5 +1,5 @@
 # PROJECT PYTHON FIRST SEMESTER
-
+by Paul MAIRESSE and Louis LE MEILLEUR
 ## How to Use :
 
 - execute the main file or the App.pyw
