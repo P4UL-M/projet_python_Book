@@ -521,14 +521,15 @@ def edit_user(new=False,new_name=""):
         new_favorite = str(favorite_combo['values'].index(favorite_combo.get()) + 1)
         try:
             if new:
-                    new_name.replace(",","")
+                    new_name = new_name.replace(",","")
                     if not new_name:
                         msg.showerror("INVALID NAME", "INVALID NAME !\n Please try another pseudo.")
+                        return
                     add_reader(new_name,new_gender,new_age,new_favorite)
             else:
                 update_reader(old_name=old_name,name=new_name,gender=new_gender,age=new_age,favorite=new_favorite)
-                set_user(new_name)
-                win.destroy()
+            set_user(new_name)
+            win.destroy()
         except UserWarning:
                 msg.showerror("USER ALREADY EXIST", "USER ALREADY EXIST !\n Please try another pseudo or if it's your account edit it.")
                 win.focus_set()
