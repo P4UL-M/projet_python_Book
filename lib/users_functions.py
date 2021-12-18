@@ -82,7 +82,8 @@ def add_reader(name,gender,age,favorite):
             append_line("readers.txt",new_line)
             append_line("booksread.txt",name + ",\n")
             nb = len([i for i in books()])
-            append_line("notes.txt","0"*nb + "\n")
+            l = ["0"*nb]
+            append_line("notes.txt"," ".join(l) + "\n")
         else:
             raise UserWarning
     except FileNotFoundError:

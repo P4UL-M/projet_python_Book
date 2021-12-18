@@ -7,3 +7,4 @@ mag hoss,
 Odin,16,12,14,9
 MySuperAccount,13,1,18,3,19,20,21
 Reader2912,
+NotaBigReader,
