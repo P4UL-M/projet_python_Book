@@ -264,7 +264,6 @@ def display_book(name):
         readings = get_readings(user["name"])
         def unread_func():
                 unread_book(user["name"],name)
-                note_book(book,user,0)
                 on_click_double()
                 status_bouton.configure(text="read")
                 status_bouton.configure(command=read_func)
@@ -520,14 +519,18 @@ def edit_user(new=False,new_name=""):
         new_age =age_value.get()
         new_favorite = str(favorite_combo['values'].index(favorite_combo.get()) + 1)
         try:
+            new_name = new_name.replace(",","")
+            
+            if not(all(new_name,new_gender,new_age,new_favorite)):
+                msg.showerror("INVALID PARAMETERS", "INVALID PARAMETERS !\n Please try another pseudo or answers every params.")
+                return
+            
             if new:
-                    new_name = new_name.replace(",","")
-                    if not new_name:
-                        msg.showerror("INVALID NAME", "INVALID NAME !\n Please try another pseudo.")
-                        return
+                    
                     add_reader(new_name,new_gender,new_age,new_favorite)
             else:
                 update_reader(old_name=old_name,name=new_name,gender=new_gender,age=new_age,favorite=new_favorite)
+            
             set_user(new_name)
             win.destroy()
         except UserWarning:

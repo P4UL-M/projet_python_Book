@@ -97,7 +97,6 @@ def note_book(book:dict,user:dict,note):
         overide_value("notes.txt",book["index"],user["index"],note)
         generate_matrix()
     except FileNotFoundError:
-        # do some shit to say to the user that the file doen't seems to exist
         print("File not found while trying to update a user")
 
 def get_global_rating(name):
