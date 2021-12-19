@@ -5,9 +5,9 @@ import sys
 
 from lib.books_functions import books
 from lib.users_functions import get_readings
-from lib.others_functions import verify_data
+from lib.others_functions import *
 from lib.app_function import *
-from ect.globals import WINDOW,Matrix
+from ect.globals import WINDOW
 
 """
 This is the main script of our project

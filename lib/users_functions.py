@@ -1,4 +1,5 @@
 from ect.handle_data import *
+from lib.others_functions import *
 from lib.books_functions import books, get_book, get_global_rating, get_note
 from ect.globals import Matrix
 
