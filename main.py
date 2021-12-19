@@ -113,7 +113,7 @@ wrapper_new.pack(side=tk.TOP,fill='x',expand=1)
 #endregion
 def update_gallery_News():
     """
-    his fonction update the news gallery
+    this fonction update the news gallery
     """
     if "offset" in new_gallery.keys():
         new_gallery["offset"].forget()
@@ -121,7 +121,8 @@ def update_gallery_News():
     for child in new_gallery["frame"].winfo_children():
         child.forget()
 
-    enum = [i for i in books()][:-11:-1] #this time we take the book list and reverse it to get it in last add form the fist order
+    #this time we take the book list and reverse it to get it in last add form the fist order
+    enum = [i for i in books()][:-11:-1] 
 
     for book in enum:
         frame = tk.Frame(new_gallery["frame"],height=180,width=100,background=STYLES[book["style"]][1])
@@ -165,7 +166,8 @@ def update_gallery_Rate():
         child.forget()
     
     if user:
-        enum = [get_book(int(i)) for i in get_readings(user["name"])][::-1] #this time we itter in the readings of the user by reverse order
+        #this time we itter in the readings of the user by reverse order
+        enum = [get_book(int(i)) for i in get_readings(user["name"])][::-1]
 
         for book in enum:
             frame = tk.Frame(rate_gallery["frame"],height=180,width=100,background=STYLES[book["style"]][1])
@@ -193,7 +195,8 @@ def actualise(event):
         update_gallery_Rate()
         update_gallery_News()
         update_gallery_Rec()
-        _frame_scrollable_main["refresh"]() #fonction add to gallery and vertical frame with scrollbar to force the refresh on windows
+        #fonction add to gallery and vertical frame with scrollbar to force the refresh on windows
+        _frame_scrollable_main["refresh"]()
         recommendation_gallery["refresh"]()
         new_gallery["refresh"]()
         rate_gallery["refresh"]()
@@ -215,7 +218,9 @@ frame_search_bar.pack(fill="x")
 wrapper_zone = tk.Frame(Part2,background="red",name="wrapper")
 zone = get_vertical_scroll_bar(wrapper_zone)
 
-func = lambda e=None:generate_result(main_frame=zone) #we create a lanbda because we can't pass personnal argument in event in tkinter (normally useless with class but here we need to do it)
+# we create a lanbda because we can't pass personnal argument in event in tkinter 
+# (normally useless with class but here we need to do it)
+func = lambda e=None:generate_result(main_frame=zone) 
 
 #region Search Bar elts
 """
@@ -272,7 +277,9 @@ def on_focus_profile(event):
     every time we bind focus we need to verify if the target is really the tab whose the function was bind
     """
     if event.widget == Part3 and not get_user():
-        user_portal() #this function add the user to the tkinter tab so we can access anywhere, session is depedant of the GUI but this allow us access it from any script without any error of unuptated data
+        # this function add the user to the tkinter tab so we can access anywhere, 
+        # session is depedant of the GUI but this allow us access it from any script without any error of unuptated data
+        user_portal() 
 
 Part3.bind("<FocusIn>", on_focus_profile)
 #endregion
