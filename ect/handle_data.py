@@ -162,7 +162,7 @@ def delete_reading(file,book:dict):
 
 def generate_matrix():
     """
-    this function return the matrix of the ratio of similarity between two user
+    this function genrerate the matrix of the ratio of similarity between two user
     """
     global Matrix
     l_readers = [i for i in list_readers()]

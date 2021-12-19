@@ -52,11 +52,20 @@ AGES = {
 Matrix = list()
 
 def update_size(size):
+    """
+    this function resize the object without changing it so we don't have bug with global variable
+    """
     while len(Matrix)!=size:
-        Matrix.append([0])
+        if len(Matrix)>size:
+            Matrix.pop()
+        else:
+            Matrix.append([0])
     for l in Matrix:
         while len(l)!=size:
-            l.append(0)
+            if len(l)>size:
+                l.pop()
+            else:
+                l.append([0])
 
 def Recursive_Binding(parent,event,func):
     """
