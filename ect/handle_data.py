@@ -141,19 +141,21 @@ def delete_reading(file,book:dict):
     """
     this function search and delete all index of a book in a file
     """
-    try:
-        with open(PATH / file, "r+", encoding="utf-8") as file:
-            lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
-            file.seek(0)
-            for line in lines:
-                l = line.replace("\n","").split(",")
-                for elt in l[1:]:
-                    if elt==str(book["index"]):
-                        del l
-                    else:
-                        l -= 1
-                new_line = ",".join(l) + "\n"
-                file.write(new_line)
-            file.truncate() # remove all data that wasn't overide
-    except Exception as e:
-        print("Error while trying to write data :",e)
+    with open(PATH / file, "r+", encoding="utf-8") as file:
+        lines = file.readlines() # this is not memory efficient but otherwise we need some libraries
+        file.seek(0)
+        for line in lines:
+            l = line.replace("\n","").split(",")
+            index = 1
+            for elt in l[1:]:
+                if elt=="":
+                    break
+                if elt==str(book["index"]):
+                    del l[index]
+                else:
+                    if int(elt)>book["index"]:
+                        l[index] = str(int(elt) -1)
+                    index += 1
+            new_line = ",".join(l) + "\n"
+            file.write(new_line)
+        file.truncate() # remove all data that wasn't overide

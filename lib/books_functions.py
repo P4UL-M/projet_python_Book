@@ -69,8 +69,8 @@ def remove_book(name):
     """
     book = get_book(name)
     if book:
-        overide_line("books_extended.txt",name,"")
-        overide_line("books.txt",name,"")
+        overide_line("books_extended.txt",book["index"],"")
+        overide_line("books.txt",book["index"],"")
         overide_column("notes.txt",str(book["index"]),None)
         delete_reading("booksread.txt",book)
     else:
