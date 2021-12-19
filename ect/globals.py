@@ -49,18 +49,18 @@ AGES = {
     "3":">25 ans"
 }
 
-Matrix = list()
+MATRIX = list()
 
 def update_size(size):
     """
     this function resize the object without changing it so we don't have bug with global variable
     """
-    while len(Matrix)!=size:
-        if len(Matrix)>size:
-            Matrix.pop()
+    while len(MATRIX)!=size:
+        if len(MATRIX)>size:
+            MATRIX.pop()
         else:
-            Matrix.append([0])
-    for l in Matrix:
+            MATRIX.append([0])
+    for l in MATRIX:
         while len(l)!=size:
             if len(l)>size:
                 l.pop()

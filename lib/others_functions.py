@@ -1,6 +1,7 @@
 import tkinter.messagebox as msg
 
 from ect.handle_data import *
+from ect.globals import MATRIX,update_size
 
 def verify_data():
     """
@@ -38,7 +39,7 @@ def generate_matrix():
     """
     this function genrerate the matrix of the ratio of similarity between two user
     """
-    global Matrix
+    global MATRIX
     l_readers = [i for i in list_readers()]
     update_size(len(l_readers))
     for reader in list_readers():
@@ -52,4 +53,4 @@ def generate_matrix():
             s1 = sum([ai*bi for ai,bi in zip(a,b)])
             s2 = sum([i**2 for i in a])**(1/2)
             s3 = sum([i**2 for i in b])**(1/2)
-            Matrix[reader["index"]-1][target["index"]-1] = s1/(s2*s3) if s3!=0 and s2!=0 else 0
+            MATRIX[reader["index"]-1][target["index"]-1] = s1/(s2*s3) if s3!=0 and s2!=0 else 0

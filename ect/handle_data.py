@@ -1,4 +1,4 @@
-from ect.globals import PATH,Matrix,update_size
+from ect.globals import PATH
 
 """
 this file like the function of the app with the data saved

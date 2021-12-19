@@ -1,7 +1,7 @@
 from ect.handle_data import *
 from lib.others_functions import *
 from lib.books_functions import books, get_book, get_global_rating, get_note
-from ect.globals import Matrix
+from ect.globals import MATRIX
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #                                   users functions                                   #
@@ -124,7 +124,7 @@ def recommand_books(user):
     """
     similar_ratio = {}
     
-    for i,ratio in enumerate(Matrix[user["index"]-1]):
+    for i,ratio in enumerate(MATRIX[user["index"]-1]):
         if ratio>0 and get_reader(i+1)!=user:
             similar_ratio[get_reader(i+1)["name"]] = ratio
     

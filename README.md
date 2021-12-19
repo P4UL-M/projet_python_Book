@@ -13,11 +13,12 @@ by Paul MAIRESSE and Louis LE MEILLEUR
 
 - execute the main file or the App.pyw
   
-- the App is divised in 4 tab :
-  - first the home page where you can see the recommandation of the user connected,the last books added, the last books read
+- the App is divided in 4 tabs:
+  - first the home page where you can see the recommendation of the user connected, the last books added, the last books read
   - second the search tab to search a user or a book
   - third to connect as/create a user, or see its information, edit it or delete it
   - fourth to add a book
+
 
 - to see a book you just have to double click on it in the main page or the search tab
   - you can see all the info : title, global rating,style
