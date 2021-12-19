@@ -330,5 +330,4 @@ WINDOW.protocol("WM_DELETE_WINDOW", on_closing)
 # run the app
 verify_data() # we verify the data before trying to launch the app so it stop on fatal error in data
 generate_matrix() # we must generate the matrix at least one time
-print(Matrix)
 WINDOW.mainloop() #main loop of tkinter
