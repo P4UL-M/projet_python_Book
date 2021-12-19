@@ -161,10 +161,10 @@ def update_gallery_Rate():
     if "offset" in rate_gallery.keys():
         rate_gallery["offset"].forget()
     
+    for child in rate_gallery["frame"].winfo_children():
+        child.forget()
+    
     if user:
-        for child in rate_gallery["frame"].winfo_children():
-            child.forget()
-
         enum = [get_book(int(i)) for i in get_readings(user["name"])][::-1] #this time we itter in the readings of the user by reverse order
 
         for book in enum:

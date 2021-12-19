@@ -521,13 +521,12 @@ def edit_user(new=False,new_name=""):
         try:
             new_name = new_name.replace(",","")
             
-            if not(all(new_name,new_gender,new_age,new_favorite)):
+            if not(all([new_name,new_gender,new_age,new_favorite])):
                 msg.showerror("INVALID PARAMETERS", "INVALID PARAMETERS !\n Please try another pseudo or answers every params.")
                 return
             
             if new:
-                    
-                    add_reader(new_name,new_gender,new_age,new_favorite)
+                add_reader(new_name,new_gender,new_age,new_favorite)
             else:
                 update_reader(old_name=old_name,name=new_name,gender=new_gender,age=new_age,favorite=new_favorite)
             
