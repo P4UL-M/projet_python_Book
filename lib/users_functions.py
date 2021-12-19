@@ -1,5 +1,6 @@
 from ect.handle_data import *
 from lib.books_functions import books, get_book, get_global_rating, get_note
+from ect.globals import Matrix
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #                                   users functions                                   #
@@ -66,6 +67,7 @@ def remove_reader(name):
         overide_line("readers.txt",name,"")
         overide_line("booksread.txt",name,"")
         overide_line("notes.txt",user["index"],"")
+        generate_matrix()
     else:
         print("user not found")
 
@@ -82,6 +84,7 @@ def add_reader(name,gender,age,favorite):
             nb = len([i for i in books()])
             l = ["0"]*nb
             append_line("notes.txt"," ".join(l) + "\n")
+            generate_matrix()
         else:
             raise UserWarning
     except FileNotFoundError:
@@ -114,33 +117,13 @@ def unread_book(user_name,book_name):
         new_line = f"{user_name}," + ",".join(temp) + "\n"
         overide_line("booksread.txt",user_name,new_line)
 
-def generate_matrix():
-    """
-    this function return the matrix of the ratio of similarity between two user
-    """
-    l_readers = [i for i in readers()]
-    matrix = [[0 for i in l_readers] for i in l_readers]
-    for reader in readers():
-        for target in readers():
-            a = list()
-            b = list()
-            for book in books():
-                a.append(int(get_note(reader,book)))
-                b.append(int(get_note(target,book)))
-
-            s1 = sum([ai*bi for ai,bi in zip(a,b)])
-            s2 = sum([i**2 for i in a])**(1/2)
-            s3 = sum([i**2 for i in b])**(1/2)
-            matrix[reader["index"]-1][target["index"]-1] = s1/(s2*s3) if s3!=0 and s2!=0 else 0
-    return matrix
-
 def recommand_books(user):
     """
     this function return book recommanded for a user
     """
     similar_ratio = {}
     
-    for i,ratio in enumerate(generate_matrix()[user["index"]-1]):
+    for i,ratio in enumerate(Matrix[user["index"]-1]):
         if ratio>0 and get_reader(i+1)!=user:
             similar_ratio[get_reader(i+1)["name"]] = ratio
     

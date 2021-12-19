@@ -1,4 +1,4 @@
-from ect.globals import PATH
+from ect.globals import PATH,Matrix,update_size
 
 """
 this file like the function of the app with the data saved
@@ -159,3 +159,23 @@ def delete_reading(file,book:dict):
             new_line = ",".join(l) + "\n"
             file.write(new_line)
         file.truncate() # remove all data that wasn't overide
+
+def generate_matrix():
+    """
+    this function return the matrix of the ratio of similarity between two user
+    """
+    global Matrix
+    l_readers = [i for i in list_readers()]
+    update_size(len(l_readers))
+    for reader in list_readers():
+        for target in list_readers():
+            a = list()
+            b = list()
+            for book in list_books():
+                a.append(int(get_value(reader,book)))
+                b.append(int(get_value(target,book)))
+
+            s1 = sum([ai*bi for ai,bi in zip(a,b)])
+            s2 = sum([i**2 for i in a])**(1/2)
+            s3 = sum([i**2 for i in b])**(1/2)
+            Matrix[reader["index"]-1][target["index"]-1] = s1/(s2*s3) if s3!=0 and s2!=0 else 0

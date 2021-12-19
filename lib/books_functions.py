@@ -35,6 +35,7 @@ def add_book(name,style):
             append_line("books.txt",name + "\n")
             append_line("books_extended.txt",new_line)
             append_column("notes.txt",0)
+            generate_matrix()
         else:
             raise UserWarning
     except FileNotFoundError:
@@ -73,6 +74,7 @@ def remove_book(name):
         overide_line("books.txt",book["index"],"")
         overide_column("notes.txt",str(book["index"]),None)
         delete_reading("booksread.txt",book)
+        generate_matrix()
     else:
         print("book not found")
 
@@ -92,6 +94,7 @@ def note_book(book:dict,user:dict,note):
         if "name" not in book.keys() or "name" not in user.keys():
             raise Exception("Bad argument, must send book and user")
         overide_value("notes.txt",book["index"],user["index"],note)
+        generate_matrix()
     except FileNotFoundError:
         # do some shit to say to the user that the file doen't seems to exist
         print("File not found while trying to update a user")

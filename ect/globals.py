@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+
 """
 This file contain constant we need in every other file, to avoid circular import we use a global file (python global variables aren't global to every file)
 """
@@ -47,6 +48,15 @@ AGES = {
     "2":"Entre 18 et 25 ans",
     "3":">25 ans"
 }
+
+Matrix = list()
+
+def update_size(size):
+    while len(Matrix)!=size:
+        Matrix.append([0])
+    for l in Matrix:
+        while len(l)!=size:
+            l.append(0)
 
 def Recursive_Binding(parent,event,func):
     """

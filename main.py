@@ -7,7 +7,7 @@ from lib.books_functions import books
 from lib.users_functions import get_readings
 from lib.others_functions import verify_data
 from lib.app_function import *
-from ect.globals import WINDOW
+from ect.globals import WINDOW,Matrix
 
 """
 This is the main script of our project
@@ -329,4 +329,6 @@ WINDOW.protocol("WM_DELETE_WINDOW", on_closing)
 
 # run the app
 verify_data() # we verify the data before trying to launch the app so it stop on fatal error in data
+generate_matrix() # we must generate the matrix at least one time
+print(Matrix)
 WINDOW.mainloop() #main loop of tkinter
