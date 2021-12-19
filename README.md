@@ -41,6 +41,7 @@ by Paul MAIRESSE and Louis LE MEILLEUR
   - if users are not in the same order in the two file, the app migth also crash
   - error of format in the file migth crash the app or make it corrumpt data and crash
 
+Note : Lateral scroll can be done with pad or with shift + scroll
 
 Note : For X reasons Tkinter may don't update correctly (principaly on Windows), This normally won't happen but if it's the case to correct this you can resize the window of 2 more pixels until the application is fully updated (what force_update do).
 
