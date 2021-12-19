@@ -329,11 +329,11 @@ def display_book(name):
                 for lab in stars[:number]: #this pass all star before our note (included) in yellow
                     lab.configure(image=img)
                     lab.photo = img
-                    note_book(book,user,number)
                 else: # and all the other in grey
                     for lab in stars[number:]:
                         lab.configure(image=alt_img)
                         lab.photo = img
+                note_book(book,user,number)
             else:
                 on_click_double()
                 msg.askokcancel("YOU MUST READ THE BOOK TO RATE IT", "YOU MUST READ THE BOOK TO RATE IT \n Please read the book before trying to read it.") 
